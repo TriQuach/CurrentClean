@@ -1,0 +1,25 @@
+import React, {Component} from 'react';
+
+export default class Header extends Component {
+    render(){
+        return (
+        <div className="hold-transition skin-blue layout-top-nav">
+       
+            <header className="main-header">
+        <nav className="navbar navbar-static-top">
+          <div className="container">
+            <div className="navbar-header">
+              <a href="../../index2.html" className="navbar-brand"><b>Current</b>Clean Demo</a>
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i className="fa fa-bars" />
+              </button>
+            </div>
+            
+          </div>
+          {/* /.container-fluid */}
+        </nav>
+      </header>
+      </div>
+        )
+    }
+}

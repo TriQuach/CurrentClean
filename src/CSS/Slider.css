@@ -1,0 +1,19 @@
+.input {
+    margin-left: 1cm
+}
+.label  {
+   
+  display: flex;
+    
+   
+ 
+}
+div#startTime {
+    margin-top: 0.5em
+}
+div#slider {
+    margin-top: 1cm
+}
+input#ok {
+    background-color: #4469b0
+}
