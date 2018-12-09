@@ -1,10 +1,7 @@
 .row  {
-    min-height: 100vh;
+    min-height: 50vh;
   display: flex;
     
-    margin-left: 10cm;
+    margin-left: 5cm;
   justify-content: left;
-}
-.TableFregAge {
-    margin-left: 10cm;
 }

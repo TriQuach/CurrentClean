@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-
+import '../CSS/header.css'
 export default class Header extends Component {
+  
     render(){
+      
         return (
         <div className="hold-transition skin-blue layout-top-nav">
        
@@ -9,7 +11,7 @@ export default class Header extends Component {
         <nav className="navbar navbar-static-top">
           <div className="container">
             <div className="navbar-header">
-              <a href="../../index2.html" className="navbar-brand"><b>Current</b>Clean Demo</a>
+              <a href="../../index2.html" className="navbar-brand" id="title"><b>Current</b>Clean Demo</a>
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                 <i className="fa fa-bars" />
               </button>
