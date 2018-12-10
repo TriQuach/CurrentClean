@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import $ from 'jquery'; 
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import '../CSS/Slider.css'
+import * as constClass from '../Const/utils.js'
 export default class Slider extends Component {
     
     render(){
@@ -22,7 +22,7 @@ export default class Slider extends Component {
             <b id="endTime"> End Time: </b>
             <b> {this.props.endTime}</b>
             <br></br>
-            <input id="ok" onClick={this.props.onClick} className="btn btn-primary" type="button" value="Ok"></input>
+            <input id={constClass.OK} onClick={this.props.onClick} className="btn btn-primary" type="button" value="Ok"></input>
           
   
 </form>
