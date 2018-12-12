@@ -20,16 +20,35 @@ export default class SliderTableWrapper extends Component {
             startTime: e.target.value[0],
             endTime: e.target.value[1],    
         }) 
-        window.console.log(e.target.value[0])
+        // window.console.log(e.target.value[0])
     }  
-    
+
     handleClick(e) {
-        window.console.log(e.target.getAttribute('id'))
+        // window.console.log(e.target.getAttribute('id'))
         
         if (e.target.getAttribute('id') !== constClass.OK)
             this.setState({
                 typeRequest: e.target.getAttribute('id')
             }) 
+            
+            var startTime = this.state.startTime
+            var endTime = this.state.endTime
+            // var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+            var url = "http://127.0.0.1:5000/frequency?start="+startTime+"&end=" + endTime
+            // window.console.log(url)
+            fetch(url)
+            .then(res => res.json())
+            .then(
+              (result) => {
+                    window.console.log(result)
+              },
+              // Note: it's important to handle errors here
+              // instead of a catch() block so that we don't swallow
+              // exceptions from actual bugs in components.
+              (error) => {
+                window.console.log(error)
+              }
+            )
        
         
     }

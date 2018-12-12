@@ -19,7 +19,7 @@ export default class TableFregAge extends Component {
       <th scope="col">Handle</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody>  
     <tr>
       <th scope="row">1</th>
       <td>Mark</td>
