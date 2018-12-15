@@ -8,9 +8,10 @@ export default class SliderTableWrapper extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            startTime: 100,
-            endTime: 200,
-            typeRequest: constClass.FREQUENCY
+            startTime: 1522932390,
+            endTime: 1522987200,
+            typeRequest: constClass.FREQUENCY,
+            data:[]
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -41,6 +42,9 @@ export default class SliderTableWrapper extends Component {
             .then(
               (result) => {
                     window.console.log(result)
+                    this.setState({
+                        data:result
+                    })
               },
               // Note: it's important to handle errors here
               // instead of a catch() block so that we don't swallow
@@ -61,7 +65,7 @@ export default class SliderTableWrapper extends Component {
                     endTime = {this.state.endTime}
                     onClick={this.handleClick}
                 />             
-                <TableFregAge typeRequest={this.state.typeRequest} onClick={this.handleClick}/>
+                <TableFregAge typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
             </div>
         )
     }

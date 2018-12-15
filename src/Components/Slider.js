@@ -9,8 +9,8 @@ export default class Slider extends Component {
             <div id="slider">
            <ReactBootstrapSlider
                 value={[this.props.startTime,this.props.endTime]}
-                max={200}
-                min={100} 
+                max={1522987200}
+                min={1522932390} 
                 change={this.props.onChange}
             />
             <div id="startTime">
