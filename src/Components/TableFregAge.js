@@ -19,8 +19,9 @@ export default class TableFregAge extends Component {
       
       
       
-
-
+      
+      var typeRequest= this.props.typeRequest 
+      var data = this.props.data
         return (
             <div className="TableFregAge" id="table">
             <ul className="nav nav-tabs" style={{width: "100%"}}>
@@ -40,12 +41,13 @@ export default class TableFregAge extends Component {
     </tr>
   </thead>
   <tbody>{this.props.data.map(function(item, key) {
-             
+   
              return (
+              
                 <tr key = {key}>
                     <td>{key}</td>
                     <td>{valid_id[key]}</td>
-                    <td className={item[0] === Math.max.apply(null,item)? "success" :  item[0] === Math.min.apply(null,item) ? "danger": ""}>{item[0]}</td>
+                    <td className={item[0] === Math.max.apply(null,item)? "success" :  item[0] === Math.min.apply(null,item) ? "danger": "" }>{item[0]}</td>
                     <td className={item[1] === Math.max.apply(null,item)? "success" :  item[1] === Math.min.apply(null,item) ? "danger": ""}>{item[1]}</td>
                     <td className={item[2] === Math.max.apply(null,item)? "success" :  item[2] === Math.min.apply(null,item) ? "danger": ""}>{item[2]}</td>
                     <td className={item[3] === Math.max.apply(null,item)? "success" :  item[3] === Math.min.apply(null,item) ? "danger": ""}>{item[3]}</td>
