@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Slider from '../Components/Slider'
 import TableFregAge from '../Components/TableFregAge'
+import Data from '../Components/Data'
+import Param from '../Components/Param'
 import '../CSS/SliderTableWrapper.css'
 import { Redirect } from 'react-router'
 import * as constClass from '../Const/utils.js'
@@ -25,6 +27,9 @@ export default class SliderTableWrapper extends Component {
         }) 
         // window.console.log(e.target.value[0])
     }  
+    handleChangeRadio(value) {
+        window.console.log(value)
+    }
 
     sendRequest(idRequest) {
         window.console.log(this.state.data.length)
@@ -69,12 +74,17 @@ export default class SliderTableWrapper extends Component {
     render(){
         return (
             <div className="row">
-                <Slider 
-                    onChange={this.handleChange}
-                    startTime={this.state.startTime}
-                    endTime = {this.state.endTime}
-                    onClick={this.handleClick}
-                />             
+                <div>
+                    <Data onChange={this.handleChangeRadio}/>
+                    <Slider 
+                        onChange={this.handleChange}
+                        startTime={this.state.startTime}
+                        endTime = {this.state.endTime}
+                        onClick={this.handleClick}
+                    />
+                    <Param />
+                </div>
+                             
                 <TableFregAge typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
             </div>
         )

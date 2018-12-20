@@ -7,6 +7,7 @@ export default class Slider extends Component {
     render(){
         return (
             <div id="slider">
+                <h1 id="value">Value</h1>
            <ReactBootstrapSlider
                 value={[this.props.startTime,this.props.endTime]}
                 max={1522987200}

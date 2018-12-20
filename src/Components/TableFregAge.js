@@ -45,7 +45,7 @@ export default class TableFregAge extends Component {
              return (
               
                 <tr key = {key}>
-                    <td>{key}</td>
+                    <td>{key + 1}</td>
                     <td>{valid_id[key]}</td>
                     <td className={item[0] === Math.max.apply(null,item)? "success" :  item[0] === Math.min.apply(null,item) ? "danger": "" }>{item[0]}</td>
                     <td className={item[1] === Math.max.apply(null,item)? "success" :  item[1] === Math.min.apply(null,item) ? "danger": ""}>{item[1]}</td>

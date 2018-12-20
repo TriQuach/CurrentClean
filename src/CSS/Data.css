@@ -1,0 +1,24 @@
+label#clinical {
+    float: right
+}
+.radio {
+    margin-right: 0
+}
+input#upload {
+    background-color: #4469b0;
+    padding: 4px 7px;
+    margin-top: 0.5em;
+    
+}
+div#data {
+    background-color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 0.3cm;
+    padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+h1#data {
+    margin-top: 0px
+}

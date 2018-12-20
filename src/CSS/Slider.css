@@ -12,9 +12,20 @@ div#startTime {
     margin-top: 0.5em
 }
 div#slider {
-    margin-top: 1.5em
+    margin-top: 1.5em;
+    background-color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 0.3cm;
+    padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
 }
 input#ok {
-    background-color: #4469b0
+    background-color: #4469b0;
+    padding: 4px 7px;
+   
 }
-
+h1#value {
+    margin-top: 0px
+}
