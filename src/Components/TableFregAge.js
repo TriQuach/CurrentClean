@@ -2,9 +2,17 @@ import React, {Component} from 'react';
 import '../CSS/TableFregAge.css'
 import * as constClass from '../Const/utils.js'
 export default class TableFregAge extends Component {
-
+  constructor(props) {
+    super(props)
+   
     
-  
+    this.handleClick = this.handleClick.bind(this)
+    
+}
+    
+    handleClick(e) {
+      window.console.log(e)
+    }
     render(){
       var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
       'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -44,17 +52,17 @@ export default class TableFregAge extends Component {
    
              return (
               
-                <tr key = {key}>
+                <tr key = {key} >
                     <td>{key + 1}</td>
                     <td>{valid_id[key]}</td>
-                    <td className={item[0] === Math.max.apply(null,item)? "success" :  item[0] === Math.min.apply(null,item) ? "danger": "" }>{item[0]}</td>
-                    <td className={item[1] === Math.max.apply(null,item)? "success" :  item[1] === Math.min.apply(null,item) ? "danger": ""}>{item[1]}</td>
-                    <td className={item[2] === Math.max.apply(null,item)? "success" :  item[2] === Math.min.apply(null,item) ? "danger": ""}>{item[2]}</td>
-                    <td className={item[3] === Math.max.apply(null,item)? "success" :  item[3] === Math.min.apply(null,item) ? "danger": ""}>{item[3]}</td>
+                    <td onClick={() => this.handleClick(item[0])} style={{cursor: 'pointer'}} className={item[0] === Math.max.apply(null,item)? "success" :  item[0] === Math.min.apply(null,item) ? "danger": "" }>{item[0]}</td>
+                    <td onClick={() => this.handleClick(item[1])} style={{cursor: 'pointer'}} className={item[1] === Math.max.apply(null,item)? "success" :  item[1] === Math.min.apply(null,item) ? "danger": ""}>{item[1]}</td>
+                    <td onClick={() => this.handleClick(item[2])} style={{cursor: 'pointer'}} className={item[2] === Math.max.apply(null,item)? "success" :  item[2] === Math.min.apply(null,item) ? "danger": ""}>{item[2]}</td>
+                    <td onClick={() => this.handleClick(item[3])} style={{cursor: 'pointer'}} className={item[3] === Math.max.apply(null,item)? "success" :  item[3] === Math.min.apply(null,item) ? "danger": ""}>{item[3]}</td>
                 </tr>
-              )
+             )
            
-           })}</tbody>
+           }.bind(this))}</tbody>
 </table>
        
             </div>
