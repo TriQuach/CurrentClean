@@ -85,7 +85,7 @@ export default class SliderTableWrapper extends Component {
                     <Param />
                 </div>
                              
-                <TableFregAge typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
+                <TableFregAge start={this.state.startTime} end={this.state.endTime} typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
             </div>
         )
     }
