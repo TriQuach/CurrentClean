@@ -14,9 +14,11 @@ export default class SliderTableWrapper extends Component {
             startTime: 1522932390,
             endTime: 1522987200,
             typeRequest: constClass.FREQUENCY,
+            valBeta: 0.4,
             data:[]
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleChangeBeta = this.handleChangeBeta.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.sendRequest = this.sendRequest.bind(this)
     }
@@ -27,6 +29,12 @@ export default class SliderTableWrapper extends Component {
         }) 
         // window.console.log(e.target.value[0])
     }  
+    handleChangeBeta(e) {
+        window.console.log(e.target.value)
+        this.setState({
+            valBeta: e.target.value
+        })
+    }
     handleChangeRadio(value) {
         window.console.log(value)
     }
@@ -82,7 +90,12 @@ export default class SliderTableWrapper extends Component {
                         endTime = {this.state.endTime}
                         onClick={this.handleClick}
                     />
-                    <Param />
+                    <Param 
+                        valBeta={this.state.valBeta}
+                        onChange={this.handleChangeBeta}
+                    />
+                    <input id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+            
                 </div>
                              
                 <TableFregAge start={this.state.startTime} end={this.state.endTime} typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>

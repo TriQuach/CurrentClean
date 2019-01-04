@@ -116,8 +116,8 @@ $(window).resize(function() {
 </table>
           
             <Popup onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
-            <table className="table table-striped scroll">
-  <thead>
+            <table className="table table-striped scroll" id="scroll">
+  <thead id="scrollHead">
     <tr>
       <th scope="col">#</th>
       <th scope="col">Value</th>
@@ -125,7 +125,7 @@ $(window).resize(function() {
       
     </tr>
   </thead>
-  <tbody>{this.state.data.map(function(item, key) {
+  <tbody id="scrollBody">{this.state.data.map(function(item, key) {
    
              return (
               
