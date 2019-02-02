@@ -105,10 +105,10 @@ export default class TableFregAge extends Component {
                 <td>{key + 1}</td>
                 <td>{valid_id[key]}</td>
 
-                <td onClick={() => this.handleClick(valid_id[key], 'temperature')} style={{ cursor: 'pointer' }} className={item[0] === Math.max.apply(null, item) ? "success" : item[0] === Math.min.apply(null, item) ? "danger" : ""}>{item[0]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'humidity')} style={{ cursor: 'pointer' }} className={item[1] === Math.max.apply(null, item) ? "success" : item[1] === Math.min.apply(null, item) ? "danger" : ""}>{item[1]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'airPressure')} style={{ cursor: 'pointer' }} className={item[2] === Math.max.apply(null, item) ? "success" : item[2] === Math.min.apply(null, item) ? "danger" : ""}>{item[2]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'voltage')} style={{ cursor: 'pointer' }} className={item[3] === Math.max.apply(null, item) ? "success" : item[3] === Math.min.apply(null, item) ? "danger" : ""}>{item[3]}</td>
+                <td onClick={() => this.handleClick(valid_id[key], 'temperature')} style={{ cursor: 'pointer', background:item[0]["hex"] }}>{item[0]["value"]}</td>
+                <td onClick={() => this.handleClick(valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}} >{item[1]["value"]}</td>
+                <td onClick={() => this.handleClick(valid_id[key], 'airPressure')} style={{ cursor: 'pointer', background:item[2]["hex"] }} >{item[2]["value"]}</td>
+                <td onClick={() => this.handleClick(valid_id[key], 'voltage')} style={{ cursor: 'pointer', background:item[3]["hex"] }} >{item[3]["value"]}</td>
               </tr>
             )
 
