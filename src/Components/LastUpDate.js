@@ -53,6 +53,9 @@ export default class Test extends Component {
     }
 
     render() {
+        window.console.log("asdsa")
+        window.console.log(this.props.data)
+        var dict = this.props.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -84,10 +87,34 @@ export default class Test extends Component {
                             <td>{key + 1}</td>
                             <td>{item["sensorID"]}</td>
 
-                            <td onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} style={{ cursor: this.state.isRepaired === true?  'pointer' : null }}>{item["temperature"]}</td>
-                            <td onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} style={{ cursor: this.state.isRepaired === true?  'pointer' : null}} >{item["humidity"]}</td>
-                            <td onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} style={{ cursor: this.state.isRepaired === true?  'pointer' : null }} >{item["airPressure"]}</td>
-                            <td onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} style={{ cursor: this.state.isRepaired === true?  'pointer' : null }} >{item["voltage"]}</td>
+                            <td 
+                                contentEditable={this.state.isRepaired === true? "true" : null}
+                                onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                style={{ cursor: this.state.isRepaired === true?  'pointer' : null , background: dict[item["sensorID"]].includes('Temperature')? '#f4424b' : null}}>
+                                {item["temperature"]}
+                                </td>
+                            <td 
+                                contentEditable={this.state.isRepaired === true? "true" : null}
+                                onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                style={{ cursor: this.state.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].includes('Humidity')? '#f4424b' : null}} >
+                                {item["humidity"]}
+                            </td>
+                            <td 
+                                contentEditable={this.state.isRepaired === true? "true" : null}
+                                onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                style={{ cursor: this.state.isRepaired === true?  'pointer' : null , background: dict[item["sensorID"]].includes('AirPressure')? '#f4424b' : null}} >
+                                {item["airPressure"]}
+                            </td>
+                            <td 
+                                contentEditable={this.state.isRepaired === true? "true" : null}
+                                onContextMenu={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                onClick={(e) => this.state.isRepaired === true ? this.handleClickCell(e) : null} 
+                                style={{ cursor: this.state.isRepaired === true?  'pointer' : null , background: dict[item["sensorID"]].includes('Voltage')? '#f4424b' : null}} >
+                                {item["voltage"]}
+                            </td>
                         </tr>
                     )
 
