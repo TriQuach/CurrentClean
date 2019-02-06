@@ -23,6 +23,7 @@ export default class SliderTableWrapper extends Component {
         this.handleClick = this.handleClick.bind(this)
         this.sendRequest = this.sendRequest.bind(this)
         this.handleChangeRadio = this.handleChangeRadio.bind((this))
+        this.handleClickIdentify = this.handleClickIdentify.bind(this)
     }
     handleChange(e) {
         this.setState({
@@ -86,6 +87,9 @@ export default class SliderTableWrapper extends Component {
        
         
     }
+    handleClickIdentify(e) {
+        this.props.history.push('/stale')
+    }
     
     render(){
         return (
@@ -103,7 +107,7 @@ export default class SliderTableWrapper extends Component {
                         onChange={this.handleChangeBeta}
                         typeRadio={this.state.typeRadio}
                     />
-                    <input id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+                    <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
             
                 </div>
                              

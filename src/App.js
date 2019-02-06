@@ -3,6 +3,7 @@ import './App.css';
 import Header from './Components/header'
 import SliderTableWrapper from './Components/SliderTableWrapper'
 import Test from './Components/test'
+import Stale from './Components/Stale'
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -14,20 +15,20 @@ class App extends Component {
     return (
 
       <Router>
-      <div>
-    <Header />
-    <main>
-    <Redirect from="/" to="home" />
-    <Route path='/home' component={SliderTableWrapper} />
-    <Route path='/freq' component={Test} />
-    </main>
-    
-  </div>
-   
-  </Router>
-      
-      
-    
+        <div>
+          <Header />
+          <main>
+            <Redirect from="/" to="home" />
+            <Route path='/home' component={SliderTableWrapper} />
+            <Route path='/stale' component={Stale} />
+          </main>
+
+        </div>
+
+      </Router>
+
+
+
     );
   }
 }
