@@ -86,7 +86,7 @@ export default class Test extends Component {
       
   }
     lastUpdate() {
-      var url = "http://172.17.54.236:5000/lastupdate"
+      var url = "http://172.17.51.32:5000/lastupdate"
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -127,7 +127,13 @@ export default class Test extends Component {
       })
     }
     staleCells() {
-      var url = "http://172.17.54.236:5000/stalecells"
+      var question = this.props.location.data
+      var beta = question.beta
+      var data = question.data
+      var start = question.start
+      var end = question.end
+      var url = "http://172.17.51.32:5000/deepdive?beta=" + beta+"&data="+data+"&start="+start+"&end="+end
+      window.console.log("---------------------------")
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -144,7 +150,7 @@ export default class Test extends Component {
         )
     }
     patterns() {
-      var url = "http://172.17.54.236:5000/patterns"
+      var url = "http://172.17.51.32:5000/patterns"
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -182,6 +188,8 @@ export default class Test extends Component {
         )
     }
     componentDidMount() {
+    
+      window.console.log(this.props.location.data)
         this.lastUpdate()
         this.staleCells()
         this.patterns()

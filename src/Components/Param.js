@@ -34,7 +34,7 @@ export default class Slider extends Component {
                     value={this.props.valBeta}
                     max={1}
                     min={0}
-                    step={0.01}
+                    step={0.1}
                     change={this.props.onChange}
                 />
                 <br></br>

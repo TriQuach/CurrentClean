@@ -148,7 +148,7 @@ export default class Test extends React.Component {
         })
       }
     staleCells() {
-        var url = "http://172.17.54.236:5000/stalecells"
+        var url = "http://172.17.51.32:5000/stalecells"
           window.console.log(url)
           // this.props.history.push('/freq')
           fetch(url)

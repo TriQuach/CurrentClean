@@ -7,6 +7,15 @@ import '../CSS/SliderTableWrapper.css'
 import { Redirect } from 'react-router'
 import * as constClass from '../Const/utils.js'
 import $ from 'jquery'; 
+class Question {
+    constructor(data, start, end, beta) {
+        this.data = data;
+        this.start = start;
+        this.end = end;
+        this.beta = beta;
+        
+      }
+}
 export default class SliderTableWrapper extends Component {
     constructor(props) {
         super(props)
@@ -88,7 +97,14 @@ export default class SliderTableWrapper extends Component {
         
     }
     handleClickIdentify(e) {
-        this.props.history.push('/stale')
+        var question = new Question(this.state.typeRadio, this.state.startTime,this.state.endTime,this.state.valBeta)
+        // this.props.history.push('/stale')
+
+
+        this.props.history.push({
+            pathname: '/stale',
+            data: question // your data array of objects
+          })
     }
     
     render(){
