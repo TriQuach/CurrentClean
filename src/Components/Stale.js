@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import LastUpDate from '../Components/LastUpDate'
 import Patterns from '../Components/Patterns'
+import '../CSS/Stale.css'
 class Sensor {
     constructor(sensorID, temperature, humidity, airPressure, voltage) {
       this.sensorID = sensorID;
@@ -28,13 +29,14 @@ export default class Test extends Component {
         this.state = {
           data: [],
           dictStale:{},
-          patterns: []
+          patterns: [],
+          repairs: [],
         }
       this.parseObject = this.parseObject.bind(this)
-    
+     
       }
       
-
+     
     parseObject(data) {
         // window.console.log(data)
        var dict = {}
@@ -74,7 +76,7 @@ export default class Test extends Component {
     }
 
     lastUpdate() {
-      var url = "http://172.17.49.192:5000/lastupdate"
+      var url = "http://172.17.54.236:5000/lastupdate"
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -97,22 +99,25 @@ export default class Test extends Component {
       window.console.log(data)
       var dict = {};
       for (var i=0; i<valid_id.length; i++) {
-        dict[valid_id[i]] = []
+        dict[valid_id[i]] = {}
 
       }
       
       for (var j=0; j<data.length; j++){
         var sensorID = data[j].split("_")[0]
         var prop = data[j].split("_")[1]
-        dict[sensorID].push(prop)
+        var temp = dict[sensorID]
+        temp[prop] = "#f44262"
+        dict[sensorID] = temp
       }
-      // window.console.log(dict)
+     
+      
       this.setState({
         dictStale: dict
       })
     }
     staleCells() {
-      var url = "http://172.17.49.192:5000/stalecells"
+      var url = "http://172.17.54.236:5000/stalecells"
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -129,7 +134,7 @@ export default class Test extends Component {
         )
     }
     patterns() {
-      var url = "http://172.17.49.192:5000/patterns"
+      var url = "http://172.17.54.236:5000/patterns"
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)
@@ -147,18 +152,39 @@ export default class Test extends Component {
           }
         )
     }
+    repairs() {
+      var url = "http://172.17.54.236:5000/repairs"
+        window.console.log(url)
+        // this.props.history.push('/freq')
+        fetch(url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+               this.setState({
+                 repairs: result["repairs"]
+               })
+               
+          },
+       
+          (error) => {
+            window.console.log(error)
+          }
+        )
+    }
     componentDidMount() {
         this.lastUpdate()
         this.staleCells()
         this.patterns()
+        this.repairs()
       }
 
 
     render(){
         return (
-          <div className="row">
-           <LastUpDate data={this.state.data} dictStale={this.state.dictStale}/>
+          <div className="rowStale">
+           <LastUpDate data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs}/>
            <Patterns patterns={this.state.patterns}/>
+           
            </div>
         )
         

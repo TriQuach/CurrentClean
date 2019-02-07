@@ -1,7 +1,7 @@
-.row  {
-    min-height: 50vh;
+.rowStale  {
+    min-height: 10vh;
   display: flex;
     
-    margin-left: 4cm;
+    margin-left: 1cm;
   justify-content: left;
 }

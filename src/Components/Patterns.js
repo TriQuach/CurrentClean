@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
-import '../CSS/Param.css'
+import '../CSS/Patterns.css'
 import * as constClass from '../Const/utils.js'
 import { RadioGroup, Radio } from 'react-radio-group'
 export default class Patterns extends Component {
@@ -9,7 +9,7 @@ export default class Patterns extends Component {
         window.console.log('asdasasdasdd')
         window.console.log(this.props.patterns)
         return (
-            <table className="table table-striped" id="age">
+            <table className="table table-striped TableFregAge">
           <thead>
             <tr>
               <th scope="col">#</th>
