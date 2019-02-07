@@ -31,9 +31,10 @@ export default class Test extends Component {
           dictStale:{},
           patterns: [],
           repairs: [],
+          isRepaired: false,
         }
       this.parseObject = this.parseObject.bind(this)
-     
+        this.handleClick = this.handleClick.bind(this)
       }
       
      
@@ -74,7 +75,16 @@ export default class Test extends Component {
           data: arraySensors
         })
     }
-
+    handleClick(e) {
+      window.console.log("fuc9999")
+      this.setState({
+        isRepaired: true
+      })
+      
+         
+     
+      
+  }
     lastUpdate() {
       var url = "http://172.17.54.236:5000/lastupdate"
         window.console.log(url)
@@ -182,8 +192,8 @@ export default class Test extends Component {
     render(){
         return (
           <div className="rowStale">
-           <LastUpDate data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs}/>
-           <Patterns patterns={this.state.patterns}/>
+           <LastUpDate isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onClick={this.handleClick}/>
+           <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired}/>
            
            </div>
         )
