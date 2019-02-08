@@ -12,3 +12,9 @@ table#age {
     overflow-y: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     }
+.table-wrapper-scroll-chart {
+    display: block;
+    max-height: 700px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    }    

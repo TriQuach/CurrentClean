@@ -6,6 +6,7 @@
     "jquery": "^3.3.1",
     "react": "^16.6.3",
     "react-bootstrap-slider": "^2.1.5",
+    "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.6.3",
     "react-popup": "^0.9.3",
     "react-radio-buttons": "^1.2.2",

@@ -22,7 +22,8 @@ export default class Test extends React.Component {
             currentID: '',
             correctedValue:[],
             stales: {},
-            dictStale:{}
+            dictStale:{},
+            
         }
         this.handleClickCell = this.handleClickCell.bind(this)
         this.handleClickRepair = this.handleClickRepair.bind(this)
@@ -148,13 +149,14 @@ export default class Test extends React.Component {
         })
       }
     staleCells() {
-        var url = "http://172.17.51.32:5000/stalecells"
+        var url = "http://172.17.51.115:5000/stalecells"
           window.console.log(url)
           // this.props.history.push('/freq')
           fetch(url)
           .then(res => res.json())
           .then(
             (result) => {
+                window.console.log()
                  this.createDictionary(result["stalecells"]) 
                  
             },
@@ -165,7 +167,11 @@ export default class Test extends React.Component {
           )
       }
       componentDidMount() {
-        this.staleCells()
+          
+            this.staleCells()
+          
+          
+        
        }
     handleOnBlur(e,sensorID,prop) {
         window.console.log(e.target.textContent)
