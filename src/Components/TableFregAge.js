@@ -9,35 +9,35 @@ var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default class TableFregAge extends Component {
   componentDidMount() {
-    var $table = $('table.scroll'),
-      $bodyCells = $table.find('tbody tr:first').children(),
-      colWidth;
-
-    // Adjust the width of thead cells when window resizes
-    $(window).resize(function () {
-      // Get the tbody columns width array
-      colWidth = $bodyCells.map(function () {
-        return $(this).width();
-      }).get();
-
-      // Set the width of thead columns
-      $table.find('thead tr').children().each(function (i, v) {
-        $(v).width(colWidth[i]);
-      });
-    }).resize(); // Trigger resize handler
+    
   }
   constructor(props) {
     super(props)
 
     this.state = {
       showPopUp: false,
-      data: []
+      data: [],
+      dataCanvas: []
     }
     this.handleClick = this.handleClick.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
 
   }
 
+  convertToArrayObject(data) {
+    var array=[]
+    for (var i=0; i<data.length; i++) {
+      var y = data[i][1]
+      var label = data[i][0]
+      var object = {label:label,y}
+      array.push(object)
+    }
+    window.console.log('array')
+    window.console.log(array)
+    this.setState({
+      dataCanvas: array
+    })
+  }
 
   handleClick(sensorID, prop) {
     var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
@@ -48,8 +48,9 @@ export default class TableFregAge extends Component {
         (result) => {
           window.console.log('*********')
           window.console.log(result)
+          this.convertToArrayObject(result)
           this.setState({
-            data: result,
+           
             showPopUp: true
           })
         },
@@ -116,30 +117,22 @@ export default class TableFregAge extends Component {
         </div>
       );
       const options = {
-        animationEnabled: true,
+        animationEnabled: false,
         theme: "light2",
         title:{
-          text: "Most Popular Social Networking Sites"
+          text: "Top 10 frequent values"
         },
         axisX: {
-          title: "Social Network",
+          title: "Values",
           reversed: true,
         },
         axisY: {
-          title: "Monthly Active Users",
+          title: "Frequency",
           labelFormatter: this.addSymbols
         },
         data: [{
           type: "bar",
-          dataPoints: [
-            { y:  2200000000, label: "Facebook" },
-            { y:  1800000000, label: "YouTube" },
-            { y:  800000000, label: "Instagram" },
-            { y:  563000000, label: "Qzone" },
-            { y:  376000000, label: "Weibo" },
-            { y:  336000000, label: "Twitter" },
-            { y:  330000000, label: "Reddit" }
-          ]
+          dataPoints: this.state.dataCanvas
         }]
       }
       const optionsLineChart = {
@@ -187,7 +180,45 @@ export default class TableFregAge extends Component {
             { x: 22, y: 64 },
             { x: 23, y: 59 }
           ]
-        }]
+        } ,
+        {
+          type: "line",
+          toolTipContent: "Week {x}: {y}%",
+          dataPoints: [
+            { x: 11, y: 21 },
+            { x: 12, y: 59.5 },
+            { x: 18, y: 63 },
+            { x: 19, y: 58 },
+            { x: 20, y: 54 },
+            { x: 21, y: 59 },
+            { x: 22, y: 64 },
+            { x: 23, y: 59 }
+          ]
+        }
+      ],
+        
+      }
+      const optionsColumn = {
+        animationEnabled: true,
+        exportEnabled: true,
+        title: {
+          text: "Top 10 frequent values"
+        },
+        axisX: {
+          title: "Values",
+          reversed: true,
+        },
+        axisY: {
+          title: "Frequency",
+          labelFormatter: this.addSymbols
+        },
+        data: [
+        {
+          // Change type to "doughnut", "line", "splineArea", etc.
+          type: "column",
+          dataPoints: this.state.dataCanvas
+        }
+        ]
       }
 
     var typeRequest = this.props.typeRequest
@@ -261,16 +292,16 @@ export default class TableFregAge extends Component {
 
 
 
-
-        <Popup onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+     
+        <Popup style={{height: 1000, width: 1000}} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
         <div className="table-wrapper-scroll-chart">
-			<CanvasJSChart options = {options}
+			<CanvasJSChart options = {optionsColumn}
 			/>
-      <CanvasJSChart options = {optionsLineChart}
-			/>
+     
       
 		</div>
         </Popup>
+       
         
 
       
