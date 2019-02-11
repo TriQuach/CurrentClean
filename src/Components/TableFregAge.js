@@ -8,8 +8,17 @@ import CanvasJSReact from '../Chart/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default class TableFregAge extends Component {
+  showMessage () {
+    window.console.log('SOME MESSAGE');
+  }
+  keydownHandler(e){
+    if(e.type==='click' && e.keyCode===91) {}
+  }
   componentDidMount() {
-    
+    document.addEventListener('keydown',this.keydownHandler);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('keydown',this.keydownHandler);
   }
   constructor(props) {
     super(props)
@@ -39,28 +48,36 @@ export default class TableFregAge extends Component {
     })
   }
 
-  handleClick(sensorID, prop) {
-    var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
-    window.console.log(url)
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          window.console.log('*********')
-          window.console.log(result)
-          this.convertToArrayObject(result)
-          this.setState({
-           
-            showPopUp: true
-          })
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          window.console.log(error)
-        }
-      )
+  handleClick(event,sensorID, prop) {
+    // event.stopPropagation();
+    
+    if (event.metaKey) {
+      window.console.log("Ctrl+click has just happened!");
+    }  
+    else {
+      var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+      window.console.log(url)
+      fetch(url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            window.console.log('*********')
+            window.console.log(result)
+            this.convertToArrayObject(result)
+            this.setState({
+             
+              showPopUp: true
+            })
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            window.console.log(error)
+          }
+        )
+    }
+   
   }
   closePopUp() {
     this.setState({
@@ -231,7 +248,7 @@ export default class TableFregAge extends Component {
           <li className={this.props.typeRequest === constClass.AGE ? "active" : ""}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
 
         </ul>
-        <table className="table table-striped" id="age">
+        <table className="table table-striped" id="freq">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -250,10 +267,10 @@ export default class TableFregAge extends Component {
                 <td>{key + 1}</td>
                 <td>{valid_id[key]}</td>
 
-                <td onClick={() => this.handleClick(valid_id[key], 'temperature')} style={{ cursor: 'pointer', background:item[0]["hex"] }}>{item[0]["value"]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}} >{item[1]["value"]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'airPressure')} style={{ cursor: 'pointer', background:item[2]["hex"] }} >{item[2]["value"]}</td>
-                <td onClick={() => this.handleClick(valid_id[key], 'voltage')} style={{ cursor: 'pointer', background:item[3]["hex"] }} >{item[3]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}}  >{item[0]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}} >{item[1]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'airPressure')} style={{ cursor: 'pointer', background:item[2]["hex"] }} >{item[2]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'voltage')} style={{ cursor: 'pointer', background:item[3]["hex"] }} >{item[3]["value"]}</td>
               </tr>
             )
 

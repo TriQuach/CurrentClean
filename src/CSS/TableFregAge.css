@@ -3,7 +3,7 @@
     margin-left: 4cm;
     
 }
-table#age {
+table#freq {
     width: 20cm
 }
 .table-wrapper-scroll-y {
@@ -18,3 +18,4 @@ table#age {
     overflow-y: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     }    
+    
