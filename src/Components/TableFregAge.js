@@ -8,29 +8,26 @@ import CanvasJSReact from '../Chart/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default class TableFregAge extends Component {
-  showMessage () {
-    window.console.log('SOME MESSAGE');
-  }
-  keydownHandler(e){
-    if(e.type==='click' && e.keyCode===91) {}
-  }
-  componentDidMount() {
-    document.addEventListener('keydown',this.keydownHandler);
-  }
-  componentWillUnmount(){
-    document.removeEventListener('keydown',this.keydownHandler);
-  }
+  
   constructor(props) {
     super(props)
 
     this.state = {
       showPopUp: false,
       data: [],
-      dataCanvas: []
+      dataCanvas: [],
+
     }
     this.handleClick = this.handleClick.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
 
+  }
+  componentWillReceiveProps(nextProps){
+    if(nextProps.data!==this.props.data){
+      //Perform some operation
+      this.setState({data: nextProps.data });
+      
+    }
   }
 
   convertToArrayObject(data) {
@@ -48,11 +45,15 @@ export default class TableFregAge extends Component {
     })
   }
 
-  handleClick(event,sensorID, prop) {
+  handleClick(event,sensorID, prop,row,col) {
     // event.stopPropagation();
     
     if (event.metaKey) {
-      window.console.log("Ctrl+click has just happened!");
+      var temp = this.state.data
+      temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
+      this.setState({
+        data:temp
+      })
     }  
     else {
       var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
@@ -259,7 +260,7 @@ export default class TableFregAge extends Component {
               <th scope="col">Voltage</th>
             </tr>
           </thead>
-          <tbody>{this.props.data.map(function (item, key) {
+          <tbody>{this.state.data.map(function (item, key) {
 
             return (
 
@@ -267,10 +268,10 @@ export default class TableFregAge extends Component {
                 <td>{key + 1}</td>
                 <td>{valid_id[key]}</td>
 
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}}  >{item[0]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity')} style={{ cursor: 'pointer', background:item[1]["hex"]}} >{item[1]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'airPressure')} style={{ cursor: 'pointer', background:item[2]["hex"] }} >{item[2]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'voltage')} style={{ cursor: 'pointer', background:item[3]["hex"] }} >{item[3]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity', key,0)} style={{ cursor: 'pointer', background:item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141"}}  >{item[0]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity',key,1)} style={{ cursor: 'pointer', background:item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141"}} >{item[1]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'airPressure',key,2)} style={{ cursor: 'pointer', background:item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'voltage',key,3)} style={{ cursor: 'pointer', background:item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
               </tr>
             )
 
