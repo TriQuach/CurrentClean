@@ -62,7 +62,7 @@ export default class SliderTableWrapper extends Component {
         var startTime = this.state.startTime
         var endTime = this.state.endTime
         // var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        var url = "http://127.0.0.1:5000/" + idRequest+"?start="+startTime+"&end=" + endTime
+        var url = constClass.LOCAL_BACKEND + idRequest+"?start="+startTime+"&end=" + endTime
         window.console.log(url)
         // this.props.history.push('/freq')
         fetch(url)

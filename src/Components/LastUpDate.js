@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as constClass from '../Const/utils'
 import Popup from "reactjs-popup";
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -10,6 +11,7 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
             'A434F1204005', 'A434F11F1F03', 'A434F11F3902', 'A434F11EF68F', 'A434F11F1106', 'A434F11F1782',
             'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
+            
 export default class Test extends React.Component {
 
     constructor(props) {
@@ -32,7 +34,7 @@ export default class Test extends React.Component {
     }
     
     handleClick(sensorID, prop) {
-        var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        var url = constClass.DEEPDIVE_BACKEND+ "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
         window.console.log(url)
         fetch(url)
             .then(res => res.json())
@@ -127,6 +129,9 @@ export default class Test extends React.Component {
        
         return (this.state.correctedValue.includes(val))
     }
+    
+    
+     
     createDictionary(data) {
         window.console.log(data)
         var dict = {};
@@ -136,10 +141,13 @@ export default class Test extends React.Component {
         }
         
         for (var j=0; j<data.length; j++){
-          var sensorID = data[j].split("_")[0]
-          var prop = data[j].split("_")[1]
+
+          var sensorID = data[j][0].split("_")[0]
+          var prop = data[j][0].split("_")[1]
+          var hex = data[j][1]
+
           var temp = dict[sensorID]
-          temp[prop] = "#f44262"
+          temp[prop] = hex
           dict[sensorID] = temp
         }
        
@@ -149,7 +157,7 @@ export default class Test extends React.Component {
         })
       }
     staleCells() {
-        var url = "http://172.17.51.115:5000/stalecells"
+        var url = constClass.DEEPDIVE_BACKEND + "stalecells"
           window.console.log(url)
           // this.props.history.push('/freq')
           fetch(url)
@@ -167,9 +175,7 @@ export default class Test extends React.Component {
           )
       }
       componentDidMount() {
-          
-            this.staleCells()
-          
+        this.staleCells()
           
         
        }

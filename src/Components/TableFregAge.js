@@ -7,7 +7,9 @@ import { Chart } from "react-charts";
 import CanvasJSReact from '../Chart/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var arrayCells = []
 export default class TableFregAge extends Component {
+  
   
   constructor(props) {
     super(props)
@@ -16,12 +18,59 @@ export default class TableFregAge extends Component {
       showPopUp: false,
       data: [],
       dataCanvas: [],
+      dataLineChart: []
 
     }
     this.handleClick = this.handleClick.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
-
+    this.keydownHandler = this.keydownHandler.bind(this)
   }
+  createLineChartData (response) {
+    window.console.log(response[0])
+    var array = []
+    for (var i=0; i<arrayCells.length; i++) {
+      var temp = {}
+      
+      temp.type = "line"
+      temp.toolTipContent = "Week {x}: {y}%"
+      temp.dataPoints = response[i]
+      array.push(temp)
+    }
+    this.setState({
+      dataLineChart: array
+    })
+
+  
+     
+    
+  }
+  keydownHandler(e){
+    if(e.keyCode===13 && e.metaKey) {
+      window.console.log(constClass.LOCAL_BACKEND+"comparecells")
+
+    fetch(constClass.LOCAL_BACKEND+'comparecells', {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(
+        {"start": this.props.start, 
+          "end": this.props.end,
+          "arrayCells": arrayCells
+        }),
+
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then(response => this.createLineChartData(response ))
+    .catch(error => console.error('Error:', error));
+    }
+  }
+  componentDidMount() {
+    document.addEventListener('keydown',this.keydownHandler);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('keydown',this.keydownHandler);
+  }
+
   componentWillReceiveProps(nextProps){
     if(nextProps.data!==this.props.data){
       //Perform some operation
@@ -51,12 +100,27 @@ export default class TableFregAge extends Component {
     if (event.metaKey) {
       var temp = this.state.data
       temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
+      if (temp[row][col]["isSelected"] === true) {
+        var cell = {}
+        cell[sensorID] = prop
+        arrayCells.push(cell)
+      } else {
+        window.console.log('arrayCells')
+        for (var i=0; i < arrayCells.length; i++) {
+          var key = Object.keys(arrayCells[i])[0]
+          if (key === sensorID && arrayCells[i][key] === prop) {
+            arrayCells.splice(i, 1);
+          }
+        }
+      } 
+    
+      window.console.log(arrayCells)
       this.setState({
         data:temp
       })
     }  
     else {
-      var url = "http://127.0.0.1:5000/duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+      var url = constClass.LOCAL_BACKEND +"duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
       window.console.log(url)
       fetch(url)
         .then(res => res.json())
@@ -107,6 +171,7 @@ export default class TableFregAge extends Component {
       'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
       'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
 
+      window.console.log(this.state.dataLineChart)
       const lineChart = (
         // A react-chart hyper-responsively and continuusly fills the available
         // space of its parent element automatically
@@ -134,25 +199,7 @@ export default class TableFregAge extends Component {
           />
         </div>
       );
-      const options = {
-        animationEnabled: false,
-        theme: "light2",
-        title:{
-          text: "Top 10 frequent values"
-        },
-        axisX: {
-          title: "Values",
-          reversed: true,
-        },
-        axisY: {
-          title: "Frequency",
-          labelFormatter: this.addSymbols
-        },
-        data: [{
-          type: "bar",
-          dataPoints: this.state.dataCanvas
-        }]
-      }
+    
       const optionsLineChart = {
         animationEnabled: true,
         exportEnabled: true,
@@ -163,57 +210,14 @@ export default class TableFregAge extends Component {
         axisY: {
           title: "Bounce Rate",
           includeZero: false,
-          suffix: "%"
+          
         },
         axisX: {
           title: "Week of Year",
-          prefix: "W",
-          interval: 2
+         
         },
-        data: [{
-          type: "line",
-          toolTipContent: "Week {x}: {y}%",
-          dataPoints: [
-            { x: 1, y: 64 },
-            { x: 2, y: 61 },
-            { x: 3, y: 64 },
-            { x: 4, y: 62 },
-            { x: 5, y: 64 },
-            { x: 6, y: 60 },
-            { x: 7, y: 58 },
-            { x: 8, y: 59 },
-            { x: 9, y: 53 },
-            { x: 10, y: 54 },
-            { x: 11, y: 61 },
-            { x: 12, y: 60 },
-            { x: 13, y: 55 },
-            { x: 14, y: 60 },
-            { x: 15, y: 56 },
-            { x: 16, y: 60 },
-            { x: 17, y: 59.5 },
-            { x: 18, y: 63 },
-            { x: 19, y: 58 },
-            { x: 20, y: 54 },
-            { x: 21, y: 59 },
-            { x: 22, y: 64 },
-            { x: 23, y: 59 }
-          ]
-        } ,
-        {
-          type: "line",
-          toolTipContent: "Week {x}: {y}%",
-          dataPoints: [
-            { x: 11, y: 21 },
-            { x: 12, y: 59.5 },
-            { x: 18, y: 63 },
-            { x: 19, y: 58 },
-            { x: 20, y: 54 },
-            { x: 21, y: 59 },
-            { x: 22, y: 64 },
-            { x: 23, y: 59 }
-          ]
-        }
-      ],
+        data: this.state.dataLineChart
+      ,
         
       }
       const optionsColumn = {
@@ -268,7 +272,7 @@ export default class TableFregAge extends Component {
                 <td>{key + 1}</td>
                 <td>{valid_id[key]}</td>
 
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity', key,0)} style={{ cursor: 'pointer', background:item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141"}}  >{item[0]["value"]}</td>
+                <td onClick={(e) => this.handleClick(e,valid_id[key], 'temperature', key,0)} style={{ cursor: 'pointer', background:item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141"}}  >{item[0]["value"]}</td>
                 <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity',key,1)} style={{ cursor: 'pointer', background:item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141"}} >{item[1]["value"]}</td>
                 <td onClick={(e) => this.handleClick(e,valid_id[key], 'airPressure',key,2)} style={{ cursor: 'pointer', background:item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
                 <td onClick={(e) => this.handleClick(e,valid_id[key], 'voltage',key,3)} style={{ cursor: 'pointer', background:item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
@@ -313,8 +317,8 @@ export default class TableFregAge extends Component {
      
         <Popup style={{height: 1000, width: 1000}} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
         <div className="table-wrapper-scroll-chart">
-			<CanvasJSChart options = {optionsColumn}
-			/>
+			<CanvasJSChart options = {optionsColumn}/>
+      <CanvasJSChart options = {optionsLineChart}/>
      
       
 		</div>

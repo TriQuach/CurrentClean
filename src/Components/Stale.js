@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LastUpDate from '../Components/LastUpDate'
 import Patterns from '../Components/Patterns'
+import * as constClass from '../Const/utils'
 import '../CSS/Stale.css'
 class Sensor {
   constructor(sensorID, temperature, humidity, airPressure, voltage) {
@@ -88,7 +89,7 @@ export default class Test extends Component {
 
   }
   lastUpdate() {
-    var url = "http://172.17.51.115:5000/lastupdate"
+    var url = constClass.DEEPDIVE_BACKEND + "lastupdate"
     window.console.log(url)
     // this.props.history.push('/freq')
     fetch(url)
@@ -138,7 +139,7 @@ export default class Test extends Component {
     var data = question.data
     var start = question.start
     var end = question.end
-    var url = "http://172.17.51.115:5000/deepdive_test?beta=" + beta + "&data=" + data + "&start=" + start + "&end=" + end
+    var url = constClass.DEEPDIVE_BACKEND + "deepdive_test?beta=" + beta + "&data=" + data + "&start=" + start + "&end=" + end
     window.console.log("---------------------------")
     window.console.log(url)
     // this.props.history.push('/freq')
@@ -162,7 +163,7 @@ export default class Test extends Component {
       )
   }
   staleCellsTaskStatus(id) {
-    var url = "http://172.17.51.115:5000/taskstatus?id=" + id
+    var url = constClass.DEEPDIVE_BACKEND + "taskstatus?id=" + id
     window.console.log(url)
 
     this.sleep(5000).then(() => {
@@ -194,7 +195,7 @@ export default class Test extends Component {
   }
 
   patterns() {
-    var url = "http://172.17.51.115:5000/patterns"
+    var url = constClass.DEEPDIVE_BACKEND + "patterns"
     window.console.log(url)
     // this.props.history.push('/freq')
     fetch(url)
@@ -213,7 +214,7 @@ export default class Test extends Component {
       )
   }
   repairs() {
-    var url = "http://172.17.51.115:5000/repairs"
+    var url = constClass + "repairs"
     window.console.log(url)
     // this.props.history.push('/freq')
     fetch(url)
