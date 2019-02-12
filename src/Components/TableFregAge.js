@@ -18,7 +18,8 @@ export default class TableFregAge extends Component {
       showPopUp: false,
       data: [],
       dataCanvas: [],
-      dataLineChart: []
+      dataLineChart: [],
+      isBarchart: true
 
     }
     this.handleClick = this.handleClick.bind(this)
@@ -30,8 +31,10 @@ export default class TableFregAge extends Component {
     var array = []
     for (var i=0; i<arrayCells.length; i++) {
       var temp = {}
-      
+      var key = Object.keys(arrayCells[i])[0]
       temp.type = "line"
+      temp.name = key +"_"+ arrayCells[i][key]
+      temp.showInLegend = true
       temp.toolTipContent = "Week {x}: {y}%"
       temp.dataPoints = response[i]
       array.push(temp)
@@ -47,7 +50,7 @@ export default class TableFregAge extends Component {
   keydownHandler(e){
     if(e.keyCode===13 && e.metaKey) {
       window.console.log(constClass.LOCAL_BACKEND+"comparecells")
-
+     
     fetch(constClass.LOCAL_BACKEND+'comparecells', {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(
@@ -60,8 +63,17 @@ export default class TableFregAge extends Component {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
-    .then(response => this.createLineChartData(response ))
+    .then(response => {
+     
+      this.createLineChartData(response )
+      this.setState({
+             
+        showPopUp: true,
+        isBarchart: false
+      })
+    })
     .catch(error => console.error('Error:', error));
+    
     }
   }
   componentDidMount() {
@@ -74,6 +86,7 @@ export default class TableFregAge extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.data!==this.props.data){
       //Perform some operation
+      arrayCells = []
       this.setState({data: nextProps.data });
       
     }
@@ -130,8 +143,8 @@ export default class TableFregAge extends Component {
             window.console.log(result)
             this.convertToArrayObject(result)
             this.setState({
-             
-              showPopUp: true
+              showPopUp: true,
+              isBarchart: true
             })
           },
           // Note: it's important to handle errors here
@@ -212,10 +225,7 @@ export default class TableFregAge extends Component {
           includeZero: false,
           
         },
-        axisX: {
-          title: "Week of Year",
-         
-        },
+       
         data: this.state.dataLineChart
       ,
         
@@ -317,8 +327,10 @@ export default class TableFregAge extends Component {
      
         <Popup style={{height: 1000, width: 1000}} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
         <div className="table-wrapper-scroll-chart">
-			<CanvasJSChart options = {optionsColumn}/>
-      <CanvasJSChart options = {optionsLineChart}/>
+			{this.state.isBarchart?   
+      <CanvasJSChart options = {optionsColumn}/> :  <CanvasJSChart options = {optionsLineChart}/>}
+     
+     
      
       
 		</div>
