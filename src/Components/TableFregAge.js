@@ -185,8 +185,29 @@ export default class TableFregAge extends Component {
 			order = suffixes.length - 1;
 		var suffix = suffixes[order];
 		return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-	}
+  }
+  checkInTheSameCol(colCheck) {
+    if (arrayCells.length > 0) {
+      window.console.log(arrayCells[0])
+      var col = arrayCells[0]["col"]
+      window.console.log(col)
+      window.console.log(colCheck)
+      
+      if (colCheck === col) {
+        return true
+      }
+      else {
+         return false
+      }
+     
+    }
+    return true
+  }
   render() {
+    var x = this.checkInTheSameCol(1)
+    window.console.log("checkInTheSameCol")
+    window.console.log(x)
+    
     var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
       'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
       'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -296,10 +317,10 @@ export default class TableFregAge extends Component {
                 <td>{key + 1}</td>
                 <td>{valid_id[key]}</td>
 
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'temperature', key,0)} style={{ cursor: 'pointer', background:item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141"}}  >{item[0]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'humidity',key,1)} style={{ cursor: 'pointer', background:item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141"}} >{item[1]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'airPressure',key,2)} style={{ cursor: 'pointer', background:item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
-                <td onClick={(e) => this.handleClick(e,valid_id[key], 'voltage',key,3)} style={{ cursor: 'pointer', background:item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
+                <td onClick={ (e) => this.checkInTheSameCol(0) ? this.handleClick(e,valid_id[key], 'temperature', key,0) : null } style={{ cursor: 'pointer', background:item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141"}}  >{item[0]["value"]}</td>
+                <td onClick={(e) => this.checkInTheSameCol(1) ? this.handleClick(e,valid_id[key], 'humidity',key,1) : null} style={{ cursor: 'pointer', background:item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141"}} >{item[1]["value"]}</td>
+                <td onClick={(e) => this.checkInTheSameCol(2) ?this.handleClick(e,valid_id[key], 'airPressure',key,2) : null} style={{ cursor: 'pointer', background:item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
+                <td onClick={(e) => this.checkInTheSameCol(3) ?this.handleClick(e,valid_id[key], 'voltage',key,3) : null} style={{ cursor: 'pointer', background:item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
               </tr>
             )
 
