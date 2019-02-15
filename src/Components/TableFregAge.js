@@ -35,7 +35,7 @@ export default class TableFregAge extends Component {
       temp.type = "line"
       temp.name = key +"_"+ arrayCells[i][key]
       temp.showInLegend = true
-      temp.toolTipContent = "Week {x}: {y}%"
+      temp.toolTipContent = "Time {x}: {y}"
       temp.dataPoints = response[i]
       array.push(temp)
     }
@@ -253,10 +253,10 @@ export default class TableFregAge extends Component {
         exportEnabled: true,
         theme: "light2", // "light1", "dark1", "dark2"
         title:{
-          text: "Bounce Rate by Week of Year"
+          text: "Values overtime"
         },
         axisY: {
-          title: "Bounce Rate",
+          title: "Values",
           includeZero: false,
           
         },
@@ -294,8 +294,9 @@ export default class TableFregAge extends Component {
 
       <div className="TableFregAge" id="table">
         <ul className="nav nav-tabs" style={{ width: "100%" }}>
+        <li className={this.props.typeRequest === constClass.AGE ? "active" : ""}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
+
           <li className={this.props.typeRequest === constClass.FREQUENCY ? "active" : ""} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a></li>
-          <li className={this.props.typeRequest === constClass.AGE ? "active" : ""}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
 
         </ul>
         <table className="table table-striped" id="freq">

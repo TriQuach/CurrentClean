@@ -22,7 +22,7 @@ export default class SliderTableWrapper extends Component {
         this.state = {
             startTime: 1522932390,
             endTime: 1522987200,
-            typeRequest: constClass.FREQUENCY,
+            typeRequest: constClass.AGE,
             valBeta: 0.4,
             typeRadio:'',
             data:[]

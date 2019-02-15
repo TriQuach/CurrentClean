@@ -133,6 +133,7 @@ export default class Test extends React.Component {
     
      
     createDictionary(data) {
+        window.console.log("createDictionary")
         window.console.log(data)
         var dict = {};
         for (var i=0; i<valid_id.length; i++) {
@@ -180,7 +181,8 @@ export default class Test extends React.Component {
         
        }
     handleOnBlur(e,sensorID,prop) {
-        window.console.log(e.target.textContent)
+        window.console.log("dictStale")
+        window.console.log(this.state.dictStale)
         if (this.checkUserInput(e.target.textContent,sensorID,prop)) {
             var x = this.state.dictStale
             x[sensorID][prop] = "#42f47a"
@@ -193,8 +195,9 @@ export default class Test extends React.Component {
             
         }
         else {
+
             var x = this.state.dictStale
-            x[sensorID][prop] = "#f44262"
+            // x[sensorID][prop] = "#f44262"
             window.console.log("fuck80")
             window.console.log(x)
             
