@@ -75,6 +75,20 @@ export default class TableFregAge extends Component {
     .catch(error => console.error('Error:', error));
     
     }
+     else if (e.keyCode === 27 && e.metaKey) {
+       var temp = this.state.data
+       for (var i=0; i<arrayCells.length; i++) {
+         var row = arrayCells[i]["row"]
+         var col = arrayCells[i]["col"]
+         temp[row][col]["isSelected"] = false 
+
+       }
+       arrayCells = []
+       this.setState({
+         data: temp
+       })
+       window.console.log(this.state.data) 
+     }
   }
   componentDidMount() {
     document.addEventListener('keydown',this.keydownHandler);
@@ -116,9 +130,10 @@ export default class TableFregAge extends Component {
       if (temp[row][col]["isSelected"] === true) {
         var cell = {}
         cell[sensorID] = prop
+        cell["row"] = row
+        cell["col"] = col
         arrayCells.push(cell)
       } else {
-        window.console.log('arrayCells')
         for (var i=0; i < arrayCells.length; i++) {
           var key = Object.keys(arrayCells[i])[0]
           if (key === sensorID && arrayCells[i][key] === prop) {
@@ -127,7 +142,6 @@ export default class TableFregAge extends Component {
         }
       } 
     
-      window.console.log(arrayCells)
       this.setState({
         data:temp
       })
