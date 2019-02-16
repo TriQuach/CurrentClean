@@ -130,6 +130,7 @@ export default class Test extends Component {
 
       var temp = dict[sensorID]
       temp[prop] = hex
+      temp["isStale"] = true
       dict[sensorID] = temp
     }
     window.console.log("dictStale2")
