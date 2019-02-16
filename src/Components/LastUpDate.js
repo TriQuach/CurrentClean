@@ -32,6 +32,16 @@ export default class Test extends React.Component {
         this.handleClickCellFalse = this.handleClickCellFalse.bind(this)
         this.closePopUp = this.closePopUp.bind(this)
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.dictStale!==this.props.dictStale){
+          //Perform some operation
+         
+          this.setState({
+            dictStale: nextProps.dictStale 
+            });
+          
+        }
+      }
     
     handleClick(sensorID, prop) {
         var url = constClass.DEEPDIVE_BACKEND+ "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
@@ -132,51 +142,10 @@ export default class Test extends React.Component {
     
     
      
-    createDictionary(data) {
-        window.console.log("createDictionary")
-        window.console.log(data)
-        var dict = {};
-        for (var i=0; i<valid_id.length; i++) {
-          dict[valid_id[i]] = {}
+    
   
-        }
-        
-        for (var j=0; j<data.length; j++){
-
-          var sensorID = data[j][0].split("_")[0]
-          var prop = data[j][0].split("_")[1]
-          var hex = data[j][1]
-
-          var temp = dict[sensorID]
-          temp[prop] = hex
-          dict[sensorID] = temp
-        }
-       
-        
-        this.setState({
-          dictStale: dict
-        })
-      }
-    staleCells() {
-        var url = constClass.DEEPDIVE_BACKEND + "stalecells"
-          window.console.log(url)
-          // this.props.history.push('/freq')
-          fetch(url)
-          .then(res => res.json())
-          .then(
-            (result) => {
-                window.console.log()
-                 this.createDictionary(result["stalecells"]) 
-                 
-            },
-         
-            (error) => {
-              window.console.log(error)
-            }
-          )
-      }
       componentDidMount() {
-        this.staleCells()
+        // this.staleCells()
           
         
        }

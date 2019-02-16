@@ -108,29 +108,36 @@ export default class Test extends Component {
         }
       )
   }
+  
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
   createDictionary(data) {
+    window.console.log("createDictionary")
     window.console.log(data)
     var dict = {};
-    for (var i = 0; i < valid_id.length; i++) {
+    for (var i=0; i<valid_id.length; i++) {
       dict[valid_id[i]] = {}
 
     }
+    
+    for (var j=0; j<data.length; j++){
 
-    for (var j = 0; j < data.length; j++) {
-      var sensorID = data[j].split("_")[0]
-      var prop = data[j].split("_")[1]
+      var sensorID = data[j][0].split("_")[0]
+      var prop = data[j][0].split("_")[1]
+      var hex = data[j][1]
+
       var temp = dict[sensorID]
-      temp[prop] = "#f44262"
+      temp[prop] = hex
       dict[sensorID] = temp
     }
-
-
+    window.console.log("dictStale2")
+    window.console.log(dict)
+    
     this.setState({
       dictStale: dict
     })
-  }
-  sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
   staleCells() {
@@ -162,6 +169,24 @@ export default class Test extends Component {
         }
       )
   }
+  stale() {
+    var url = constClass.DEEPDIVE_BACKEND + "stalecells"
+      window.console.log(url)
+      // this.props.history.push('/freq')
+      fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+            window.console.log()
+             this.createDictionary(result["stalecells"]) 
+             
+        },
+     
+        (error) => {
+          window.console.log(error)
+        }
+      )
+  }
   staleCellsTaskStatus(id) {
     var url = constClass.DEEPDIVE_BACKEND + "taskstatus?id=" + id
     window.console.log(url)
@@ -176,7 +201,7 @@ export default class Test extends Component {
             this.lastUpdate()
             this.patterns()
             this.repairs()
-           
+            this.stale()
 
           } else {
             this.staleCellsTaskStatus(id)
@@ -214,8 +239,11 @@ export default class Test extends Component {
       )
   }
   repairs() {
-    var url = constClass + "repairs"
+    var url = constClass.DEEPDIVE_BACKEND + "repairs"
+
+    window.console.log("repairs:")
     window.console.log(url)
+    
     // this.props.history.push('/freq')
     fetch(url)
       .then(res => res.json())
