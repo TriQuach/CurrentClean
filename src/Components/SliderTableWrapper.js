@@ -69,6 +69,7 @@ export default class SliderTableWrapper extends Component {
         .then(res => res.json())
         .then(
           (result) => {
+            window.console.log("result123")
                 window.console.log(result)
                 this.setState({
                     data:result
