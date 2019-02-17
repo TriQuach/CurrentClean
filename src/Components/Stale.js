@@ -129,8 +129,11 @@ export default class Test extends Component {
       var hex = data[j][1]
 
       var temp = dict[sensorID]
-      temp[prop] = hex
-      temp["isStale"] = true
+      var temp2 = {}
+      temp2["hex"] = hex
+      temp2["isStale"] = true
+      temp[prop] = temp2
+      
       dict[sensorID] = temp
     }
     window.console.log("dictStale2")
