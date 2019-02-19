@@ -22,6 +22,7 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
   'A434F1204005', 'A434F11F1F03', 'A434F11F3902', 'A434F11EF68F', 'A434F11F1106', 'A434F11F1782',
   'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
   'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
+  var arrayCells = []   
 export default class Test extends Component {
 
   constructor(props) {
@@ -38,6 +39,8 @@ export default class Test extends Component {
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleOnBlur = this.handleOnBlur.bind(this)
+    // this.checkUserInput = this.checkUserInput.bind(this)
   }
 
 
@@ -79,10 +82,26 @@ export default class Test extends Component {
     })
   }
   handleClick(e) {
-    window.console.log("fuc9999")
-    this.setState({
-      isRepaired: true
-    })
+    if (e.target.value === "Repair") {
+      this.setState({
+        isRepaired: true
+      })
+    }
+    else {
+      var x = this.state.dictStale
+      for (var i=0; i<arrayCells.length; i++) {
+           var sensorID = arrayCells[i].split("_")[0]
+           var prop = arrayCells[i].split("_")[1]
+           x[sensorID][prop]["isStale"] = true
+      }
+      this.setState({
+          dictStale: x,
+          isRepaired: false
+      })
+    }
+    
+
+    
 
 
 
@@ -225,6 +244,59 @@ export default class Test extends Component {
 
 
   }
+  checkUserInput = (value,sensorID,prop) => {
+    var repairs = this.state.repairs
+    var array = []
+    for (var i=0; i<repairs.length; i++) {
+        var sensor_attr = repairs[i]["sensor_attr"]
+        var id = sensor_attr.split("_")[0]
+        var attr = sensor_attr.split("_")[1]
+        if (id === sensorID && prop === attr) {
+            var repair = repairs[i]["repair"]
+            var max = repair[0]["prob"]
+            for (var j=0; j<repair.length; j++) {
+                if (j>0 && repair[j]["prob"] !== max) {
+                    break
+                }
+                else {
+                    var value2 = repair[j]["value"]
+                    array.push(value2)
+                }
+            }
+        }
+    }
+   
+   return array.includes(parseFloat(value))
+   
+}
+  handleOnBlur(e,sensorID,prop) {
+    window.console.log("dictStale69")
+    window.console.log(e.target.textContent)
+    window.console.log(sensorID)
+    var temp = sensorID+ "_"+prop
+    arrayCells.push(temp)
+    if (this.checkUserInput(e.target.textContent,sensorID,prop)) {
+        var x = this.state.dictStale
+        x[sensorID][prop]["isStale"] = false
+       
+        
+        this.setState({
+            dictStale: x
+        })
+        
+    }
+    else {
+
+        
+        window.console.log("87")
+        window.console.log(this.state.dictStale)
+        var y = this.state.dictStale
+        y[sensorID][prop]["isStale"] = true
+        this.setState({
+            dictStale: y
+        })
+    }
+}
 
   patterns() {
     var url = constClass.DEEPDIVE_BACKEND + "patterns"
@@ -280,7 +352,7 @@ export default class Test extends Component {
   render() {
     return (
       <div className="rowStale">
-        <LastUpDate status={this.state.status} isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onClick={this.handleClick} />
+        <LastUpDate status={this.state.status} isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onBlur={this.handleOnBlur}  onClick={this.handleClick} />
         <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} />
 
 

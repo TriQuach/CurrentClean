@@ -201,7 +201,7 @@ export default class Test extends React.Component {
         window.console.log("this.state.dictStale")
         window.console.log(this.state.dictStale)
         window.console.log("this.state.dictStale")
-        var dict = this.state.dictStale
+        var dict = this.props.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -235,7 +235,7 @@ export default class Test extends React.Component {
 
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["sensorID"]].hasOwnProperty("Temperature")? "true" : null}
-                                onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Temperature')}
+                                onBlur={(e) => this.props.onBlur(e,item["sensorID"],'Temperature')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Temperature') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Temperature') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["sensorID"]].hasOwnProperty("Temperature")?(dict[item["sensorID"]]["Temperature"]["isStale"] ? dict[item["sensorID"]]["Temperature"]["hex"] : "#42f445") : null}}>
@@ -243,7 +243,7 @@ export default class Test extends React.Component {
                                 </td>
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["sensorID"]].hasOwnProperty("Humidity")? "true" : null}
-                                onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Humidity')}
+                                onBlur={(e) => this.props.onBlur(e,item["sensorID"],'Humidity')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Humidity') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Humidity') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Humidity")?(dict[item["sensorID"]]["Humidity"]["isStale"] ? dict[item["sensorID"]]["Humidity"]["hex"] : "#42f445") : null}} >
@@ -251,7 +251,7 @@ export default class Test extends React.Component {
                             </td>
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["sensorID"]].hasOwnProperty("AirPressure")? "true" : null}
-                                onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'AirPressure')}
+                                onBlur={(e) => this.props.onBlur(e,item["sensorID"],'AirPressure')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'AirPressure') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'AirPressur') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("AirPressure")?(dict[item["sensorID"]]["AirPressure"]["isStale"] ? dict[item["sensorID"]]["AirPressure"]["hex"] : "#42f445") : null}} >
@@ -259,7 +259,7 @@ export default class Test extends React.Component {
                             </td>
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["sensorID"]].hasOwnProperty("Voltage")? "true" : null}
-                                onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Voltage')}
+                                onBlur={(e) => this.props.onBlur(e,item["sensorID"],'Voltage')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Voltage') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Voltage') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Voltage")?(dict[item["sensorID"]]["Voltage"]["isStale"] ? dict[item["sensorID"]]["Voltage"]["hex"] : "#42f445") : null }} >
@@ -299,7 +299,7 @@ export default class Test extends React.Component {
           </div>
         </Popup>
             <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Repair"></input>
-            <input onClick={this.handleClickBackButton}  id="identify" className="btn btn-primary" type="button" value="Back"></input>
+            <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Back"></input>
             
             </div>
         )
