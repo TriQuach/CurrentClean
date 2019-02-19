@@ -299,7 +299,7 @@ export default class Test extends React.Component {
           </div>
         </Popup>
             <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Repair"></input>
-            <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Back"></input>
+            <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Return"></input>
             
             </div>
         )
