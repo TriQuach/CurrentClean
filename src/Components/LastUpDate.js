@@ -148,7 +148,6 @@ export default class Test extends React.Component {
       componentDidMount() {
         // this.staleCells()
           
-        
        }
     handleOnBlur(e,sensorID,prop) {
         window.console.log("dictStale")

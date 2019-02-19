@@ -18,7 +18,7 @@ export default class Slider extends Component {
               <Radio value="sensor" />  Sensor
         </label>
             <label id="clinical" >
-              <Radio value="clinical" />  Clinical
+              <Radio value="medical" />  Clinical
         </label>
           </div>
 

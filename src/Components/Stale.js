@@ -145,12 +145,15 @@ export default class Test extends Component {
   }
 
   staleCells() {
-    var question = this.props.location.data
-    var beta = question.beta
-    var data = question.data
-    var start = question.start
-    var end = question.end
-    var url = constClass.DEEPDIVE_BACKEND + "deepdive_test?beta=" + beta + "&data=" + data + "&start=" + start + "&end=" + end
+    window.console.log("location.data")
+    window.console.log(this.props.location.data)
+    var question = this.props.match.params
+    var beta = question["beta"]
+    var data = question["data"]
+    var start = question["start"]
+    var end = question["end"]
+    var delta = question["delta"]
+    var url = constClass.DEEPDIVE_BACKEND + "deepdive_test?beta=" + beta + "&data=" + data + "&start=" + start + "&end=" + end + "&delta=" + delta
     window.console.log("---------------------------")
     window.console.log(url)
     // this.props.history.push('/freq')
@@ -266,7 +269,8 @@ export default class Test extends Component {
   }
   componentDidMount() {
 
-    window.console.log(this.props.location.data)
+    window.console.log("this.props.params")
+    window.console.log(this.props.match.params)
 
     this.staleCells()
 
@@ -278,6 +282,7 @@ export default class Test extends Component {
       <div className="rowStale">
         <LastUpDate status={this.state.status} isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onClick={this.handleClick} />
         <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} />
+
 
       </div>
     )

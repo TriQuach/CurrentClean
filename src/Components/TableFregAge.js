@@ -19,7 +19,7 @@ export default class TableFregAge extends Component {
       data: [],
       dataCanvas: [],
       dataLineChart: [],
-      isBarchart: true
+      typechart: ''
 
     }
     this.handleClick = this.handleClick.bind(this)
@@ -83,8 +83,11 @@ export default class TableFregAge extends Component {
           this.setState({
 
             showPopUp: true,
-            isBarchart: false
+            typechart: constClass.AGELINECHART
+
+           
           })
+          
         })
         .catch(error => console.error('Error:', error));
 
@@ -128,55 +131,83 @@ export default class TableFregAge extends Component {
 
   handleClick(event, sensorID, prop, row, col,checkInTheSameCol) {
     // event.stopPropagation();
-
-    if (event.metaKey && checkInTheSameCol === true) {
-      var temp = this.state.data
-      temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
-      if (temp[row][col]["isSelected"] === true) {
-        var cell = {}
-        cell[sensorID] = prop
-        cell["row"] = row
-        cell["col"] = col
-        arrayCells.push(cell)
-      } else {
-        for (var i = 0; i < arrayCells.length; i++) {
-          var key = Object.keys(arrayCells[i])[0]
-          if (key === sensorID && arrayCells[i][key] === prop) {
-            arrayCells.splice(i, 1);
+    if (this.props.typeRequest === constClass.FREQUENCY) {
+      
+     
+        this.resetSelectedCells()
+        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        window.console.log(url)
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log('*********')
+              window.console.log(result)
+              this.convertToArrayObject(result)
+              this.setState({
+                showPopUp: true,
+                typechart: constClass.FREQBARCHART
+              })
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              window.console.log(error)
+            }
+          )
+        
+      
+  
+    }
+    else if (this.props.typeRequest === constClass.AGE) {
+      if (event.metaKey && checkInTheSameCol === true) {
+        var temp = this.state.data
+        temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
+        if (temp[row][col]["isSelected"] === true) {
+          var cell = {}
+          cell[sensorID] = prop
+          cell["row"] = row
+          cell["col"] = col
+          arrayCells.push(cell)
+        } else {
+          for (var i = 0; i < arrayCells.length; i++) {
+            var key = Object.keys(arrayCells[i])[0]
+            if (key === sensorID && arrayCells[i][key] === prop) {
+              arrayCells.splice(i, 1);
+            }
           }
         }
+  
+        this.setState({
+          data: temp
+        })
+      } else if (event.metaKey === false) {
+        var url2 = constClass.LOCAL_BACKEND + "existedtime?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        window.console.log(url2)
+        fetch(url2)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log('*********')
+              window.console.log(result)
+              this.convertToArrayObject(result)
+              this.setState({
+                showPopUp: true,
+                typechart: constClass.AGEBARCHART
+              })
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              window.console.log(error)
+            }
+          )
       }
-
-      this.setState({
-        data: temp
-      })
-    }
-    else if (event.metaKey === false) {
-      this.resetSelectedCells()
-      var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
-      window.console.log(url)
-      fetch(url)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            window.console.log('*********')
-            window.console.log(result)
-            this.convertToArrayObject(result)
-            this.setState({
-              showPopUp: true,
-              isBarchart: true
-            })
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            window.console.log(error)
-          }
-        )
       
     }
-
+    
   }
   closePopUp() {
     this.setState({
@@ -255,7 +286,7 @@ export default class TableFregAge extends Component {
       </div>
     );
 
-    const optionsLineChart = {
+    const optionsLineChartAge = {
       animationEnabled: true,
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
@@ -272,7 +303,7 @@ export default class TableFregAge extends Component {
       ,
 
     }
-    const optionsColumn = {
+    const optionsColumnFreq = {
       animationEnabled: true,
       exportEnabled: true,
       title: {
@@ -284,6 +315,28 @@ export default class TableFregAge extends Component {
       },
       axisY: {
         title: "Frequency",
+        labelFormatter: this.addSymbols
+      },
+      data: [
+        {
+          // Change type to "doughnut", "line", "splineArea", etc.
+          type: "column",
+          dataPoints: this.state.dataCanvas
+        }
+      ]
+    }
+    const optionsColumnAge = {
+      animationEnabled: true,
+      exportEnabled: true,
+      title: {
+        text: "Accumulating time of values"
+      },
+      axisX: {
+        title: "Values",
+        reversed: true,
+      },
+      axisY: {
+        title: "Time (seconds)",
         labelFormatter: this.addSymbols
       },
       data: [
@@ -347,8 +400,9 @@ export default class TableFregAge extends Component {
 
         <Popup style={{ height: 1000, width: 1000 }} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-chart">
-            {this.state.isBarchart ?
-              <CanvasJSChart options={optionsColumn} /> : <CanvasJSChart options={optionsLineChart} />}
+            {this.state.typechart === constClass.AGELINECHART ?
+              <CanvasJSChart options={optionsLineChartAge} /> : (this.state.typechart === constClass.AGEBARCHART ? 
+                <CanvasJSChart options={optionsColumnAge} />: <CanvasJSChart options={optionsColumnFreq} />)}
 
 
 

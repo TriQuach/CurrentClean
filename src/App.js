@@ -20,9 +20,8 @@ class App extends Component {
           <Header />
           <main>
            
-            <Redirect from="/" to="home" />
-            <Route path='/home' component={SliderTableWrapper} />
-            <Route path='/stale' component={Stale} />
+            <Route exact path='/' component={SliderTableWrapper} />
+            <Route path='/stale/deepdive_test?beta=:beta&data=:data&start=:start&end=:end&delta=:delta' component={Stale} />
           
           </main>
 

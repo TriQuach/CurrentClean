@@ -25,7 +25,7 @@ export default class SliderTableWrapper extends Component {
             typeRequest: constClass.AGE,
             valBeta: 0.6,
             typeRadio:'',
-            data:[]
+            data:[],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -100,10 +100,16 @@ export default class SliderTableWrapper extends Component {
     handleClickIdentify(e) {
         var question = new Question(this.state.typeRadio, this.state.startTime,this.state.endTime,this.state.valBeta)
         // this.props.history.push('/stale')
-
-
+        var url = ""
+        if(this.state.typeRadio === constClass.SENSOR) {
+             url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=20"
+        
+        } else if (this.state.typeRadio === constClass.CLINICAL) {
+            url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=5"
+        
+        }
         this.props.history.push({
-            pathname: '/stale',
+            pathname: url,
             data: question // your data array of objects
           })
     }

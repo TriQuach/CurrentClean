@@ -11,7 +11,7 @@ export default class Header extends Component {
         <nav className="navbar navbar-static-top">
           <div className="container">
             <div className="navbar-header">
-              <a href="../../index2.html" className="navbar-brand" id="title"><b>Current</b>Clean Demo</a>
+              <a href="../../" className="navbar-brand" id="title"><b>Current</b>Clean Demo</a>
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                 <i className="fa fa-bars" />
               </button>
