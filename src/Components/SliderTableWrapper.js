@@ -5,8 +5,11 @@ import Data from '../Components/Data'
 import Param from '../Components/Param'
 import '../CSS/SliderTableWrapper.css'
 import { Redirect } from 'react-router'
+import Popup from "reactjs-popup";
 import * as constClass from '../Const/utils.js'
 import $ from 'jquery'; 
+
+
 class Question {
     constructor(data, start, end, beta) {
         this.data = data;
@@ -26,6 +29,8 @@ export default class SliderTableWrapper extends Component {
             valBeta: 0.6,
             typeRadio:'',
             data:[],
+            nolectedData: false,
+            showPopUp: false,
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -33,6 +38,7 @@ export default class SliderTableWrapper extends Component {
         this.sendRequest = this.sendRequest.bind(this)
         this.handleChangeRadio = this.handleChangeRadio.bind((this))
         this.handleClickIdentify = this.handleClickIdentify.bind(this)
+        this.closePopUp = this.closePopUp.bind(this)
     }
     handleChange(e) {
         this.setState({
@@ -41,6 +47,13 @@ export default class SliderTableWrapper extends Component {
         }) 
         // window.console.log(e.target.value[0])
     }  
+    closePopUp() {
+        this.setState({
+          showPopUp: false
+    
+    
+        })
+      }
     handleChangeBeta(e) {
         window.console.log(e.target.value)
         this.setState({
@@ -98,25 +111,36 @@ export default class SliderTableWrapper extends Component {
         
     }
     handleClickIdentify(e) {
-        var question = new Question(this.state.typeRadio, this.state.startTime,this.state.endTime,this.state.valBeta)
-        // this.props.history.push('/stale')
-        var url = ""
-        if(this.state.typeRadio === constClass.SENSOR) {
-             url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=20"
-        
-        } else if (this.state.typeRadio === constClass.CLINICAL) {
-            url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=5"
-        
+        if (this.state.typeRadio !== '') {
+            var question = new Question(this.state.typeRadio, this.state.startTime,this.state.endTime,this.state.valBeta)
+            // this.props.history.push('/stale')
+            var url = ""
+            if(this.state.typeRadio === constClass.SENSOR) {
+                 url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=20"
+            
+            } else if (this.state.typeRadio === constClass.CLINICAL) {
+                url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=5"
+            
+            }
+            this.props.history.push({
+                pathname: url,
+                data: question // your data array of objects
+              })
+        } else {
+            this.setState({
+                showPopUp: true
+            })
         }
-        this.props.history.push({
-            pathname: url,
-            data: question // your data array of objects
-          })
+        
     }
+
+   
     
     render(){
+     
         return (
             <div className="row">
+               
                 <div>
                     <Data onChange={this.handleChangeRadio}/>
                     <Slider 
@@ -135,7 +159,15 @@ export default class SliderTableWrapper extends Component {
                 </div>
                              
                 <TableFregAge start={this.state.startTime} end={this.state.endTime} typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
-            </div>
+               
+                <Popup className="pop" onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+                <div className="alert alert-danger" role="alert">
+  This is a danger alert—check it out!
+</div>
+        </Popup>
+
+         
+        </div>
         )
     }
 }

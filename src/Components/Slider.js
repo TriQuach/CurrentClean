@@ -50,6 +50,7 @@ export default class Slider extends Component {
                     max={1522987200}
                     min={1522932390}
                     change={this.props.onChange}
+                    tooltip="hide"
                 />
                 <div id="startTime">
                     <form>

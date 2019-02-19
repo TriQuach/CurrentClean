@@ -11,9 +11,9 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
             'A434F1204005', 'A434F11F1F03', 'A434F11F3902', 'A434F11EF68F', 'A434F11F1106', 'A434F11F1782',
             'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
-            
+var arrayCells = []            
 export default class Test extends React.Component {
-
+    
     constructor(props) {
         super(props)
         this.state = {
@@ -25,19 +25,23 @@ export default class Test extends React.Component {
             correctedValue:[],
             stales: {},
             dictStale:{},
+            savedDictStale:{}
             
         }
         this.handleClickCell = this.handleClickCell.bind(this)
         this.handleClickRepair = this.handleClickRepair.bind(this)
         this.handleClickCellFalse = this.handleClickCellFalse.bind(this)
         this.closePopUp = this.closePopUp.bind(this)
+        this.handleClickBackButton = this.handleClickBackButton.bind(this)
     }
     componentWillReceiveProps(nextProps){
+        window.console.log("zaqwe")
         if(nextProps.dictStale!==this.props.dictStale){
           //Perform some operation
          
           this.setState({
-            dictStale: nextProps.dictStale 
+            dictStale: nextProps.dictStale,
+            savedDictStale: nextProps.dictStale
             });
           
         }
@@ -140,6 +144,20 @@ export default class Test extends React.Component {
        
         return (this.state.correctedValue.includes(val))
     }
+    handleClickBackButton() {
+       window.console.log("array69")
+       window.console.log(arrayCells)
+       var x = this.state.dictStale
+       for (var i=0; i<arrayCells.length; i++) {
+            var sensorID = arrayCells[i].split("_")[0]
+            var prop = arrayCells[i].split("_")[1]
+            x[sensorID][prop]["isStale"] = true
+       }
+       this.setState({
+           dictStale: x
+       })
+       
+    }
     
     
      
@@ -152,6 +170,8 @@ export default class Test extends React.Component {
     handleOnBlur(e,sensorID,prop) {
         window.console.log("dictStale")
         window.console.log(this.state.dictStale)
+        var temp = sensorID+ "_"+prop
+        arrayCells.push(temp)
         if (this.checkUserInput(e.target.textContent,sensorID,prop)) {
             var x = this.state.dictStale
             x[sensorID][prop]["isStale"] = false
@@ -178,7 +198,9 @@ export default class Test extends React.Component {
     
     render() {
         
+        window.console.log("this.state.dictStale")
         window.console.log(this.state.dictStale)
+        window.console.log("this.state.dictStale")
         var dict = this.state.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -277,6 +299,7 @@ export default class Test extends React.Component {
           </div>
         </Popup>
             <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Repair"></input>
+            <input onClick={this.handleClickBackButton}  id="identify" className="btn btn-primary" type="button" value="Back"></input>
             
             </div>
         )

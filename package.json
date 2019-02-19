@@ -2,10 +2,11 @@
   "name": "my_app2",
   "version": "0.1.0",
   "private": true,
-  "homepage":"http://localhost:5000/",
+  "homepage": "http://localhost:5000/",
   "dependencies": {
     "jquery": "^3.3.1",
     "react": "^16.6.3",
+    "react-alert": "^5.1.0",
     "react-bootstrap-slider": "^2.1.5",
     "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.6.3",
