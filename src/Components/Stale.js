@@ -351,12 +351,16 @@ export default class Test extends Component {
 
   render() {
     return (
-      <div className="rowStale">
-        <LastUpDate status={this.state.status} isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onBlur={this.handleOnBlur}  onClick={this.handleClick} />
-        <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} />
+      <div>
+      {Object.keys(this.state.dictStale).length !== 0 ? <div className="rowStale">
+        
+      <LastUpDate status={this.state.status} isRepaired={this.state.isRepaired} data={this.state.data} dictStale={this.state.dictStale} repairs={this.state.repairs} onBlur={this.handleOnBlur}  onClick={this.handleClick} />
+      <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} />
 
 
-      </div>
+    </div>: null}
+    </div>
+      
     )
 
   }
