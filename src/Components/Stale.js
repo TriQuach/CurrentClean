@@ -82,7 +82,7 @@ export default class Test extends Component {
     })
   }
   handleClick(e) {
-    if (e.target.value === "Repair") {
+    if ( e.target.value === "Repair") {
       this.setState({
         isRepaired: true
       })

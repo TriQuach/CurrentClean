@@ -33,6 +33,7 @@ export default class Test extends React.Component {
         this.handleClickCellFalse = this.handleClickCellFalse.bind(this)
         this.closePopUp = this.closePopUp.bind(this)
         this.handleClickBackButton = this.handleClickBackButton.bind(this)
+     
     }
     componentWillReceiveProps(nextProps){
         window.console.log("zaqwe")
@@ -47,6 +48,7 @@ export default class Test extends React.Component {
         }
       }
     
+     
     handleClick(sensorID, prop) {
         var url = constClass.DEEPDIVE_BACKEND+ "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
         window.console.log(url)
@@ -163,10 +165,9 @@ export default class Test extends React.Component {
      
     
   
-      componentDidMount() {
-        // this.staleCells()
-          
-       }
+     
+
+
     handleOnBlur(e,sensorID,prop) {
         window.console.log("dictStale")
         window.console.log(this.state.dictStale)
