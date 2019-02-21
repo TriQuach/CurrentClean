@@ -86,19 +86,17 @@ export default class Patterns extends Component {
       arrayLinks.push(temp)
     }
   }
-  componentWillMount() {
-    arrayLinks = []
-    this.getLinks(this.props.patterns)
-    data["links"] = arrayLinks
-    window.console.log("data Array Links")
-    window.console.log(data)
-    // window.console.log(this.props.patterns)
-}
+  
+
     render() {
         window.console.log('asdasasdasdd')
         window.console.log(this.props.patterns)
         
         window.console.log(data)
+        arrayLinks = []
+    this.getLinks(this.props.patterns)
+    data["links"] = arrayLinks
+    
         
         return (
           <div>
