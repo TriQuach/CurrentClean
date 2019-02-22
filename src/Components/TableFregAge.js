@@ -61,40 +61,79 @@ export default class TableFregAge extends Component {
     })
   }
   keydownHandler(e) {
-    if (e.keyCode === 13 && e.metaKey) {
-      window.console.log(constClass.LOCAL_BACKEND + "comparecells")
-
-      fetch(constClass.LOCAL_BACKEND + 'comparecells', {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(
-          {
-            "start": this.props.start,
-            "end": this.props.end,
-            "arrayCells": arrayCells
-          }),
-
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json())
-        .then(response => {
-
-          this.createLineChartData(response)
-          this.setState({
-
-            showPopUp: true,
-            typechart: constClass.AGELINECHART
-
-           
+    if (this.props.typeRadio === constClass.SENSOR) {
+      if (e.keyCode === 13 && e.metaKey) {
+        window.console.log(constClass.LOCAL_BACKEND + "comparecells")
+  
+        fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.SENSOR , {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(
+            {
+              "start": this.props.start,
+              "end": this.props.end,
+              "arrayCells": arrayCells
+            }),
+  
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+          .then(response => {
+  
+            this.createLineChartData(response)
+            this.setState({
+  
+              showPopUp: true,
+              typechart: constClass.AGELINECHART
+  
+             
+            })
+            
           })
-          
-        })
-        .catch(error => console.error('Error:', error));
-
+          .catch(error => console.error('Error:', error));
+  
+      }
+      else if (e.keyCode === 27 && e.metaKey) {
+        this.resetSelectedCells()
+      }
     }
-    else if (e.keyCode === 27 && e.metaKey) {
-      this.resetSelectedCells()
+    else if (this.props.typeRadio === constClass.CLINICAL) {
+      if (e.keyCode === 13 && e.metaKey) {
+        window.console.log(constClass.LOCAL_BACKEND + "comparecells")
+  
+        fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.CLINICAL , {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(
+            {
+              "start": this.props.start,
+              "end": this.props.end,
+              "arrayCells": arrayCells
+            }),
+  
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+          .then(response => {
+  
+            this.createLineChartData(response)
+            this.setState({
+  
+              showPopUp: true,
+              typechart: constClass.AGELINECHART
+  
+             
+            })
+            
+          })
+          .catch(error => console.error('Error:', error));
+  
+      }
+      else if (e.keyCode === 27 && e.metaKey) {
+        this.resetSelectedCells()
+      }
     }
+    
   }
   componentDidMount() {
     document.addEventListener('keydown', this.keydownHandler);
@@ -136,7 +175,7 @@ export default class TableFregAge extends Component {
       
      
         this.resetSelectedCells()
-        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop + "&dataset=" + constClass.SENSOR
         window.console.log(url)
         fetch(url)
           .then(res => res.json())
@@ -184,7 +223,7 @@ export default class TableFregAge extends Component {
           data: temp
         })
       } else if (event.metaKey === false) {
-        var url2 = constClass.LOCAL_BACKEND + "existedtime?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        var url2 = constClass.LOCAL_BACKEND + "existedtime?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop + "&dataset=" + constClass.SENSOR
         window.console.log(url2)
         fetch(url2)
           .then(res => res.json())
@@ -214,7 +253,7 @@ export default class TableFregAge extends Component {
       
      
         this.resetSelectedCells()
-        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop + "&dataset=" + constClass.CLINICAL
         window.console.log(url)
         fetch(url)
           .then(res => res.json())
@@ -238,6 +277,52 @@ export default class TableFregAge extends Component {
         
       
   
+    }
+    else if (this.props.typeRequest === constClass.AGE) {
+      if (event.metaKey && checkInTheSameCol === true) {
+        var temp = this.state.data
+        temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
+        if (temp[row][col]["isSelected"] === true) {
+          var cell = {}
+          cell[sensorID] = prop
+          cell["row"] = row
+          cell["col"] = col
+          arrayCells.push(cell)
+        } else {
+          for (var i = 0; i < arrayCells.length; i++) {
+            var key = Object.keys(arrayCells[i])[0]
+            if (key === sensorID && arrayCells[i][key] === prop) {
+              arrayCells.splice(i, 1);
+            }
+          }
+        }
+  
+        this.setState({
+          data: temp
+        })
+      } else if (event.metaKey === false) {
+        var url2 = constClass.LOCAL_BACKEND + "existedtime?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop + "&dataset=" + constClass.CLINICAL
+        window.console.log(url2)
+        fetch(url2)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log('*********')
+              window.console.log(result)
+              this.convertToArrayObject(result)
+              this.setState({
+                showPopUp: true,
+                typechart: constClass.AGEBARCHART
+              })
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              window.console.log(error)
+            }
+          )
+      }
     }
     }
     
@@ -469,28 +554,28 @@ export default class TableFregAge extends Component {
             
                   <td>{valid_id_Mimic[key]}</td>
 
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(0)) } style={{ cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141" }}  >{item[0]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(1)) } style={{ cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141" }} >{item[1]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(2)) } style={{ cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#f44141" }}  >{item[4]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#f44141" }} >{item[5]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#f44141" }} >{item[6]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#f44141" }} >{item[7]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#f44141" }}  >{item[8]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#f44141" }} >{item[9]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(10)) } style={{ cursor: 'pointer', background: item[10]["isSelected"] === false ? item[10]["hex"] : "#f44141" }} >{item[10]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(11)) } style={{ cursor: 'pointer', background: item[11]["isSelected"] === false ? item[11]["hex"] : "#f44141" }} >{item[11]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(12)) } style={{ cursor: 'pointer', background: item[12]["isSelected"] === false ? item[12]["hex"] : "#f44141" }}  >{item[12]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(13)) } style={{ cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#f44141" }} >{item[13]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#f44141" }} >{item[14]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#f44141" }} >{item[15]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#f44141" }}  >{item[16]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#f44141" }} >{item[17]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(18)) } style={{ cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#f44141" }} >{item[18]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(19)) } style={{ cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#f44141" }} >{item[19]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(20)) } style={{ cursor: 'pointer', background: item[20]["isSelected"] === false ? item[20]["hex"] : "#f44141" }}  >{item[20]["value"]}</td>
-                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(21)) } style={{ cursor: 'pointer', background: item[21]["isSelected"] === false ? item[21]["hex"] : "#f44141" }} >{item[21]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WT', key, 0,this.checkInTheSameCol(0)) } style={{ cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141" }}  >{item[0]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LDL', key, 1,this.checkInTheSameCol(1)) } style={{ cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141" }} >{item[1]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HDL', key, 2,this.checkInTheSameCol(2)) } style={{ cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HR', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'DBP', key, 4,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#f44141" }}  >{item[4]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SBP', key, 5,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#f44141" }} >{item[5]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'CVP', key, 6,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#f44141" }} >{item[6]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RR', key, 7,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#f44141" }} >{item[7]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#f44141" }}  >{item[8]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#f44141" }} >{item[9]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ABE', key, 10,this.checkInTheSameCol(10)) } style={{ cursor: 'pointer', background: item[10]["isSelected"] === false ? item[10]["hex"] : "#f44141" }} >{item[10]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ACO2', key, 11,this.checkInTheSameCol(11)) } style={{ cursor: 'pointer', background: item[11]["isSelected"] === false ? item[11]["hex"] : "#f44141" }} >{item[11]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'APH', key, 12,this.checkInTheSameCol(12)) } style={{ cursor: 'pointer', background: item[12]["isSelected"] === false ? item[12]["hex"] : "#f44141" }}  >{item[12]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'Hb', key, 13,this.checkInTheSameCol(13)) } style={{ cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#f44141" }} >{item[13]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBC', key, 14,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#f44141" }} >{item[14]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBCF', key, 15,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#f44141" }} >{item[15]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#f44141" }}  >{item[16]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'MONO', key, 17,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#f44141" }} >{item[17]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'EOS', key, 18,this.checkInTheSameCol(18)) } style={{ cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#f44141" }} >{item[18]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LY', key, 19,this.checkInTheSameCol(19)) } style={{ cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#f44141" }} >{item[19]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RDW', key, 20,this.checkInTheSameCol(20)) } style={{ cursor: 'pointer', background: item[20]["isSelected"] === false ? item[20]["hex"] : "#f44141" }}  >{item[20]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TC', key, 21,this.checkInTheSameCol(21)) } style={{ cursor: 'pointer', background: item[21]["isSelected"] === false ? item[21]["hex"] : "#f44141" }} >{item[21]["value"]}</td>
                 
                 </tr>
 
