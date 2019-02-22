@@ -23,8 +23,8 @@ export default class SliderTableWrapper extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            startTime: 1522932390,
-            endTime: 1522987200,
+            startTime: 0,
+            endTime: 0,
             typeRequest: constClass.AGE,
             valBeta: 0.6,
             typeRadio:'',
@@ -62,39 +62,81 @@ export default class SliderTableWrapper extends Component {
     }
     handleChangeRadio(value) {
         window.console.log(value)
-        this.setState({
-            typeRadio: value
-        })
+        if (value === "sensor") {
+            this.setState({
+                typeRadio: value,
+                startTime: 1522932390,
+                endTime: 1522987200
+            }) 
+        }
+        else if (value === "medical") {
+            this.setState({
+                typeRadio: value,
+                startTime: 1550784503,
+                endTime: 1550785783
+            }) 
+        }
+        
+        
     }
 
 
 
 
     sendRequest(idRequest) {
-        window.console.log(this.state.data.length)
-        var startTime = this.state.startTime
-        var endTime = this.state.endTime
-        // var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        var url = constClass.LOCAL_BACKEND + idRequest+"?start="+startTime+"&end=" + endTime
-        window.console.log(url)
-        // this.props.history.push('/freq')
-        fetch(url)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            window.console.log("result123")
-                window.console.log(result)
-                this.setState({
-                    data:result
-                })
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            window.console.log(error)
-          }
-        )
+        if (this.state.typeRadio === constClass.SENSOR) {
+            window.console.log(this.state.data.length)
+            var startTime = this.state.startTime
+            var endTime = this.state.endTime
+            // var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+            var url = constClass.LOCAL_BACKEND + idRequest+"?start="+startTime+"&end=" + endTime+ "&dataset=" + constClass.SENSOR
+            window.console.log(url)
+            // this.props.history.push('/freq')
+            fetch(url)
+            .then(res => res.json())
+            .then(
+              (result) => {
+                window.console.log("result123")
+                    window.console.log(result)
+                    this.setState({
+                        data:result
+                    })
+              },
+              // Note: it's important to handle errors here
+              // instead of a catch() block so that we don't swallow
+              // exceptions from actual bugs in components.
+              (error) => {
+                window.console.log(error)
+              }
+            )
+        } else if (this.state.typeRadio === constClass.CLINICAL) {
+            window.console.log("sendRequest clinical")
+            window.console.log(this.state.data.length)
+            var startTime = this.state.startTime
+            var endTime = this.state.endTime
+            // var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+            var url = constClass.LOCAL_BACKEND + idRequest+"?start="+startTime+"&end=" + endTime + "&dataset=" + constClass.CLINICAL
+            window.console.log(url)
+            // this.props.history.push('/freq')
+            fetch(url)
+            .then(res => res.json())
+            .then(
+              (result) => {
+                window.console.log("result123")
+                    window.console.log(result)
+                    this.setState({
+                        data:result
+                    })
+              },
+              // Note: it's important to handle errors here
+              // instead of a catch() block so that we don't swallow
+              // exceptions from actual bugs in components.
+              (error) => {
+                window.console.log(error)
+              }
+            )
+        }
+        
     }
     handleClick(e) {
         // window.console.log(e.target.getAttribute('id'))
@@ -148,6 +190,7 @@ export default class SliderTableWrapper extends Component {
                         startTime={this.state.startTime}
                         endTime = {this.state.endTime}
                         onClick={this.handleClick}
+                        typeRadio={this.state.typeRadio}
                     />
                     <Param 
                         valBeta={this.state.valBeta}
@@ -158,7 +201,13 @@ export default class SliderTableWrapper extends Component {
             
                 </div>
                              
-                <TableFregAge start={this.state.startTime} end={this.state.endTime} typeRequest={this.state.typeRequest} onClick={this.handleClick} data={this.state.data}/>
+                <TableFregAge 
+                    start={this.state.startTime} 
+                    end={this.state.endTime} 
+                    typeRequest={this.state.typeRequest} 
+                    onClick={this.handleClick} 
+                    data={this.state.data} 
+                    typeRadio={this.state.typeRadio}/>
                
                 <Popup className="pop" onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
                 <div className="alert alert-danger" role="alert">

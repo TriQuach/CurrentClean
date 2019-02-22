@@ -25,8 +25,10 @@ export default class Slider extends Component {
           <label>
             <Radio value="upload" />  Upload your Data
         </label>
+
+       
           <input type="file" />
-          <input id={constClass.UPLOAD} className="btn btn-primary" type="button" value="Upload!"></input>
+          <input id={constClass.UPLOAD} className="btn btn-primary" type="button" value="Upload"></input>
 
 
 

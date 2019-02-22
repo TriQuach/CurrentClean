@@ -131,7 +131,8 @@ export default class TableFregAge extends Component {
 
   handleClick(event, sensorID, prop, row, col,checkInTheSameCol) {
     // event.stopPropagation();
-    if (this.props.typeRequest === constClass.FREQUENCY) {
+    if (this.props.typeRadio === constClass.SENSOR) {
+      if (this.props.typeRequest === constClass.FREQUENCY) {
       
      
         this.resetSelectedCells()
@@ -207,6 +208,39 @@ export default class TableFregAge extends Component {
       }
       
     }
+    }
+    else if (this.props.typeRadio === constClass.CLINICAL) {
+      if (this.props.typeRequest === constClass.FREQUENCY) {
+      
+     
+        this.resetSelectedCells()
+        var url = constClass.LOCAL_BACKEND + "duration?start=" + this.props.start + "&end=" + this.props.end + "&sensorID=" + sensorID + "&prop=" + prop
+        window.console.log(url)
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log('*********')
+              window.console.log(result)
+              this.convertToArrayObject(result)
+              this.setState({
+                showPopUp: true,
+                typechart: constClass.FREQBARCHART
+              })
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              window.console.log(error)
+            }
+          )
+        
+      
+  
+    }
+    }
+    
     
   }
   closePopUp() {
@@ -256,6 +290,11 @@ export default class TableFregAge extends Component {
       'A434F1204005', 'A434F11F1F03', 'A434F11F3902', 'A434F11EF68F', 'A434F11F1106', 'A434F11F1782',
       'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
       'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
+    
+    var valid_id_Mimic = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',
+      '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30',
+      '31','32','33','34','35','36','37','38','39','40','41','42','43','44','45',
+      '46','47','48','49','50']
 
     window.console.log(this.state.dataLineChart)
     const lineChart = (
@@ -359,7 +398,7 @@ export default class TableFregAge extends Component {
           <li className={this.props.typeRequest === constClass.FREQUENCY ? "active" : ""} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a></li>
 
         </ul>
-        <table className="table table-striped" id="freq">
+        {this.props.typeRadio === constClass.SENSOR ? (this.props.data.length === 58 ?  <table className="table table-striped" id="freq">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -391,7 +430,77 @@ export default class TableFregAge extends Component {
             }.bind(this))}</tbody>
           
 
-        </table>
+        </table> : null)
+        : (this.props.data.length === 50 ? <table className="table table-striped" id="freq">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">WT</th>
+              <th scope="col">LDL</th>
+              <th scope="col">HDL</th>
+              <th scope="col">HR</th>
+              <th scope="col">DBP</th>
+              <th scope="col">SBP</th>
+              <th scope="col">CVP</th>
+              <th scope="col">RR</th>
+              <th scope="col">SpO2</th>
+              <th scope="col">TMP</th>
+              <th scope="col">ABE</th>
+              <th scope="col">ACO2</th>
+              <th scope="col">APH</th>
+              <th scope="col">Hb</th>
+              <th scope="col">RBC</th>
+              <th scope="col">RBCF</th>
+              <th scope="col">WBC</th>
+              <th scope="col">MONO</th>
+              <th scope="col">EOS</th>
+              <th scope="col">LY</th>
+              <th scope="col">RDW</th>
+              <th scope="col">TC</th>
+            </tr>
+          </thead>
+          
+            <tbody>{this.state.data.map(function (item, key) {
+
+              return (
+
+
+                <tr key={key} >
+            
+                  <td>{valid_id_Mimic[key]}</td>
+
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(0)) } style={{ cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#f44141" }}  >{item[0]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(1)) } style={{ cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#f44141" }} >{item[1]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(2)) } style={{ cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#f44141" }} >{item[2]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#f44141" }} >{item[3]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#f44141" }}  >{item[4]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#f44141" }} >{item[5]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#f44141" }} >{item[6]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#f44141" }} >{item[7]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#f44141" }}  >{item[8]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#f44141" }} >{item[9]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(10)) } style={{ cursor: 'pointer', background: item[10]["isSelected"] === false ? item[10]["hex"] : "#f44141" }} >{item[10]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(11)) } style={{ cursor: 'pointer', background: item[11]["isSelected"] === false ? item[11]["hex"] : "#f44141" }} >{item[11]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(12)) } style={{ cursor: 'pointer', background: item[12]["isSelected"] === false ? item[12]["hex"] : "#f44141" }}  >{item[12]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(13)) } style={{ cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#f44141" }} >{item[13]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#f44141" }} >{item[14]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#f44141" }} >{item[15]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#f44141" }}  >{item[16]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#f44141" }} >{item[17]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(18)) } style={{ cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#f44141" }} >{item[18]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(19)) } style={{ cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#f44141" }} >{item[19]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(20)) } style={{ cursor: 'pointer', background: item[20]["isSelected"] === false ? item[20]["hex"] : "#f44141" }}  >{item[20]["value"]}</td>
+                  <td onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(21)) } style={{ cursor: 'pointer', background: item[21]["isSelected"] === false ? item[21]["hex"] : "#f44141" }} >{item[21]["value"]}</td>
+                
+                </tr>
+
+              )
+
+            }.bind(this))}</tbody>
+          
+
+        </table>: null) }
+        
 
 
 
