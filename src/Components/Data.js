@@ -8,7 +8,7 @@ export default class Slider extends Component {
   render() {
     return (
       <div id="data">
-        <h1 id="data"> Data</h1>
+        <h1 id="data"> Dataset</h1>
         <RadioGroup
           name="fruit"
           onChange={this.props.onChange}

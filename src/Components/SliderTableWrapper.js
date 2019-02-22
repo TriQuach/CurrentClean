@@ -31,6 +31,7 @@ export default class SliderTableWrapper extends Component {
             data:[],
             nolectedData: false,
             showPopUp: false,
+            valDelta: 0
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -54,12 +55,21 @@ export default class SliderTableWrapper extends Component {
     
         })
       }
-    handleChangeBeta(e) {
-        window.console.log(e.target.value)
+    handleChangeBeta(e,typeParam) {
+       if (typeParam === constClass.BETA) {
         this.setState({
             valBeta: e.target.value
         })
+       }
+       else if (typeParam === constClass.DELTA) {
+           window.console.log(e.target.value)
+           this.setState({
+               valDelta: e.target.value
+           })
+       }
+        
     }
+   
     handleChangeRadio(value) {
         window.console.log(value)
         if (value === "sensor") {
@@ -161,7 +171,7 @@ export default class SliderTableWrapper extends Component {
                  url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=20"
             
             } else if (this.state.typeRadio === constClass.CLINICAL) {
-                url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=5"
+                url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=" + this.state.valDelta
             
             }
             this.props.history.push({
@@ -196,6 +206,7 @@ export default class SliderTableWrapper extends Component {
                         valBeta={this.state.valBeta}
                         onChange={this.handleChangeBeta}
                         typeRadio={this.state.typeRadio}
+                        valDelta={this.state.valDelta}
                     />
                     <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
             

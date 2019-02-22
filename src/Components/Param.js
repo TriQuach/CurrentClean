@@ -17,11 +17,11 @@ export default class Slider extends Component {
                 theta =
                     <div>
                         <b className="b">δ</b> <ReactBootstrapSlider
-                            value={this.props.valBeta}
+                            value={this.props.valDelta}
                             max={1}
                             min={0}
                             step={0.01}
-                            
+                            change={ e => this.props.onChange(e,'delta')}
                         />
                     </div>
             }
@@ -35,7 +35,7 @@ export default class Slider extends Component {
                     max={1}
                     min={0}
                     step={0.1}
-                    change={this.props.onChange}
+                    change={ e => this.props.onChange(e,'beta')}
                 />
                 <br></br>
                 {theta}

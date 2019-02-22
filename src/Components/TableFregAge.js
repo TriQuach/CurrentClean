@@ -418,7 +418,7 @@ export default class TableFregAge extends Component {
         text: "Values overtime"
       },
       axisY: {
-        title: "Values",
+        title: "Time duration",
         includeZero: false,
 
       },
@@ -453,7 +453,7 @@ export default class TableFregAge extends Component {
       animationEnabled: true,
       exportEnabled: true,
       title: {
-        text: "Accumulating time of values"
+        text: "Accumulate time duration"
       },
       axisX: {
         title: "Values",
