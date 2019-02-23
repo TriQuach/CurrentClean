@@ -516,7 +516,9 @@ export default class TableFregAge extends Component {
           
 
         </table> : null)
-        : (this.props.data.length === 50 ? <table className="table table-striped" id="freq">
+        : (this.props.data.length === 50 ? 
+        <div id="tableMimic"> 
+        <table  className="table table-striped">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -584,7 +586,7 @@ export default class TableFregAge extends Component {
             }.bind(this))}</tbody>
           
 
-        </table>: null) }
+        </table> </div>: null) }
         
 
 

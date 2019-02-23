@@ -6,6 +6,10 @@
 table#freq {
     width: 20cm
 }
+div#tableMimic {
+    width: 900px;
+    overflow: auto;
+}
 .table-wrapper-scroll-y {
     display: block;
     max-height: 300px;
