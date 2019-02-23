@@ -11,16 +11,18 @@ export default class Slider extends Component {
         if (typeRadio !== '') {
             if (typeRadio === constClass.SENSOR) {
                 theta = <div>
-                    <b className="b">δ</b> <b>20 seconds</b>
+                    <b className="b">Time unit size (δ)</b> <b>20 seconds</b>
                 </div>
             } else if (typeRadio === constClass.CLINICAL || typeRadio == constClass.UPLOAD) {
                 theta =
                     <div>
-                        <b className="b">δ</b> <ReactBootstrapSlider
+                        <b className="b">Time unit size (δ)</b>
+                        <br></br>
+                         <ReactBootstrapSlider
                             value={this.props.valDelta}
-                            max={1}
-                            min={0}
-                            step={0.01}
+                            max={10}
+                            min={1}
+                            step={1}
                             change={ e => this.props.onChange(e,'delta')}
                         />
                     </div>
@@ -30,7 +32,9 @@ export default class Slider extends Component {
         return (
             <div id="param">
                 <h1 id="param"> Parameters</h1>
-                <b className="b">β</b> <ReactBootstrapSlider
+                <b className="b">Currency Threshold (β)</b>
+                <br></br>
+                 <ReactBootstrapSlider
                     value={this.props.valBeta}
                     max={1}
                     min={0}

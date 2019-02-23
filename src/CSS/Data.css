@@ -11,6 +11,7 @@ input#upload {
     
 }
 div#data {
+    width: 270px;
     background-color: #FFFFFF;
     border: 1px solid transparent;
     border-radius: 0.3cm;

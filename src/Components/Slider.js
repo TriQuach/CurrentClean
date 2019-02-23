@@ -40,11 +40,17 @@ export default class Slider extends Component {
         return time;
       }
     render() {
-       var start = this.timeConverter(this.props.startTime)
-        var end = this.timeConverter(this.props.endTime)
+        if (this.props.startTime !== 0 && this.props.endTime !== 0) {
+            var start = this.timeConverter(this.props.startTime)
+            var end = this.timeConverter(this.props.endTime)
+        } else {
+            start = 0
+            end = 0
+        }
+      
         return (
             <div id="slider">
-                <h1 id="value">Value</h1>
+                <h1 id="value">Time Duration</h1>
                 <ReactBootstrapSlider
                     value={[this.props.startTime, this.props.endTime]}
                     max={this.props.typeRadio === "sensor" ? 1522987200 : 1550785783}

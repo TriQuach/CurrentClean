@@ -31,7 +31,7 @@ export default class SliderTableWrapper extends Component {
             data:[],
             nolectedData: false,
             showPopUp: false,
-            valDelta: 0
+            valDelta: 1
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -193,7 +193,7 @@ export default class SliderTableWrapper extends Component {
         return (
             <div className="row">
                
-                <div>
+                <div id="firstcol">
                     <Data onChange={this.handleChangeRadio}/>
                     <Slider 
                         onChange={this.handleChange}
