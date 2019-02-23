@@ -1,0 +1,14 @@
+input#return {
+    margin-left: 1em;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+  background-color: #4469b0;
+    padding: 4px 7px;
+}
+input#repair {
+    margin-left: 1em;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+  background-color: #4469b0;
+    padding: 4px 7px;
+}

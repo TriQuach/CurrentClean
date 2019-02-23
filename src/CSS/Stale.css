@@ -5,3 +5,11 @@
     margin-left: 1cm;
   justify-content: left;
 }
+.rowStaleMimic  {
+  min-height: 10vh;
+  
+    
+    margin-left: 1cm;
+    margin-right: 1cm;
+  justify-content: left;
+}

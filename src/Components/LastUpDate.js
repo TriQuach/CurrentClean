@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as constClass from '../Const/utils'
+import '../CSS/LastUpdate.css'
 import Popup from "reactjs-popup";
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -47,6 +48,7 @@ export default class Test extends React.Component {
           
         }
       }
+ 
     
      
     handleClick(sensorID, prop) {
@@ -518,8 +520,8 @@ export default class Test extends React.Component {
           </table>
           </div>
         </Popup>
-            <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Repair"></input>
-            <input onClick={this.props.onClick}  id="identify" className="btn btn-primary" type="button" value="Return"></input>
+            <input onClick={this.props.onClick}  id="repair" className="btn btn-primary" type="button" value="Repair"></input>
+            <input id="return" onClick={this.props.onClick} className="btn btn-primary" type="button" value="Return"></input>
             
             </div>
         )

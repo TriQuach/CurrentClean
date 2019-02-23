@@ -475,7 +475,7 @@ export default class Test extends Component {
 
   render() {
     return (
-      <div className="rowStale">
+      <div className={kindDataset === constClass.SENSOR ? "rowStale": "rowStaleMimic"}>
         {Object.keys(this.state.dictStale).length !== 0 ?
 
           <LastUpDate
@@ -487,7 +487,7 @@ export default class Test extends Component {
             repairs={this.state.repairs}
             onBlur={this.handleOnBlur}
             onClick={this.handleClick} /> : null}
-        {/* {Object.keys(this.state.patterns).length !== 0 ? <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} /> : null} */}
+        {Object.keys(this.state.patterns).length !== 0 ? <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
 
 
 
