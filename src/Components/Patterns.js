@@ -7,7 +7,7 @@ import { Graph } from 'react-d3-graph';
 const dataNodes = {
   nodes: [],
 }
-var test= "<---->"
+var test= "<--->"
 // const dataMimic = {
 //   nodes: [{ id: 'WT' }, { id: 'LDL' }, { id: 'HDL' },{ id: 'HR' },{ id: 'DBP' }, { id: 'SBP' }, { id: 'CVP' },{ id: 'RR' },{ id: 'SpO2' }, { id: 'TMP' }, { id: 'ABE' },{ id: 'ACO2' },{ id: 'APH' }, { id: 'Hb' }, { id: 'RBC' },{ id: 'RBCF' },{ id: 'WBC' }, { id: 'MONO' }, { id: 'EOS' },{ id: 'LY' },{ id: 'RDW' }, { id: 'TC' }],
 // };
@@ -24,10 +24,12 @@ const myConfig = {
   },
   directed: true,
   height: 200,
-  width: 500,
+  width: 300,
   automaticRearrangeAfterDropNode: true,
   focusZoom: 5,
-  collapsible: true
+  collapsible: true,
+  gravity: 300,
+  staticGraph: false
 };
 const onClickGraph = function() {
   
@@ -126,6 +128,7 @@ checkNodesInGraph = (data,value) => {
     render() {
       
         arrayLinks = []
+        dataNodes["nodes"] = []
     this.getLinks(this.props.patterns)
    
       dataNodes["links"] = arrayLinks
@@ -138,7 +141,7 @@ checkNodesInGraph = (data,value) => {
         
         return (
           <div>
-         {this.props.isRepaired === false?    
+         {this.props.isRepaired === true?    
          <div id="graph"> 
          <b className="b">---->: Postivie causality</b>
          <br></br>

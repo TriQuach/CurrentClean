@@ -65,7 +65,7 @@ export default class Test extends Component {
       dictStale: {},
       patterns: [],
       repairs: [],
-      isRepaired: false,
+      isRepaired: true,
       status: false,
       url: ''
     }
@@ -475,7 +475,9 @@ export default class Test extends Component {
 
   render() {
     return (
-      <div className={kindDataset === constClass.SENSOR ? "rowStale": "rowStaleMimic"}>
+      <div className="rowStale">
+              {Object.keys(this.state.patterns).length !== 0 ? <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
+
         {Object.keys(this.state.dictStale).length !== 0 ?
 
           <LastUpDate
@@ -486,8 +488,7 @@ export default class Test extends Component {
             dictStale={this.state.dictStale}
             repairs={this.state.repairs}
             onBlur={this.handleOnBlur}
-            onClick={this.handleClick} /> : null}
-        {Object.keys(this.state.patterns).length !== 0 ? <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
+             /> : null}
 
 
 

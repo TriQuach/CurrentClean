@@ -272,7 +272,9 @@ export default class Test extends React.Component {
                     )
 
                 }.bind(this))}</tbody>
-            </table> : <table className="table table-striped" id="age">
+            </table> :
+            <div id="tableMimic">  
+            <table className="table table-striped" id="age">
                 <thead>
                 <tr>
               <th scope="col">ID</th>
@@ -490,7 +492,7 @@ export default class Test extends React.Component {
                     )
 
                 }.bind(this))}</tbody>
-            </table>}
+            </table> </div>}
             
             <Popup onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-y">
@@ -520,8 +522,6 @@ export default class Test extends React.Component {
           </table>
           </div>
         </Popup>
-            <input onClick={this.props.onClick}  id="repair" className="btn btn-primary" type="button" value="Repair"></input>
-            <input id="return" onClick={this.props.onClick} className="btn btn-primary" type="button" value="Return"></input>
             
             </div>
         )

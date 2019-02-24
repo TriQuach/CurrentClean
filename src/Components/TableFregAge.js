@@ -22,9 +22,11 @@ export default class TableFregAge extends Component {
       typechart: ''
 
     }
+    this.myRef = React.createRef();
     this.handleClick = this.handleClick.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
     this.keydownHandler = this.keydownHandler.bind(this)
+    this.handleClickOutside = this.handleClickOutside.bind(this)
   }
   createLineChartData(response) {
     window.console.log(response[0])
@@ -137,9 +139,11 @@ export default class TableFregAge extends Component {
   }
   componentDidMount() {
     document.addEventListener('keydown', this.keydownHandler);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
   componentWillUnmount() {
     document.removeEventListener('keydown', this.keydownHandler);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -360,6 +364,23 @@ export default class TableFregAge extends Component {
     }
     return true
   }
+ 
+  handleClickInside = () => {
+      window.console.log("inside")
+  }
+  handleClickOutside(e)  {
+    window.console.log("this.myRef.current")
+    window.console.log(this.myRef.current)
+    if (this.myRef.current !== null) {
+      if (!this.myRef.current.contains(e.target)) {
+          this.resetSelectedCells()
+        }
+    }
+    // if (!this.myRef.current.contains(e.target)) {
+    //   window.console.log("outside")
+    // }
+  };
+ 
   render() {
     var x = this.checkInTheSameCol(1)
     window.console.log("checkInTheSameCol")
@@ -483,7 +504,9 @@ export default class TableFregAge extends Component {
           <li className={this.props.typeRequest === constClass.FREQUENCY ? "active" : ""} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a></li>
 
         </ul>
-        {this.props.typeRadio === constClass.SENSOR ? (this.props.data.length === 58 ?  <table className="table table-striped" id="freq">
+        {this.props.typeRadio === constClass.SENSOR ? (this.props.data.length === 58 ?  
+        
+        <table ref={this.myRef} onClick={this.handleClickInside} className="table table-striped" id="freq">
           <thead>
             <tr>
               <th scope="col">#</th>
