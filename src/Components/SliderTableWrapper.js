@@ -31,7 +31,7 @@ export default class SliderTableWrapper extends Component {
             data:[],
             nolectedData: false,
             showPopUp: false,
-            valDelta: 1
+            valDelta: 69
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -82,8 +82,8 @@ export default class SliderTableWrapper extends Component {
         else if (value === "medical") {
             this.setState({
                 typeRadio: value,
-                startTime: 1550784503,
-                endTime: 1550785783
+                startTime: 1466410022,
+                endTime: 1466559364
             }) 
         }
         

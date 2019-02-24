@@ -20,7 +20,7 @@ export default class Slider extends Component {
                         <br></br>
                          <ReactBootstrapSlider
                             value={this.props.valDelta}
-                            max={10}
+                            max={100}
                             min={1}
                             step={1}
                             change={ e => this.props.onChange(e,'delta')}

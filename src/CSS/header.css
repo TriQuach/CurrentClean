@@ -1,3 +1,25 @@
 a#title {
+    
     color: #ffffff
+}
+div#header {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+   
+}
+img#logo {
+    
+    position: relative; /* Declared position allows for location changes */
+    top: -25px; 
+    left: -42px;
+  width: 40%;
+}
+/* div#demo {
+    margin: auto
+}
+div#parent {
+    text-align: center
+} */
+nav#parent {
+    position: relative;
 }

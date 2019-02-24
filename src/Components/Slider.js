@@ -34,8 +34,19 @@ export default class Slider extends Component {
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
+        window.console.log(hour)
+        if (hour.toString().length === 1) {
+            window.console.log("hour")
+            hour = "0" + hour.toString()
+        }
         var min = a.getMinutes();
         var sec = a.getSeconds();
+        if (min.toString().length === 1) {
+            min = "0" + min.toString()
+        }
+        if (sec.toString().length === 1) {
+            sec = "0" + sec.toString()
+        }
         var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
         return time;
       }
@@ -53,8 +64,8 @@ export default class Slider extends Component {
                 <h1 id="value">Time Duration</h1>
                 <ReactBootstrapSlider
                     value={[this.props.startTime, this.props.endTime]}
-                    max={this.props.typeRadio === "sensor" ? 1522987200 : 1550785783}
-                    min={this.props.typeRadio === "sensor" ? 1522932390 : 1550784503}
+                    max={this.props.typeRadio === "sensor" ? 1522987200 : 1466559364}
+                    min={this.props.typeRadio === "sensor" ? 1522932390 : 1466410022}
                     change={this.props.onChange}
                     tooltip="hide"
                 />
