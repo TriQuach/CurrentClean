@@ -4,70 +4,72 @@ import '../CSS/Patterns.css'
 import * as constClass from '../Const/utils.js'
 import { RadioGroup, Radio } from 'react-radio-group'
 import { Graph } from 'react-d3-graph';
+import { ForceGraph2D, ForceGraph3D, ForceGraphVR } from 'react-force-graph';
 const dataNodes = {
-  nodes: [],
+  "nodes": [],
 }
 var test= "<--->"
 // const dataMimic = {
 //   nodes: [{ id: 'WT' }, { id: 'LDL' }, { id: 'HDL' },{ id: 'HR' },{ id: 'DBP' }, { id: 'SBP' }, { id: 'CVP' },{ id: 'RR' },{ id: 'SpO2' }, { id: 'TMP' }, { id: 'ABE' },{ id: 'ACO2' },{ id: 'APH' }, { id: 'Hb' }, { id: 'RBC' },{ id: 'RBCF' },{ id: 'WBC' }, { id: 'MONO' }, { id: 'EOS' },{ id: 'LY' },{ id: 'RDW' }, { id: 'TC' }],
 // };
 var arrayLinks = []
-const myConfig = {
-  nodeHighlightBehavior: true,
-  node: {
-      color: 'lightgreen',
-      size: 200,
-      highlightStrokeColor: 'blue'
+var myData = {
+  "nodes": [ 
+      { 
+        "id": "TMP",
+        "name": "Temperature",
+        "val": 1 ,
+        "Label": "triquach"
+      },
+      { 
+        "id": "RBC",
+        "name": "Humidity",
+        "val": 1 
+      },
+      { 
+        "id": "Hb",
+        "name": "Voltage",
+        "val": 1 
+      },
+      { 
+        "id": "SpO2",
+        "name": "Voltage",
+        "val": 1 
+      }
+      
+  ],
+  "links": [
+      {
+          "source": "RBC",
+          "target": "TMP",
+          "name": "test",
+          "color": "#f4429e"
+      },
+      {
+        "source": "TMP",
+        "target": "RBC"
+    },
+    {
+      "source": "Hb",
+      "target": "TMP"
   },
-  link: {
-      highlightColor: 'lightblue'
-  },
-  directed: true,
-  height: 200,
-  width: 300,
-  automaticRearrangeAfterDropNode: true,
-  focusZoom: 5,
-  collapsible: true,
-  gravity: 300,
-  staticGraph: false
-};
-const onClickGraph = function() {
-  
-};
+  {
+    "source": "TMP",
+    "target": "Hb"
+},
+{
+  "source": "SpO2",
+  "target": "Hb"
+},
+{
+  "source": "Hb",
+  "target": "SpO2"
+},
+    
+     
+  ]
+}
 
-const onClickNode = function(nodeId) {
-  
-};
-
-const onRightClickNode = function(event, nodeId) {
- 
-};
-
-const onMouseOverNode = function(nodeId) {
- 
-};
-
-const onMouseOutNode = function(nodeId) {
- 
-};
-
-const onClickLink = function(source, target) {
-  
-};
-
-const onRightClickLink = function(event, source, target) {
- 
-};
-
-const onMouseOverLink = function(source, target) {
- 
-};
-
- 
-
-const onMouseOutLink = function(source, target) {
-
-};
 export default class Patterns extends Component {
   constructor(props) {
     super(props)
@@ -94,6 +96,8 @@ checkNodesInGraph = (data,value) => {
         var temp = dataNodes["nodes"]
         var id = {}
         id["id"] = attr1
+        id["name"] = attr1
+
         temp.push(id)
         dataNodes["nodes"] = temp
       } 
@@ -103,6 +107,7 @@ checkNodesInGraph = (data,value) => {
         var temp = dataNodes["nodes"]
         var id = {}
         id["id"] = attr2
+        id["name"] = attr2
         temp.push(id)
         dataNodes["nodes"] = temp
       } 
@@ -133,7 +138,7 @@ checkNodesInGraph = (data,value) => {
    
       dataNodes["links"] = arrayLinks
       window.console.log("arrayLinks:")
-      window.console.log(arrayLinks)
+      window.console.log(dataNodes)
       window.console.log("arrayLinks:")
    
    
@@ -149,22 +154,20 @@ checkNodesInGraph = (data,value) => {
          <br></br>
          <b className="b" style={{color:"#f44265"}}> ----> : Negative causality</b>
      
-         <Graph 
-    id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
-    data={dataNodes}
-    config={myConfig}
-    onClickNode={onClickNode}
-    onRightClickNode={onRightClickNode}
-    onClickGraph={onClickGraph}
-    onClickLink={onClickLink}
-    onRightClickLink={onRightClickLink}
-    onMouseOverNode={onMouseOverNode}
-    onMouseOutNode={onMouseOutNode}
-    onMouseOverLink={onMouseOverLink}
-    onMouseOutLink={onMouseOutLink}
+         <ForceGraph2D
+    graphData={myData}
+    linkDirectionalArrowLength={3.5}
+        linkDirectionalArrowRelPos={1}
+        linkCurvature={0.25}
+        width={350}
+        height={600}
+       
+
+
+  />  
     
   
-/></div>: null}
+</div>: null}
        </div>
         )
 
