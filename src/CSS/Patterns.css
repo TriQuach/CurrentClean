@@ -1,16 +1,11 @@
-.TableFregAge {
-    margin-left: 2cm;
-    
-}
+
 .TableFregAgeMiMic {
     margin-top: 5cm;
     margin-left: 5cm;
   
 }
 div#graph {
-    margin-left: 3cm;
+    margin-left: 1cm;
+    margin-right: 3cm
 }
 
-Graph#graph-id {
-    margin-top: 3cm
-}

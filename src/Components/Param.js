@@ -17,6 +17,7 @@ export default class Slider extends Component {
                 theta =
                     <div>
                         <b className="b">Time unit size (δ)</b>
+                        <b> {this.props.valDelta} seconds </b>
                         <br></br>
                          <ReactBootstrapSlider
                             value={this.props.valDelta}
@@ -33,6 +34,7 @@ export default class Slider extends Component {
             <div id="param">
                 <h1 id="param"> Parameters</h1>
                 <b className="b">Currency Threshold (β)</b>
+                <b> {this.props.valBeta}</b>
                 <br></br>
                  <ReactBootstrapSlider
                     value={this.props.valBeta}

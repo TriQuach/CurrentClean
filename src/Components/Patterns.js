@@ -73,7 +73,12 @@ var myData = {
 export default class Patterns extends Component {
   constructor(props) {
     super(props)
-   
+    this.state = {
+      patterns: [],  
+        
+        
+    }
+ 
 }
 checkNodesInGraph = (data,value) => {
   
@@ -127,44 +132,116 @@ checkNodesInGraph = (data,value) => {
       arrayLinks.push(temp)
     }
   }
-  
+  patterns() {
+    var url = constClass.DEEPDIVE_BACKEND + "patterns"
+    window.console.log(url)
+    // this.props.history.push('/freq')
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            patterns: result["updpatterns"] 
+          })
+
+        },
+
+        (error) => {
+          window.console.log(error)
+        }
+      )
+  }
+
+  componentDidMount() {
+    this.patterns()
+  }
+
+  mapPatters(data) {
+    data = data.slice(0,10)
+   window.console.log("mapPatters")
+   window.console.log(data)
+   for(var i=0; i<data.length; i++) {
+     if (data[i]["relation"] === "1") {
+       data[i]["relation"] = "+ve"
+     }
+     else if (data[i]["relation"] === "2") {
+       data[i]["relation"] = "-ve"
+     }
+     else {
+       data[i]["relation"] = "co-occur"
+     }
+     if (data[i]["time unit"] === "1") {
+        data[i]["time unit"] = "next"
+     }
+     else if (data[i]["time unit"] === "0") {
+      data[i]["time unit"] = "same"
+     }
+     else {
+      data[i]["time unit"] = "same"
+     }
+   }
+   return data
+  }
   
 
     render() {
       
-        arrayLinks = []
-        dataNodes["nodes"] = []
-    this.getLinks(this.props.patterns)
+        // arrayLinks = []
+        // dataNodes["nodes"] = []
+    // this.getLinks(this.state.patterns)
    
-      dataNodes["links"] = arrayLinks
-      window.console.log("arrayLinks:")
-      window.console.log(dataNodes)
-      window.console.log("arrayLinks:")
+      // dataNodes["links"] = arrayLinks
+      // window.console.log("arrayLinks:")
+      // window.console.log(dataNodes)
+      // window.console.log("arrayLinks:")
    
-   
+      var data = this.mapPatters(this.state.patterns)
+
+      
     
         
         return (
           <div>
          {this.props.isRepaired === true?    
          <div id="graph"> 
-         <b className="b">---->: Postivie causality</b>
-         <br></br>
-         <b className="b" > {test} : Co-Occurrence</b>
-         <br></br>
-         <b className="b" style={{color:"#f44265"}}> ----> : Negative causality</b>
-     
-         <ForceGraph2D
-    graphData={myData}
-    linkDirectionalArrowLength={3.5}
-        linkDirectionalArrowRelPos={1}
-        linkCurvature={0.25}
-        width={350}
-        height={600}
-       
+         
+     <h1>Update Patterns</h1>
+          <table className="table table-striped">
+         <thead>
+           <tr>
+             <th scope="col">#</th>
+             
+             <th scope="col">StartAttr</th>
+             <th scope="col">EndAttr</th>
+             <th scope="col">Relation</th>
+             <th scope="col">TimeUnit</th>
+           </tr>
+         </thead>
+         <tbody>{data.map(function (item, key) {
 
+           return (
+             
+             <tr key={key} >
+               <td>{key + 1}</td>
+               
 
-  />  
+               
+               <td >{item["attr1"]}</td>
+               <td >{item["attr2"]}</td>
+               <td >{item["relation"]}</td>
+               <td >{item["time unit"]}</td>
+                          
+             </tr>
+           )
+
+         }.bind(this))}</tbody>
+       </table>
+       <b className="b">+ve: Postivie causality</b>
+         <br></br>
+         <b className="b" >-ve : Negative causality</b>
+         <br></br>
+         <b className="b"> co-occur : Co-Occurence</b>
+
     
   
 </div>: null}

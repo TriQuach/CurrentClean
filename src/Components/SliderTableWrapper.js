@@ -82,8 +82,8 @@ export default class SliderTableWrapper extends Component {
         else if (value === "medical") {
             this.setState({
                 typeRadio: value,
-                startTime: 1466410022,
-                endTime: 1466559364
+                startTime: 1466410104,
+                endTime: 1466558522
             }) 
         }
         

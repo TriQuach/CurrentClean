@@ -70,7 +70,8 @@ export default class Test extends React.Component {
             currentProp: '',
             valueToChange:0,
             data: [],
-            repairCell: []
+            repairCell: [],
+            
             
         }
         this.handleClickCell = this.handleClickCell.bind(this)
@@ -265,6 +266,7 @@ export default class Test extends React.Component {
 
 
     handleOnBlur(e,sensorID,prop) {
+        e.preventDefault()
         window.console.log("dictStale543")
         window.console.log(this.state.dictStale)
         window.console.log("dictStale543")
@@ -312,7 +314,12 @@ export default class Test extends React.Component {
             y[currentSensorIdString][this.state.currentProp] = this.state.valueToChange
         }
         else {
-            y[this.state.currentSensorId][this.state.currentProp] = this.state.valueToChange
+           for (var i=0; i<y.length; i++) {
+               if (y[i]["sensorID"] === this.state.currentSensorId) {
+                   y[i][this.state.currentProp] = this.state.valueToChange
+                   break
+               }
+           }
         }
         
         window.console.log("this.state.data--**-")
@@ -546,10 +553,12 @@ parseObject(data) {
             }
           )
       }
+      
      componentDidMount() {
          this.lastUpdate()
          this.stale()
          this.repairs()
+        //  this.patterns()
      } 
 
     render() {

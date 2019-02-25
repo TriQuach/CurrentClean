@@ -477,7 +477,7 @@ export default class Test extends Component {
   render() {
     return (
       <div className="rowStale">
-              {/* {this.state.isFinished === true ? <Patterns patterns={this.state.patterns} isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null} */}
+              {this.state.isFinished === true ? <Patterns  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
 
         {this.state.isFinished === true ?
 

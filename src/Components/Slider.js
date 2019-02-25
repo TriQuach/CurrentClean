@@ -64,8 +64,8 @@ export default class Slider extends Component {
                 <h1 id="value">Time Duration</h1>
                 <ReactBootstrapSlider
                     value={[this.props.startTime, this.props.endTime]}
-                    max={this.props.typeRadio === "sensor" ? 1522987200 : 1466559364}
-                    min={this.props.typeRadio === "sensor" ? 1522932390 : 1466410022}
+                    max={this.props.typeRadio === "sensor" ? 1522987200 : 1466558522}
+                    min={this.props.typeRadio === "sensor" ? 1522932390 : 1466410104}
                     change={this.props.onChange}
                     tooltip="hide"
                 />
