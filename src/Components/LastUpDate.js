@@ -123,6 +123,10 @@ export default class Test extends React.Component {
         window.console.log(prop)
         var repairs = this.state.repairs
         var array = []
+        var repairsLength
+       
+        window.console.log("repairsLength")
+        window.console.log(repairsLength)
         for (var i=0; i<repairs.length; i++ ) {
             var sensor_attr = repairs[i]["sensor_attr"]
             var index = repairs[i]["index"]
@@ -133,8 +137,13 @@ export default class Test extends React.Component {
                 break
             }
         }
+        window.console.log(array)
         window.console.log("index:")
         window.console.log(index)
+        if (array.length >= 10){
+            array = array.slice(0, 10);
+        }
+        
         for (var j=0; j<array.length; j++) {
             if (index === 0) {
                 if (j === 0) {
@@ -161,7 +170,8 @@ export default class Test extends React.Component {
                 }
             }
         }
-        
+        window.console.log("repairCell")
+        window.console.log(array)
         this.setState({
             repairCell:array,
             index: index
@@ -873,7 +883,7 @@ parseObject(data) {
 
             }.bind(this))}</tbody>
           </table>
-          <input onClick={this.apply} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+          <input onClick={this.apply} id="apply" className="btn btn-primary" type="button" value="Apply"></input>
             
           </div>
         </Popup>

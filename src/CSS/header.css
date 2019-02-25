@@ -23,3 +23,8 @@ div#parent {
 nav#parent {
     position: relative;
 }
+b.current {
+    font-size: 150%;
+    position: absolute;
+  left: 40%;
+}

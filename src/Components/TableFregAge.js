@@ -8,6 +8,7 @@ import CanvasJSReact from '../Chart/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var arrayCells = []
+
 export default class TableFregAge extends Component {
 
 
@@ -19,7 +20,9 @@ export default class TableFregAge extends Component {
       data: [],
       dataCanvas: [],
       dataLineChart: [],
-      typechart: ''
+      typechart: '',
+      currentID:'',
+      currentProp: ''
 
     }
     this.myRef = React.createRef();
@@ -35,7 +38,12 @@ export default class TableFregAge extends Component {
       var temp = {}
       var key = Object.keys(arrayCells[i])[0]
       temp.type = "line"
-      temp.name = key + "_" + arrayCells[i][key]
+      if (this.props.typeRadio === constClass.SENSOR) {
+        temp.name ="sensor_" + key + "_" + arrayCells[i][key]
+      }
+      else if (this.props.typeRadio === constClass.CLINICAL) {
+        temp.name ="patient_" + key + "_" + arrayCells[i][key]
+      }
       temp.showInLegend = true
       temp.toolTipContent = "Time {x}: {y}"
       temp.dataPoints = response[i]
@@ -137,6 +145,7 @@ export default class TableFregAge extends Component {
     }
     
   }
+  
   componentDidMount() {
     document.addEventListener('keydown', this.keydownHandler);
     document.addEventListener("mousedown", this.handleClickOutside);
@@ -171,9 +180,17 @@ export default class TableFregAge extends Component {
       dataCanvas: array
     })
   }
+ 
+
 
   handleClick(event, sensorID, prop, row, col,checkInTheSameCol) {
     // event.stopPropagation();
+    
+    this.setState({
+      currentID: sensorID,
+      currentProp: prop
+    })
+
     if (this.props.typeRadio === constClass.SENSOR) {
       if (this.props.typeRequest === constClass.FREQUENCY) {
       
@@ -398,7 +415,7 @@ export default class TableFregAge extends Component {
       'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
     
     var valid_id_Mimic = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']
-
+    window.console.log("this.state.dataLineChart")
     window.console.log(this.state.dataLineChart)
     const lineChart = (
       // A react-chart hyper-responsively and continuusly fills the available
@@ -445,6 +462,28 @@ export default class TableFregAge extends Component {
       ,
 
     }
+    let optionsColumnAge = {
+      animationEnabled: true,
+      exportEnabled: true,
+      title: {
+        text: "Accumulative time duration" 
+      },
+      axisX: {
+        title: "Values",
+        reversed: true,
+      },
+      axisY: {
+        title: "Time (seconds)",
+        labelFormatter: this.addSymbols
+      },
+      data: [
+        {
+          // Change type to "doughnut", "line", "splineArea", etc.
+          type: "column",
+          dataPoints: this.state.dataCanvas
+        }
+      ]
+    }
     const optionsColumnFreq = {
       animationEnabled: true,
       exportEnabled: true,
@@ -467,29 +506,7 @@ export default class TableFregAge extends Component {
         }
       ]
     }
-    const optionsColumnAge = {
-      animationEnabled: true,
-      exportEnabled: true,
-      title: {
-        text: "Accumulative time duration"
-      },
-      axisX: {
-        title: "Values",
-        reversed: true,
-      },
-      axisY: {
-        title: "Time (seconds)",
-        labelFormatter: this.addSymbols
-      },
-      data: [
-        {
-          // Change type to "doughnut", "line", "splineArea", etc.
-          type: "column",
-          dataPoints: this.state.dataCanvas
-        }
-      ]
-    }
-
+   
     var typeRequest = this.props.typeRequest
     var data = this.props.data
     return (

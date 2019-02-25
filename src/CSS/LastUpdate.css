@@ -17,3 +17,9 @@ div#tableMimic {
   width: 900px;
   overflow: auto;
 }
+input#apply {
+  margin-left: 2cm;
+  
+  background-color: #4469b0;
+    padding: 9px 16px;
+}
