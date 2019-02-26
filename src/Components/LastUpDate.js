@@ -300,36 +300,43 @@ export default class Test extends React.Component {
         window.console.log(this.state.currentProp)
         window.console.log(this.state.valueToChange)
         window.console.log(this.state.data)
-        var x = this.state.dictStale
-        x[this.state.currentSensorId][this.state.currentProp]["isStale"] = false
-        var y = this.state.data
-        window.console.log("this.state.data---")
-        window.console.log(y)
-        window.console.log("this.state.stale---")
-        window.console.log(x)
+        if (this.state.valueToChange !== 0) {
+          var x = this.state.dictStale
+          x[this.state.currentSensorId][this.state.currentProp]["isStale"] = false
+          var y = this.state.data
+          window.console.log("this.state.data---")
+          window.console.log(y)
+          window.console.log("this.state.stale---")
+          window.console.log(x)
+  
+          if (this.props.kindDataset === constClass.CLINICAL) {
+              var currentSensorIdNumber = parseInt(this.state.currentSensorId) - 1
+              var currentSensorIdString = currentSensorIdNumber.toString()
+              y[currentSensorIdString][this.state.currentProp] = this.state.valueToChange
+          }
+          else {
+             for (var i=0; i<y.length; i++) {
+                 if (y[i]["sensorID"] === this.state.currentSensorId) {
+                     y[i][this.state.currentProp] = this.state.valueToChange
+                     break
+                 }
+             }
+          }
+          
+          window.console.log("this.state.data--**-")
+          window.console.log(y)
+          window.console.log()
+          this.setState({
+              dictStale: x,
+              data: y,
+              showPopUp: false,
+              
+              valueToChange: 0
 
-        if (this.props.kindDataset === constClass.CLINICAL) {
-            var currentSensorIdNumber = parseInt(this.state.currentSensorId) - 1
-            var currentSensorIdString = currentSensorIdNumber.toString()
-            y[currentSensorIdString][this.state.currentProp] = this.state.valueToChange
+          })
+          
         }
-        else {
-           for (var i=0; i<y.length; i++) {
-               if (y[i]["sensorID"] === this.state.currentSensorId) {
-                   y[i][this.state.currentProp] = this.state.valueToChange
-                   break
-               }
-           }
-        }
-        
-        window.console.log("this.state.data--**-")
-        window.console.log(y)
-        window.console.log()
-        this.setState({
-            dictStale: x,
-            data: y,
-            showPopUp: false
-        })
+       
         
     }
 
@@ -769,7 +776,7 @@ parseObject(data) {
                             </td>
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("ACO2")? "true" : null}
-                                onBlur={(e) => this.props.onBlur(e,item["id_patient"],'ACO2')}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'ACO2')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'ACO2') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'ACO2') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("ACO2")?(dict[item["id_patient"]]["ACO2"]["isStale"] ? dict[item["id_patient"]]["ACO2"]["hex"] : "#42f445") : null}}>
@@ -841,7 +848,7 @@ parseObject(data) {
                             </td>
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("RDW")? "true" : null}
-                                onBlur={(e) => this.props.onBlur(e,item["id_patient"],'RDW')}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'RDW')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'RDW') : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'RDW') : null} 
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("RDW")?(dict[item["id_patient"]]["RDW"]["isStale"] ? dict[item["id_patient"]]["RDW"]["hex"] : "#42f445") : null}}>
@@ -871,7 +878,7 @@ parseObject(data) {
                 <th scope="col">#</th>
                 <th scope="col">Value</th>
                 <th scope="col">Probability</th>
-                <th scope="col">kindRepair</th>
+                <th scope="col">Repair Type</th>
 
               </tr>
             </thead>

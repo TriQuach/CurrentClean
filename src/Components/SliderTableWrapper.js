@@ -42,6 +42,9 @@ export default class SliderTableWrapper extends Component {
         this.closePopUp = this.closePopUp.bind(this)
     }
     handleChange(e) {
+        window.console.log(e.target.value[0])
+        window.console.log(e.target.value[1])
+        
         this.setState({
             startTime: e.target.value[0],
             endTime: e.target.value[1],    

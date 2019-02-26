@@ -214,7 +214,7 @@ checkNodesInGraph = (data,value) => {
              <th scope="col">StartAttr</th>
              <th scope="col">EndAttr</th>
              <th scope="col">Relation</th>
-             <th scope="col">TimeUnit</th>
+            
            </tr>
          </thead>
          <tbody>{data.map(function (item, key) {
@@ -229,7 +229,7 @@ checkNodesInGraph = (data,value) => {
                <td >{item["attr1"]}</td>
                <td >{item["attr2"]}</td>
                <td >{item["relation"]}</td>
-               <td >{item["time unit"]}</td>
+              
                           
              </tr>
            )

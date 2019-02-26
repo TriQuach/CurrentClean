@@ -22,7 +22,7 @@ export default class Header extends Component {
 
               <a href="../../" className="navbar-brand" id="title">
               
-              <b className="current">Current Clean Demo</b>
+              <b className="current">CurrentClean  Demo</b>
               </a>
              
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">

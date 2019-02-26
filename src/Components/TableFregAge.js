@@ -72,7 +72,7 @@ export default class TableFregAge extends Component {
   }
   keydownHandler(e) {
     if (this.props.typeRadio === constClass.SENSOR) {
-      if (e.keyCode === 13 && e.metaKey || e.keyCode === 13 && e.keyCode === 17) {
+      if (e.keyCode === 13 && e.metaKey ) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.SENSOR , {
@@ -108,7 +108,7 @@ export default class TableFregAge extends Component {
       }
     }
     else if (this.props.typeRadio === constClass.CLINICAL) {
-      if (e.keyCode === 13 && e.metaKey) {
+      if (e.keyCode === 13 && e.metaKey || e.keyCode === 17 && e.keyCode === 13) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.CLINICAL , {
@@ -223,6 +223,8 @@ export default class TableFregAge extends Component {
     }
     else if (this.props.typeRequest === constClass.AGE) {
       if (event.metaKey) { //if (event.metaKey && checkInTheSameCol === true)
+        window.console.log("event keycode:")
+        window.console.log(event.keyCode)
         var temp = this.state.data
         temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
         if (temp[row][col]["isSelected"] === true) {
@@ -300,7 +302,7 @@ export default class TableFregAge extends Component {
   
     }
     else if (this.props.typeRequest === constClass.AGE) {
-      if (event.metaKey ) {
+      if (event.metaKey || event.ctrlKey) {
         var temp = this.state.data
         temp[row][col]["isSelected"] = !temp[row][col]["isSelected"]
         if (temp[row][col]["isSelected"] === true) {
@@ -450,10 +452,15 @@ export default class TableFregAge extends Component {
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
-        text: "Comparative Evaluation"
+        text: "Comparative Evolution"
       },
       axisY: {
         title: "Values",
+        includeZero: false,
+
+      },
+      axisX: {
+        title: "Time",
         includeZero: false,
 
       },
