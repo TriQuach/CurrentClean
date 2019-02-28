@@ -72,7 +72,7 @@ export default class TableFregAge extends Component {
   }
   keydownHandler(e) {
     if (this.props.typeRadio === constClass.SENSOR) {
-      if (e.keyCode === 13 && e.metaKey ) {
+      if (e.keyCode === 13 ) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.SENSOR , {
@@ -108,7 +108,7 @@ export default class TableFregAge extends Component {
       }
     }
     else if (this.props.typeRadio === constClass.CLINICAL) {
-      if (e.keyCode === 13 && e.metaKey || e.keyCode === 17 && e.keyCode === 13) {
+      if (e.keyCode === 13) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.CLINICAL , {
