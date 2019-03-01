@@ -529,6 +529,128 @@ parseObject(data) {
         }
         
       }
+      createDictionaryCleanMost(data) {
+        if (this.props.kindDataset === constClass.SENSOR) {
+          window.console.log("createDictionary")
+          window.console.log(data)
+          var dict = {};
+          for (var i = 0; i < valid_id.length; i++) {
+            dict[valid_id[i]] = {}
+      
+          }
+      
+          for (var j = 0; j < data.length; j++) {
+      
+            var sensorID = data[j][0].split("_")[0]
+            var prop = data[j][0].split("_")[1]
+            var hex = data[j][1]
+      
+            var temp = dict[sensorID]
+            var temp2 = {}
+            temp2["hex"] = hex
+            temp2["isStale"] = true
+            temp[prop] = temp2
+      
+            dict[sensorID] = temp
+          }
+          window.console.log("dictStale2")
+          window.console.log(dict)
+      
+          this.setState({
+            dictStale: dict
+          })
+        }
+        else if (this.props.kindDataset === constClass.CLINICAL) {
+          var dict = {};
+          for (var i = 0; i < valid_id_Mimic.length; i++) {
+            dict[valid_id_Mimic[i]] = {}
+      
+          }
+      
+          for (var j = 0; j < data.length; j++) {
+      
+            var patientID = data[j][0].split("_")[0]
+            var prop = data[j][0].split("_")[1]
+            var hex = data[j][1]
+      
+            var temp = dict[patientID]
+            var temp2 = {}
+            temp2["hex"] = hex
+            temp2["isStale"] = true
+            temp[prop] = temp2
+      
+            dict[patientID] = temp
+          }
+          window.console.log("dictStaleClinical")
+          window.console.log(dict)
+          window.console.log("dictStaleClinical")
+          this.setState({
+            dictStale: dict
+          },() => this.cleanStaleCells())
+        }
+        
+      }
+      createDictionary2(data) {
+        if (this.props.kindDataset === constClass.SENSOR) {
+          window.console.log("createDictionary")
+          window.console.log(data)
+          var dict = {};
+          for (var i = 0; i < valid_id.length; i++) {
+            dict[valid_id[i]] = {}
+      
+          }
+      
+          for (var j = 0; j < data.length; j++) {
+      
+            var sensorID = data[j][0].split("_")[0]
+            var prop = data[j][0].split("_")[1]
+            var hex = data[j][1]
+      
+            var temp = dict[sensorID]
+            var temp2 = {}
+            temp2["hex"] = hex
+            temp2["isStale"] = true
+            temp[prop] = temp2
+      
+            dict[sensorID] = temp
+          }
+          window.console.log("dictStale2")
+          window.console.log(dict)
+      
+          this.setState({
+            dictStale: dict
+          })
+        }
+        else if (this.props.kindDataset === constClass.CLINICAL) {
+          var dict = {};
+          for (var i = 0; i < valid_id_Mimic.length; i++) {
+            dict[valid_id_Mimic[i]] = {}
+      
+          }
+      
+          for (var j = 0; j < data.length; j++) {
+      
+            var patientID = data[j][0].split("_")[0]
+            var prop = data[j][0].split("_")[1]
+            var hex = data[j][1]
+      
+            var temp = dict[patientID]
+            var temp2 = {}
+            temp2["hex"] = hex
+            temp2["isStale"] = true
+            temp[prop] = temp2
+      
+            dict[patientID] = temp
+          }
+          window.console.log("dictStaleClinical")
+          window.console.log(dict)
+          window.console.log("dictStaleClinical")
+          this.setState({
+            dictStale: dict
+          },() => this.cleanStaleCellsRangeProb())
+        }
+        
+      }
       stale() {
         var url = constClass.DEEPDIVE_BACKEND + "stalecells"
         window.console.log(url)
@@ -540,6 +662,87 @@ parseObject(data) {
               window.console.log()
               arrayStaleCells = result["stalecells"]
               this.createDictionary(result["stalecells"])
+    
+            },
+    
+            (error) => {
+              window.console.log(error)
+            }
+          )
+      }
+      staleCleanMost() {
+        var url = constClass.DEEPDIVE_BACKEND + "stalecells"
+        window.console.log(url)
+        // this.props.history.push('/freq')
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log()
+              arrayStaleCells = result["stalecells"]
+              this.createDictionaryCleanMost(result["stalecells"])
+    
+            },
+    
+            (error) => {
+              window.console.log(error)
+            }
+          )
+      }
+      cleanStaleCellsRangeProb = () => {
+        var minProb = this.props.finalMinProb / 100
+        var maxProb = this.props.finalMaxProb / 100
+        window.console.log("min")
+        window.console.log(minProb)
+        var x = this.state.dictStale
+        var y = this.state.data
+        for (var i=0; i<arrayStaleCells.length; i++) {
+          if (arrayStaleCells[i][2] >= minProb && arrayStaleCells[i][2] <= maxProb) {
+            var idSensor = arrayStaleCells[i][0].split("_")[0]
+            var propSensor = arrayStaleCells[i][0].split("_")[1]
+  
+           
+             
+  
+              var valueToClean = this.getValueToRepair(idSensor,propSensor)
+              
+           
+           
+            x[idSensor][propSensor]["isStale"] = false
+            
+            if (this.props.kindDataset === constClass.CLINICAL) {
+              var currentSensorIdNumber = parseInt(idSensor) - 1
+              var currentSensorIdString = currentSensorIdNumber.toString()
+              y[currentSensorIdString][propSensor] = valueToClean
+          }
+          else {
+             for (var k=0; k<y.length; k++) {
+                 if (y[k]["sensorID"] === idSensor) {
+                     y[k][propSensor] = valueToClean
+                     break
+                 }
+             }
+          }
+          }
+        }
+        this.setState({
+          data: y,
+          dictStale: x
+        })
+
+      }
+      stale2() {
+        var url = constClass.DEEPDIVE_BACKEND + "stalecells"
+        window.console.log(url)
+        // this.props.history.push('/freq')
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              window.console.log()
+              arrayStaleCells = result["stalecells"]
+              this.createDictionary2(result["stalecells"])
+             
     
             },
     
@@ -595,8 +798,9 @@ parseObject(data) {
         }
        }
      } 
-     cleanStaleCells = (numberStaleCells) => {
+     cleanStaleCells = () => {
        window.console.log(numberStaleCells)
+       var numberStaleCells = this.props.numberStaleCells
       var numCellToClean = arrayStaleCells.length - numberStaleCells
       var tempArray = arrayStaleCells
         for (var i=0; i<tempArray.length; i++) {
@@ -616,16 +820,12 @@ parseObject(data) {
           var idSensor = tempArray[j][0].split("_")[0]
           var propSensor = tempArray[j][0].split("_")[1]
 
-          if (this.props.kindDataset === constClass.SENSOR) {
-            var valueToClean = this.getValueToRepair(idSensor,propSensor)
-          
-          }
-          else {
+         
            
 
             var valueToClean = this.getValueToRepair(idSensor,propSensor)
             
-          }
+         
          
           x[idSensor][propSensor]["isStale"] = false
           
@@ -645,6 +845,10 @@ parseObject(data) {
           
          
         }
+        this.setState({
+          data:y,
+          dictStale:x
+        })
         // tempArray.slice(0,numberStaleCells)
 
 
@@ -655,19 +859,23 @@ parseObject(data) {
 
      }
      componentWillReceiveProps(nextProps) {
-      if (nextProps.numberStaleCells !== this.props.numberStaleCells && nextProps.kindDataset === this.props.kindDataset) {
+      if (nextProps.numberStaleCells !== this.props.numberStaleCells && nextProps.finalMinProb === this.props.finalMinProb && nextProps.finalMaxProb === this.props.finalMaxProb) {
         window.console.log("arrayStae:")
         window.console.log(arrayStaleCells.length)
-        this.cleanStaleCells(nextProps.numberStaleCells)
+       this.staleCleanMost()
         // window.console.log("testfuck")
         // var x = this.getValueToRepair("2","HDL")
         // window.console.log(x)
     
       }
-      else if (nextProps.isRefreshed !== this.props.isRefreshed || nextProps.isRefreshed === true) {
-        this.stale()
+      // else if (nextProps.isRefreshed !== this.props.isRefreshed || nextProps.isRefreshed === true) {
+      //   this.stale2()
+
         
     
+      // }
+      else if (nextProps.finalMinProb !== this.props.finalMinProb || nextProps.finalMaxProb !== this.props.finalMaxProb) {
+        this.stale2()
       }
     }
      handleOnInput = (e) => {

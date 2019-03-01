@@ -199,7 +199,8 @@ checkNodesInGraph = (data,value) => {
       // window.console.log("arrayLinks:")
    
       var data = this.mapPatters(this.state.patterns)
-
+      window.console.log("this.props.valBeta")
+      window.console.log(this.props.valBeta)
       
     
         
@@ -219,6 +220,33 @@ checkNodesInGraph = (data,value) => {
                     
                 />
                 <input onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
+            
+               
+            </div>
+            <div id="sliderMostStaleCell">
+                <h3 id="value">Clean stale cells within prob range</h3>
+                <ReactBootstrapSlider
+                    value={[this.props.minProb, this.props.maxProb]}
+                    max={100}
+                    min={this.props.valBeta}
+                    change={e => this.props.onChange(e,"range")}
+                    
+                />
+                <input onClick={() => this.props.onClick("range")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
+            
+                 <div id="startTime">
+                    <form>
+
+                        <b> Start Prob: </b>
+                        <b id="startTime"> {this.props.minProb}%</b>
+                        <br></br>
+                        <b id="endTime"> End Prob: </b>
+                        <b> {this.props.maxProb}%</b>
+                        <br></br>
+            {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
+
+                    </form>
+                </div>
             
                
             </div>

@@ -52,6 +52,7 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
 var valid_id_Mimic = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']
 var arrayCells = []
 var kindDataset = ''
+var originalNumberStaleCells = 0
 export default class Test extends Component {
 
   constructor(props) {
@@ -69,7 +70,13 @@ export default class Test extends Component {
       mostVal: 0,
       rangeVal : 0,
       mostValToClean: 0,
-      numberStaleCells: 0
+      numberStaleCells: 0,
+      isRefreshed: false,
+      minProb:0,
+      maxProb:100,
+      valBeta:0,
+      finalMinProb:0,
+      finalMaxProb: 0
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -293,6 +300,7 @@ export default class Test extends Component {
     window.console.log(this.props.location.data)
     var question = this.props.match.params
     var beta = question["beta"]
+    
     var data = question["data"]
     kindDataset = data
     var start = question["start"]
@@ -307,7 +315,7 @@ export default class Test extends Component {
       .then(
         (result) => {
           window.console.log(result["task_id"])
-          this.staleCellsTaskStatus(result["task_id"])
+          this.staleCellsTaskStatus(result["task_id"],beta)
           //        this.createDictionary(result["stalecells"]) 
           //        this.lastUpdate()
           // this.patterns()
@@ -330,7 +338,7 @@ export default class Test extends Component {
       .then(
         (result) => {
           window.console.log()
-         
+          originalNumberStaleCells = result["stalecells"].length
           this.setState({
             numberStaleCells: result["stalecells"].length
           })
@@ -341,10 +349,12 @@ export default class Test extends Component {
         }
       )
   }
-  staleCellsTaskStatus(id) {
+  staleCellsTaskStatus(id,beta) {
     var url = constClass.DEEPDIVE_BACKEND + "taskstatus?id=" + id
     window.console.log(url)
-
+    var temp = beta * 100
+    window.console.log("temp")
+    window.console.log(beta)
     this.sleep(5000).then(() => {
       fetch(url)
         .then(res => res.json())
@@ -357,7 +367,8 @@ export default class Test extends Component {
               // this.repairs()
               this.stale()
               this.setState({
-                isFinished: true
+                isFinished: true,
+                valBeta: temp
               })
 
             } else {
@@ -485,6 +496,10 @@ export default class Test extends Component {
       })
     }
     else if (kindSlider === "range") {
+      this.setState({
+        minProb: e.target.value[0],
+        maxProb:e.target.value[1]
+      })
 
     }
   }
@@ -498,7 +513,12 @@ export default class Test extends Component {
         })
     }
     else if (kindSlider === "range") {
-
+        this.setState({
+          finalMinProb: this.state.minProb,
+          finalMaxProb: this.state.maxProb,
+          numberStaleCells: originalNumberStaleCells
+          
+        })
     }
   }
 
@@ -510,13 +530,16 @@ export default class Test extends Component {
 
 <LastUpDate
   kindDataset = {kindDataset}
+  isRefreshed={this.state.isRefreshed}
   status={this.state.status}
   isRepaired={this.state.isRepaired}
   mostValToClean = {this.state.mostValToClean}
+  finalMinProb={this.state.finalMinProb}
+  finalMaxProb={this.state.finalMaxProb}
   numberStaleCells={this.state.numberStaleCells}
  
    /> : null}
-              {this.state.isFinished === true ? <Patterns numberStaleCells={this.state.numberStaleCells} mostValToClean={this.state.mostValToClean} onClick={this.handleClick} onChange={this.handleChangeSlider} mostVal={this.state.mostVal}  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
+              {this.state.isFinished === true ? <Patterns minProb={this.state.minProb} maxProb={this.state.maxProb} valBeta={this.state.valBeta} numberStaleCells={this.state.numberStaleCells} mostValToClean={this.state.mostValToClean} onClick={this.handleClick} onChange={this.handleChangeSlider} mostVal={this.state.mostVal}  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
 
 
 
