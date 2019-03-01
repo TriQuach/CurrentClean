@@ -65,7 +65,11 @@ export default class Test extends Component {
       isRepaired: true,
       status: false,
       url: '',
-      isFinished: false
+      isFinished: false,
+      mostVal: 0,
+      rangeVal : 0,
+      mostValToClean: 0,
+      numberStaleCells: 0
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -326,8 +330,10 @@ export default class Test extends Component {
       .then(
         (result) => {
           window.console.log()
-          this.createDictionary(result["stalecells"])
-
+         
+          this.setState({
+            numberStaleCells: result["stalecells"].length
+          })
         },
 
         (error) => {
@@ -349,7 +355,7 @@ export default class Test extends Component {
               // this.lastUpdate()
               // this.patterns()
               // this.repairs()
-              // this.stale()
+              this.stale()
               this.setState({
                 isFinished: true
               })
@@ -472,21 +478,47 @@ export default class Test extends Component {
     this.staleCells()
 
   }
+  handleChangeSlider = (e,kindSlider) => {
+    if (kindSlider === "most") {
+      this.setState({
+        mostVal: e.target.value
+      })
+    }
+    else if (kindSlider === "range") {
+
+    }
+  }
+  handleClick = (kindSlider) => {
+    if (kindSlider === "most") {
+        window.console.log("most Clicked")
+        this.setState({
+          mostValToClean: this.state.mostVal,
+          mostVal: 0,
+          numberStaleCells: this.state.numberStaleCells - this.state.mostVal
+        })
+    }
+    else if (kindSlider === "range") {
+
+    }
+  }
 
 
   render() {
     return (
       <div className="rowStale">
-              {this.state.isFinished === true ? <Patterns  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
+              {this.state.isFinished === true ?
 
-        {this.state.isFinished === true ?
+<LastUpDate
+  kindDataset = {kindDataset}
+  status={this.state.status}
+  isRepaired={this.state.isRepaired}
+  mostValToClean = {this.state.mostValToClean}
+  numberStaleCells={this.state.numberStaleCells}
+ 
+   /> : null}
+              {this.state.isFinished === true ? <Patterns numberStaleCells={this.state.numberStaleCells} mostValToClean={this.state.mostValToClean} onClick={this.handleClick} onChange={this.handleChangeSlider} mostVal={this.state.mostVal}  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
 
-          <LastUpDate
-            kindDataset = {kindDataset}
-            status={this.state.status}
-            isRepaired={this.state.isRepaired}
-           
-             /> : null}
+
 
 
 

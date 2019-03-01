@@ -75,7 +75,7 @@ export default class Patterns extends Component {
     super(props)
     this.state = {
       patterns: [],  
-        
+        numStaleCells: 0
         
     }
  
@@ -151,9 +151,12 @@ checkNodesInGraph = (data,value) => {
         }
       )
   }
+ 
+  
 
   componentDidMount() {
-    this.patterns()
+    // this.patterns()
+  
   }
 
   mapPatters(data) {
@@ -205,44 +208,20 @@ checkNodesInGraph = (data,value) => {
          {this.props.isRepaired === true?    
          <div id="graph"> 
          
-     <h1>Update Patterns</h1>
-          <table className="table table-striped">
-         <thead>
-           <tr>
-             <th scope="col">#</th>
-             
-             <th scope="col">StartAttr</th>
-             <th scope="col">EndAttr</th>
-             <th scope="col">Relation</th>
+          <h1>Number of Stale cells: {this.props.numberStaleCells}</h1>
+          <div id="sliderMostStaleCell">
+                <h3 id="value">Clean the most stale cells: {this.props.mostVal} (cells)</h3>
+                <ReactBootstrapSlider
+                    value={this.props.mostVal}
+                    max={this.props.numberStaleCells}
+                    min={1}
+                    change={e => this.props.onChange(e,"most")}
+                    
+                />
+                <input onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
             
-           </tr>
-         </thead>
-         <tbody>{data.map(function (item, key) {
-
-           return (
-             
-             <tr key={key} >
-               <td>{key + 1}</td>
                
-
-               
-               <td >{item["attr1"]}</td>
-               <td >{item["attr2"]}</td>
-               <td >{item["relation"]}</td>
-              
-                          
-             </tr>
-           )
-
-         }.bind(this))}</tbody>
-       </table>
-       <b className="b">+ve: Postivie causality</b>
-         <br></br>
-         <b className="b" >-ve : Negative causality</b>
-         <br></br>
-         <b className="b"> co-occur : Co-Occurence</b>
-
-    
+            </div>
   
 </div>: null}
        </div>

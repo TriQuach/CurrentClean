@@ -13,6 +13,7 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
             'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
 var valid_id_Mimic = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']
+var arrayStaleCells = []
 class Sensor {
     constructor(sensorID, Temperature, Humidity, AirPressure, Voltage) {
       this.sensorID = sensorID;
@@ -537,6 +538,7 @@ parseObject(data) {
           .then(
             (result) => {
               window.console.log()
+              arrayStaleCells = result["stalecells"]
               this.createDictionary(result["stalecells"])
     
             },
@@ -575,6 +577,99 @@ parseObject(data) {
          this.repairs()
         //  this.patterns()
      } 
+   
+     getValueToRepair = (id,prop) => {
+     
+       var repairs = this.state.repairs
+     
+      //  window.console.log(repairs)
+     
+       for (var i=0; i< repairs.length; i++) {
+        var sensor_attr = repairs[i]["sensor_attr"]
+        var idSensor = sensor_attr.split("_")[0]
+        var propSensor = sensor_attr.split("_")[1]
+       
+        if (idSensor === id && prop === propSensor) {
+      
+          return repairs[i]["repair"][0]["value"]
+        }
+       }
+     } 
+     cleanStaleCells = (numberStaleCells) => {
+       window.console.log(numberStaleCells)
+      var numCellToClean = arrayStaleCells.length - numberStaleCells
+      var tempArray = arrayStaleCells
+        for (var i=0; i<tempArray.length; i++) {
+          for (var j=i+1; j<tempArray.length; j++) {
+            if (tempArray[i][2] < tempArray[j][2]) {
+                var temp = tempArray[i]
+                tempArray[i] = tempArray[j]
+                tempArray[j] = temp 
+            }
+          }
+        }
+        window.console.log("tempArray:")
+        window.console.log(tempArray)
+        var x = this.state.dictStale
+        var y = this.state.data
+        for (var j=0; j<numCellToClean; j++) {
+          var idSensor = tempArray[j][0].split("_")[0]
+          var propSensor = tempArray[j][0].split("_")[1]
+
+          if (this.props.kindDataset === constClass.SENSOR) {
+            var valueToClean = this.getValueToRepair(idSensor,propSensor)
+          
+          }
+          else {
+           
+
+            var valueToClean = this.getValueToRepair(idSensor,propSensor)
+            
+          }
+         
+          x[idSensor][propSensor]["isStale"] = false
+          
+          if (this.props.kindDataset === constClass.CLINICAL) {
+            var currentSensorIdNumber = parseInt(idSensor) - 1
+            var currentSensorIdString = currentSensorIdNumber.toString()
+            y[currentSensorIdString][propSensor] = valueToClean
+        }
+        else {
+           for (var k=0; k<y.length; k++) {
+               if (y[k]["sensorID"] === idSensor) {
+                   y[k][propSensor] = valueToClean
+                   break
+               }
+           }
+        }
+          
+         
+        }
+        // tempArray.slice(0,numberStaleCells)
+
+
+
+      window.console.log(tempArray)
+  
+
+
+     }
+     componentWillReceiveProps(nextProps) {
+      if (nextProps.numberStaleCells !== this.props.numberStaleCells && nextProps.kindDataset === this.props.kindDataset) {
+        window.console.log("arrayStae:")
+        window.console.log(arrayStaleCells.length)
+        this.cleanStaleCells(nextProps.numberStaleCells)
+        // window.console.log("testfuck")
+        // var x = this.getValueToRepair("2","HDL")
+        // window.console.log(x)
+    
+      }
+      else if (nextProps.isRefreshed !== this.props.isRefreshed || nextProps.isRefreshed === true) {
+        this.stale()
+        
+    
+      }
+    }
      handleOnInput = (e) => {
        window.console.log("handleOnInput")
        window.console.log(this.myRef.current)
