@@ -330,6 +330,8 @@ export default class Test extends Component {
       )
   }
   stale() {
+    var question = this.props.match.params
+    var beta = question["beta"]
     var url = constClass.DEEPDIVE_BACKEND + "stalecells"
     window.console.log(url)
     // this.props.history.push('/freq')
@@ -340,7 +342,8 @@ export default class Test extends Component {
           window.console.log()
           originalNumberStaleCells = result["stalecells"].length
           this.setState({
-            numberStaleCells: result["stalecells"].length
+            numberStaleCells: result["stalecells"].length,
+            valBeta: beta*100
           })
         },
 
@@ -539,7 +542,17 @@ export default class Test extends Component {
   numberStaleCells={this.state.numberStaleCells}
  
    /> : null}
-              {this.state.isFinished === true ? <Patterns minProb={this.state.minProb} maxProb={this.state.maxProb} valBeta={this.state.valBeta} numberStaleCells={this.state.numberStaleCells} mostValToClean={this.state.mostValToClean} onClick={this.handleClick} onChange={this.handleChangeSlider} mostVal={this.state.mostVal}  isRepaired={this.state.isRepaired} kindDataset={kindDataset}/> : null}
+              {this.state.isFinished === true ? <Patterns
+               minProb={this.state.minProb}
+               maxProb={this.state.maxProb} 
+               valBeta={this.state.valBeta} 
+               numberStaleCells={this.state.numberStaleCells} 
+               mostValToClean={this.state.mostValToClean} 
+               onClick={this.handleClick} 
+               onChange={this.handleChangeSlider} 
+               mostVal={this.state.mostVal}  
+               isRepaired={this.state.isRepaired} 
+               kindDataset={kindDataset}/> : null}
 
 
 

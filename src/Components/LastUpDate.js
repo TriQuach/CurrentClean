@@ -558,7 +558,7 @@ parseObject(data) {
       
           this.setState({
             dictStale: dict
-          })
+          },() => this.cleanStaleCells())
         }
         else if (this.props.kindDataset === constClass.CLINICAL) {
           var dict = {};
@@ -619,7 +619,7 @@ parseObject(data) {
       
           this.setState({
             dictStale: dict
-          })
+          },() => this.cleanStaleCellsRangeProb())
         }
         else if (this.props.kindDataset === constClass.CLINICAL) {
           var dict = {};
