@@ -72,11 +72,13 @@ export default class Slider extends Component {
                 <div id="startTime">
                     <form>
 
-                        <b> Start Time: </b>
-                        <b id="startTime"> {start}</b>
+                        <b className="largeSize"> Start Time: </b>
                         <br></br>
-                        <b id="endTime"> End Time: </b>
-                        <b> {end}</b>
+                        <b className="largeSize" id="startTime"> {start}</b>
+                        <br></br>
+                        <b className="largeSize" id="endTime"> End Time: </b>
+                        <br></br>
+                        <b className="largeSize"> {end}</b>
                         <br></br>
                         <input id={constClass.OK} onClick={this.props.onClick} className="btn btn-primary" type="button" value="View Dataset"></input>
                         {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}

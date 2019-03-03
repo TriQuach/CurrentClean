@@ -14,15 +14,15 @@ export default class Slider extends Component {
           onChange={this.props.onChange}
         >
           <div>
-            <label>
+            <label className="largeSize">
               <Radio value="sensor" />  Sensor
-        </label>
-            <label id="clinical" >
+        </label >
+            <label className="largeSize" id="clinical" >
               <Radio value="medical" />  Clinical
         </label>
           </div>
 
-          <label>
+          <label className="largeSize">
             <Radio value="upload" />  Upload your Data
         </label>
 

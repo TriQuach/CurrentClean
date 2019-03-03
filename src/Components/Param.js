@@ -16,7 +16,7 @@ export default class Slider extends Component {
             } else if (typeRadio === constClass.CLINICAL || typeRadio == constClass.UPLOAD) {
                 theta =
                     <div>
-                        <b className="b">Time unit size (δ)</b>
+                        <b className="largeSize">Time unit size (δ)</b>
                         <b> {this.props.valDelta} seconds </b>
                         <br></br>
                          <ReactBootstrapSlider
@@ -33,7 +33,7 @@ export default class Slider extends Component {
         return (
             <div id="param">
                 <h1 id="param"> Parameters</h1>
-                <b className="b">Currency Threshold (β)</b>
+                <b className="largeSize">Currency Threshold (β)</b>
                 <b> {this.props.valBeta}</b>
                 <br></br>
                  <ReactBootstrapSlider

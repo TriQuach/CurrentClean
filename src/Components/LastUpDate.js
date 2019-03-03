@@ -16,7 +16,7 @@ const myConfig = {
   },
   directed: true,
   staticGraph: false,
-  height: 300,
+  height: 400,
   width: 800
 };
 const contentStyle = {

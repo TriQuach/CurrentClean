@@ -22,4 +22,9 @@ div#tableMimic {
     overflow-y: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     }    
-    
+.td {
+    font-size: 120%;
+}
+.li {
+    font-size: 130%;
+}
