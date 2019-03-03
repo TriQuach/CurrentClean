@@ -27,3 +27,9 @@ input#apply {
   margin-left: 1cm;
   
 }
+.table-wrapper-scroll-y {
+  display: block;
+  max-height: 700px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  }

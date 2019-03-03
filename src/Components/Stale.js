@@ -492,6 +492,14 @@ export default class Test extends Component {
     this.staleCells()
 
   }
+  componentWillMount() {
+    var question = this.props.match.params
+    var beta = question["beta"]
+    this.setState({
+      minProb: beta * 100
+
+    })
+  }
   handleChangeSlider = (e,kindSlider) => {
     if (kindSlider === "most") {
       this.setState({

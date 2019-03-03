@@ -2,6 +2,27 @@ import React, { Component } from 'react';
 import * as constClass from '../Const/utils'
 import '../CSS/LastUpdate.css'
 import Popup from "reactjs-popup";
+import { Graph } from 'react-d3-graph';
+
+const myConfig = {
+  nodeHighlightBehavior: true,
+  node: {
+      color: 'lightgreen',
+      size: 120,
+      highlightStrokeColor: 'blue'
+  },
+  link: {
+      highlightColor: 'lightblue'
+  },
+  directed: true,
+  staticGraph: false,
+  height: 300,
+  width: 800
+};
+const contentStyle = {
+  height: "120vh",
+  
+};
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -73,7 +94,9 @@ export default class Test extends React.Component {
             valueToChange:0,
             data: [],
             repairCell: [],
-            checkBlur: false
+            checkBlur: false,
+            isRightClickedInRepair: false,
+            arrayGraph: []
             
             
         }
@@ -151,21 +174,25 @@ export default class Test extends React.Component {
         window.console.log("arrayRepairs:")
         window.console.log(array)
         
+        var count = 0
 
         for (var j=0; j<array.length; j++) {
           var temp = Math.abs((array[j]["value"] - currentValue)/ currentValue)
-       
+          array[j]["id"] = sensorID
+          array[j]["prop"] = prop
           if ( j === 0) {
             if (temp <= 0.1) {
               array[j]["kindRepair"] = "MLR, BCR"
+              count += 1
             }
             else {
               array[j]["kindRepair"] = "MLR"
             }
           }
           else {
-            if (temp <= 0.1) {
+            if (temp <= 0.1 && count == 0) {
               array[j]["kindRepair"] = "BCR"
+              count += 1
             }
             else {
               array[j]["kindRepair"] = ""
@@ -199,8 +226,9 @@ export default class Test extends React.Component {
     closePopUp() {
         this.setState({
           showPopUp: false,
-          checkedRow: 999
-    
+          checkedRow: 999,
+          isRightClickedInRepair: false,
+          arrayGraph: []
         })
       }
     handleClickCellFalse() {
@@ -251,14 +279,154 @@ export default class Test extends React.Component {
        })
        
     }
-    handleClickRow = (key,value) => {
-        window.console.log("key")
-        window.console.log(key)
-        window.console.log("key")
+    isNodeExistInData = (data,value) => {
+     
+      
+      for (var i=0; i<data.length;i++) {
+        var temp = data[i]["id"]
+        
+        if ( temp === value) {
+          return true
+        }
+      }
+      return false
+    }
+    parseAnElement = (data) => {
+      // var data = {
+      //   nodes: [{ id: 'Harry' }, { id: 'Sally' }, { id: 'Alice' }],
+      //   links: [{ source: 'Harry', target: 'Sally' }, { source: 'Harry', target: 'Alice' },{ source: 'Alice', target: 'Harry' },{ source: 'Harry', target: 'Sally' }]
+      // };
+      var dataReturn = {
+        nodes: [],
+        links: []
+      };
+      for (var i=0; i<data.length; i++) {
+        
+          var temp = data[i]
+          var from = temp["from"]
+          var to = temp["to"]
+          var relation = temp["relation"]
+          var from_val = temp["from_val"]
+          var to_val = temp["to_val"]
+          from = from + ":"  + from_val
+          to = to + ":" + to_val
+          var nodes = dataReturn.nodes
+          var links = dataReturn.links
+          if (this.isNodeExistInData(nodes, from) === false) {
+           
+            var id = {}
+            id.id = from
+            id.fontSize = 700
+            id.size = 400
+            nodes.push(id)
+            dataReturn.nodes = this.decorateGraphNodesWithInitialPositioning(nodes)
+          }
+          if (this.isNodeExistInData(nodes, to) === false) {
+            var id = {}
+            id.id = to
+            id.fontSize = 700
+            id.size = 400
+            nodes.push(id)
+            dataReturn.nodes = this.decorateGraphNodesWithInitialPositioning(nodes)
+          }
+          if (relation === "0") {
+            var sourceTarget = {}
+            sourceTarget.source = from
+            sourceTarget.target = to
+            var sourceTarget2 = {}
+            sourceTarget2.source = to
+            sourceTarget2.target = from
+            links.push(sourceTarget)
+            links.push(sourceTarget2)
+          }
+          else if (relation === "1") {
+            var sourceTarget = {}
+            sourceTarget.source = from
+            sourceTarget.target = to
+            sourceTarget.strokeWidth = 4
+            links.push(sourceTarget)
+          }
+          else if (relation === "2") {
+            var sourceTarget = {}
+            sourceTarget.source = from
+            sourceTarget.target = to
+            sourceTarget.color = "#f44259"
+            links.push(sourceTarget)
+          }
+          dataReturn.links = links
+      }
+      return dataReturn
+    }
+    decorateGraphNodesWithInitialPositioning = nodes => (nodes.map(n =>
+      Object.assign({}, n, {
+        x: n.x || Math.floor(Math.random() * 500),
+        y: n.y || Math.floor(Math.random() * 500)
+      })
+    ));
+    parseDataGraph = (data) => {
+      var dataGraph = []
+        for (var i=0; i<data.length; i++) {
+            var temp = this.parseAnElement(data[i])
+            console.log(temp)
+            var tempGraph = <Graph
+            id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
+            data={temp}
+            config={myConfig} />
+            dataGraph.push(tempGraph)
+        }
         this.setState({
+          arrayGraph: dataGraph
+        })
+    }
+    getDataGraph = (value,idSensor,prop) => {
+      var url = constClass.DEEPDIVE_BACKEND + "relations?id=" + idSensor + "&attr=" + prop + "&val=" + value
+        window.console.log(url)
+        // this.props.history.push('/freq')
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+                // window.console.log(result["lastupdate"])
+              // this.setState({
+              //     data: result["lastupdate"]
+              // })
+              this.parseDataGraph(result["relations"])
+            },
+    
+            (error) => {
+              window.console.log(error)
+            }
+          )
+    }
+    handleClickRow = (e,key,value,idSensor,prop) => {
+       
+
+        if (e.nativeEvent.which === 1) {
+          this.setState({
             checkedRow: key,
             valueToChange: value
         })
+        } else if (e.nativeEvent.which === 3) {
+            e.preventDefault()
+            console.log("right - click")
+            console.log(idSensor)
+            console.log(prop)
+            this.setState({
+              arrayGraph: []
+            },() => this.getDataGraph(value,idSensor,prop))
+            
+            this.setState({
+              isRightClickedInRepair: true
+            })
+          
+        }
+
+
+
+
+
+
+        
     }
     
     
@@ -887,6 +1055,18 @@ parseObject(data) {
        
      }
 
+    //  createTable = () => {
+    //   let table = []
+  
+    //   for (let i = 0; i < 3; i++) {
+    //    table.push(<Graph
+    //     id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
+    //     data={data}
+    //     config={myConfig} />)
+    //   }
+    //   return table
+    // }
+
     render() {
         
         let kindRepair
@@ -894,6 +1074,9 @@ parseObject(data) {
         window.console.log("this.state.dictStale")
         window.console.log(this.state.dictStale)
         window.console.log("this.state.dictStale")
+        window.console.log("repaircell")
+        window.console.log(this.state.repairCell)
+        window.console.log("repaircell")
         var dict = this.state.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -983,7 +1166,7 @@ parseObject(data) {
               <th scope="col">HR</th>
               <th scope="col">DBP</th>
               <th scope="col">SBP</th>
-              <th scope="col">CVP</th>
+              <th scope="col">WBC</th>
               <th scope="col">RR</th>
               <th scope="col">SpO2</th>
               <th scope="col">TMP</th>
@@ -992,8 +1175,8 @@ parseObject(data) {
               <th scope="col">APH</th>
               <th scope="col">Hb</th>
               <th scope="col">RBC</th>
-              <th scope="col">RBCF</th>
-              <th scope="col">WBC</th>
+              <th scope="col">RBCF</th>             
+              <th scope="col">CVP</th>
               <th scope="col">MONO</th>
               <th scope="col">EOS</th>
               <th scope="col">LY</th>
@@ -1065,14 +1248,15 @@ parseObject(data) {
                                 {item["SBP"]}
                             </td>
                             <td 
-                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("CVP")? "true" : null}
+                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("WBC")? "true" : null}
                                 onInput={e => this.handleOnInput(e)}
-                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'CVP')}
-                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'CVP',item["CVP"]) : null} 
-                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'CVP') : null} 
-                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("CVP")?(dict[item["id_patient"]]["CVP"]["isStale"] ? dict[item["id_patient"]]["CVP"]["hex"] : "#42f445") : null}}>
-                                {item["CVP"]}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'WBC')}
+                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'WBC',item["WBC"]) : null} 
+                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'WBC') : null} 
+                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("WBC")?(dict[item["id_patient"]]["WBC"]["isStale"] ? dict[item["id_patient"]]["WBC"]["hex"] : "#42f445") : null}}>
+                                {item["WBC"]}
                             </td>
+
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("RR")? "true" : null}
                                 onInput={e => this.handleOnInput(e)}
@@ -1154,15 +1338,17 @@ parseObject(data) {
                                 style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("RBCF")?(dict[item["id_patient"]]["RBCF"]["isStale"] ? dict[item["id_patient"]]["RBCF"]["hex"] : "#42f445") : null}}>
                                 {item["RBCF"]}
                             </td>
+
                             <td 
-                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("WBC")? "true" : null}
+                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("CVP")? "true" : null}
                                 onInput={e => this.handleOnInput(e)}
-                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'WBC')}
-                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'WBC',item["WBC"]) : null} 
-                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'WBC') : null} 
-                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("WBC")?(dict[item["id_patient"]]["WBC"]["isStale"] ? dict[item["id_patient"]]["WBC"]["hex"] : "#42f445") : null}}>
-                                {item["WBC"]}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'CVP')}
+                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'CVP',item["CVP"]) : null} 
+                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'CVP') : null} 
+                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("CVP")?(dict[item["id_patient"]]["CVP"]["isStale"] ? dict[item["id_patient"]]["CVP"]["hex"] : "#42f445") : null}}>
+                                {item["CVP"]}
                             </td>
+                           
                             <td 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("MONO")? "true" : null}
                                 onInput={e => this.handleOnInput(e)}
@@ -1216,7 +1402,7 @@ parseObject(data) {
                 }.bind(this))}</tbody>
             </table> </div>}
             
-            <Popup onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+            <Popup contentStyle={contentStyle} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-y">
           <table className="table table-striped">
             <thead>
@@ -1236,7 +1422,15 @@ parseObject(data) {
                   <td>{key + 1}</td>
 
 
-                  <td onClick={(e) =>  this.handleClickRow(key,item["value"]) } style={{background: this.state.checkedRow === key? "#4286f4": null}}  >{item["value"]} </td>
+                  <td 
+                    onClick={(e) =>  this.handleClickRow(e,key,item["value"]) } 
+                    style={{background: this.state.checkedRow === key? "#4286f4": null}}  
+                    onContextMenu={(e) =>  this.handleClickRow(e,key,item["value"],item["id"],item["prop"]) } 
+                     
+                    >{item["value"]} 
+                                 
+                  </td>
+                    
                   <td >{item["prob"]} %</td>
                   <td>{item["kindRepair"]}</td>
                   
@@ -1245,8 +1439,9 @@ parseObject(data) {
 
             }.bind(this))}</tbody>
           </table>
+         
           <input onClick={this.apply} id="apply" className="btn btn-primary" type="button" value="Apply"></input>
-            
+          {this.state.isRightClickedInRepair === true ? this.state.arrayGraph : null}
           </div>
         </Popup>
             

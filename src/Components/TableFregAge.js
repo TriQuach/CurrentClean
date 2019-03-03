@@ -454,14 +454,21 @@ export default class TableFregAge extends Component {
       title: {
         text: "Comparative Evolution"
       },
+      legend: {
+        fontSize: 30
+      },
       axisY: {
         title: "Values",
+        titleFontSize: 25,
         includeZero: false,
+        labelFontSize: 25
 
       },
       axisX: {
         title: "Time",
+        titleFontSize: 25,
         includeZero: false,
+        labelFontSize: 25
 
       },
 
