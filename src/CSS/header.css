@@ -11,7 +11,7 @@ img#logo {
     
     position: relative; /* Declared position allows for location changes */
     top: -25px; 
-    left: -42px;
+    left: -120px;
   width: 40%;
 }
 /* div#demo {
@@ -26,5 +26,5 @@ nav#parent {
 b.current {
     font-size: 250%;
     position: absolute;
-  left: 40%;
+  left: 25%;
 }

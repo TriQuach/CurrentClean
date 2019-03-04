@@ -209,9 +209,15 @@ checkNodesInGraph = (data,value) => {
          {this.props.isRepaired === true?    
          <div id="graph"> 
          
-          <h1>Number of Stale cells: {this.props.numberStaleCells}</h1>
+          <b className="largeSize">Remaining number of  </b> 
+          <br></br>
+          <b className="largeSize">stale cells: {this.props.numberStaleCells}</b>
           <div id="sliderMostStaleCell">
-                <h3 id="value">Clean the most stale cells: {this.props.mostVal} (cells)</h3>
+                <b className="largeSizePattern">Clean the most stale cells: </b>
+                <br></br>
+                 <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>
+                 <br></br>
+                 
                 <ReactBootstrapSlider
                     value={this.props.mostVal}
                     max={this.props.numberStaleCells}
@@ -224,11 +230,14 @@ checkNodesInGraph = (data,value) => {
                
             </div>
             <div id="sliderMostStaleCell">
-                <h3 id="value">Clean stale cells within prob range</h3>
+                <b className="largeSizePattern"> Clean stale cells within </b>
+                <br></br>
+                <b className="largeSizePattern"> probability range</b>
+                <br></br>
                 <ReactBootstrapSlider
                     value={[this.props.minProb, this.props.maxProb]}
-                    max={100}
-                    min={this.props.valBeta}
+                    max={this.props.valBeta}
+                    min={0}
                     change={e => this.props.onChange(e,"range")}
                     
                 />
@@ -237,11 +246,11 @@ checkNodesInGraph = (data,value) => {
                  <div id="startTime">
                     <form>
 
-                        <b> Start Prob: </b>
-                        <b id="startTime"> {this.props.minProb}%</b>
+                        <b className="largeSizePattern"> Start probability: </b>
+                        <b className="largeSizePattern" id="startTime"> {this.props.minProb}%</b>
                         <br></br>
-                        <b id="endTime"> End Prob: </b>
-                        <b> {this.props.maxProb}%</b>
+                        <b className="largeSizePattern" id="endTime"> End probability: </b>
+                        <b className="largeSizePattern"> {this.props.maxProb}%</b>
                         <br></br>
             {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
 

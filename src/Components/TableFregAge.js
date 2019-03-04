@@ -579,7 +579,7 @@ export default class TableFregAge extends Component {
               <th scope="col">HR</th>
               <th scope="col">DBP</th>
               <th scope="col">SBP</th>
-              <th scope="col">CVP</th>
+              <th scope="col">WBC</th>
               <th scope="col">RR</th>
               <th scope="col">SpO2</th>
               <th scope="col">TMP</th>
@@ -588,8 +588,8 @@ export default class TableFregAge extends Component {
               <th scope="col">APH</th>
               <th scope="col">Hb</th>
               <th scope="col">RBC</th>
-              <th scope="col">RBCF</th>
-              <th scope="col">WBC</th>
+              <th scope="col">RBCF</th>            
+              <th scope="col">CVP</th>
               <th scope="col">MONO</th>
               <th scope="col">EOS</th>
               <th scope="col">LY</th>
@@ -613,7 +613,7 @@ export default class TableFregAge extends Component {
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HR', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'DBP', key, 4,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#38ff5f" }}  >{item[4]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SBP', key, 5,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#38ff5f" }} >{item[5]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'CVP', key, 6,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#38ff5f" }} >{item[6]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#38ff5f" }}  >{item[16]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RR', key, 7,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#38ff5f" }} >{item[7]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#38ff5f" }}  >{item[8]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#38ff5f" }} >{item[9]["value"]}</td>
@@ -623,7 +623,7 @@ export default class TableFregAge extends Component {
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'Hb', key, 13,this.checkInTheSameCol(13)) } style={{ cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#38ff5f" }} >{item[13]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBC', key, 14,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#38ff5f" }} >{item[14]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBCF', key, 15,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#38ff5f" }} >{item[15]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#38ff5f" }}  >{item[16]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'CVP', key, 6,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#38ff5f" }} >{item[6]["value"]}</td>           
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'MONO', key, 17,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#38ff5f" }} >{item[17]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'EOS', key, 18,this.checkInTheSameCol(18)) } style={{ cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#38ff5f" }} >{item[18]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LY', key, 19,this.checkInTheSameCol(19)) } style={{ cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#38ff5f" }} >{item[19]["value"]}</td>

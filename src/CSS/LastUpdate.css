@@ -29,7 +29,23 @@ input#apply {
 }
 .table-wrapper-scroll-y {
   display: block;
-  max-height: 700px;
+  max-height: 760px;
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   }
+  .row  {
+    min-height: 50vh;
+  display: flex;
+    
+    margin-left: 3cm;
+  justify-content: left;
+  margin-top: -5px;
+}
+.parent {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.parent>* {
+  flex: 1 1 160px;
+}

@@ -25,3 +25,6 @@ input#applyMost {
 div#startTime {
     margin-top: 0.5em
 }
+.largeSizePattern {
+    font-size: 130%;
+  }

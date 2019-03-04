@@ -4,9 +4,10 @@
     
     margin-left: 3cm;
   justify-content: left;
+  margin-top: -5px;
 }
 input#identify {
-  margin-top: 1.5em;
+  margin-top: 1.0em;
   background-color: #4469b0;
     padding: 4px 7px;
 }
