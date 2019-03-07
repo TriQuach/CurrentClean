@@ -502,7 +502,7 @@ export default class TableFregAge extends Component {
       animationEnabled: true,
       exportEnabled: true,
       title: {
-        text: "Top 10 frequent values"
+        text: "Top 10 popular values"
       },
       axisX: {
         title: "Values",
@@ -529,7 +529,7 @@ export default class TableFregAge extends Component {
         <ul className="nav nav-tabs" style={{ width: "100%" }}>
           <li className={this.props.typeRequest === constClass.AGE ? "active li" : "li"}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
 
-          <li className={this.props.typeRequest === constClass.FREQUENCY ? "active li" : "li"} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a></li>
+          <li className={this.props.typeRequest === constClass.FREQUENCY ? "active li" : "li"} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Update Frequency</a></li>
 
         </ul>
         {this.props.typeRadio === constClass.SENSOR ? (this.props.data.length === 58 ?  

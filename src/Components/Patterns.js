@@ -209,9 +209,9 @@ checkNodesInGraph = (data,value) => {
          {this.props.isRepaired === true?    
          <div id="graph"> 
          
-          <b className="largeSize">Remaining number of  </b> 
+          <b className="largeSizePattern">Remaining number of  </b> 
           <br></br>
-          <b className="largeSize">stale cells: {this.props.numberStaleCells}</b>
+          <b className="largeSizePattern">stale cells: {this.props.numberStaleCells}</b>
           <div id="sliderMostStaleCell">
                 <b className="largeSizePattern">Clean the most stale cells: </b>
                 <br></br>
@@ -225,14 +225,16 @@ checkNodesInGraph = (data,value) => {
                     change={e => this.props.onChange(e,"most")}
                     
                 />
-                <input onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
+                <br></br>
+                
+                <input className="apply" onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
             
                
             </div>
             <div id="sliderMostStaleCell">
                 <b className="largeSizePattern"> Clean stale cells within </b>
                 <br></br>
-                <b className="largeSizePattern"> probability range</b>
+                <b className="largeSizePattern">currency probability range</b>
                 <br></br>
                 <ReactBootstrapSlider
                     value={[this.props.minProb, this.props.maxProb]}
@@ -241,7 +243,8 @@ checkNodesInGraph = (data,value) => {
                     change={e => this.props.onChange(e,"range")}
                     
                 />
-                <input onClick={() => this.props.onClick("range")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
+                <br></br>
+                
             
                  <div id="startTime">
                     <form>
@@ -253,7 +256,7 @@ checkNodesInGraph = (data,value) => {
                         <b className="largeSizePattern"> {this.props.maxProb}%</b>
                         <br></br>
             {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
-
+            <input className="apply" onClick={() => this.props.onClick("range")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
                     </form>
                 </div>
             

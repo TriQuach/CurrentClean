@@ -49,3 +49,6 @@ input#apply {
 .parent>* {
   flex: 1 1 160px;
 }
+.td {
+  font-size: 160%;
+}

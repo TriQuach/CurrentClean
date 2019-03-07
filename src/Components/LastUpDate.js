@@ -670,6 +670,27 @@ parseObject(data) {
             }
           )
       }
+      lastUpdateForMimic() {
+        var url = constClass.DEEPDIVE_BACKEND + "lastupdate"
+        window.console.log(url)
+        // this.props.history.push('/freq')
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              // window.console.log(result["lastupdate"])
+              // this.setState({
+              //     data: result["lastupdate"]
+              // })
+              this.parseObject(result["lastupdate"])
+              this.stale2()
+            },
+    
+            (error) => {
+              window.console.log(error)
+            }
+          )
+      }
       createDictionary(data) {
         if (this.props.kindDataset === constClass.SENSOR) {
           window.console.log("createDictionary")
@@ -684,7 +705,30 @@ parseObject(data) {
       
             var sensorID = data[j][0].split("_")[0]
             var prop = data[j][0].split("_")[1]
-            var hex = data[j][1]
+            var hex = ""
+
+            if (probability >= 0 && probability <= 0.14285714285714285 ) {
+              hex = "#800026"
+            }
+            else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+              hex = "#bd0026"
+            }
+            else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+              hex = "#e31a1c"
+            }
+            else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+              hex = "#fc4e2a"
+            }
+            else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+              hex = "#fd8d3c"
+            }
+            else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+              hex = "#feb24c"
+            }
+            else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+              hex = "#fed976"
+            }
+           
       
             var temp = dict[sensorID]
             var temp2 = {}
@@ -712,7 +756,30 @@ parseObject(data) {
       
             var patientID = data[j][0].split("_")[0]
             var prop = data[j][0].split("_")[1]
-            var hex = data[j][1]
+            var probability = data[j][2]
+            console.log(probability)
+            var hex = ""
+            if (probability >= 0 && probability <= 0.14285714285714285 ) {
+              hex = "#800026"
+            }
+            else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+              hex = "#bd0026"
+            }
+            else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+              hex = "#e31a1c"
+            }
+            else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+              hex = "#fc4e2a"
+            }
+            else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+              hex = "#fd8d3c"
+            }
+            else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+              hex = "#feb24c"
+            }
+            else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+              hex = "#fed976"
+            }
       
             var temp = dict[patientID]
             var temp2 = {}
@@ -773,7 +840,32 @@ parseObject(data) {
       
             var patientID = data[j][0].split("_")[0]
             var prop = data[j][0].split("_")[1]
-            var hex = data[j][1]
+            var probability = data[j][2]
+            console.log(probability)
+            var hex = ""
+         
+            if (probability >= 0 && probability <= 0.14285714285714285 ) {
+              hex = "#800026"
+            }
+            else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+              hex = "#bd0026"
+            }
+            else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+              hex = "#e31a1c"
+            }
+            else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+              hex = "#fc4e2a"
+            }
+            else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+              hex = "#fd8d3c"
+            }
+            else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+              hex = "#feb24c"
+            }
+            else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+              hex = "#fed976"
+            }
+           
       
             var temp = dict[patientID]
             var temp2 = {}
@@ -834,8 +926,31 @@ parseObject(data) {
       
             var patientID = data[j][0].split("_")[0]
             var prop = data[j][0].split("_")[1]
-            var hex = data[j][1]
-      
+            var probability = data[j][2]
+            console.log(probability)
+            var hex = ""
+         
+            if (probability >= 0 && probability <= 0.14285714285714285 ) {
+              hex = "#800026"
+            }
+            else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+              hex = "#bd0026"
+            }
+            else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+              hex = "#e31a1c"
+            }
+            else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+              hex = "#fc4e2a"
+            }
+            else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+              hex = "#fd8d3c"
+            }
+            else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+              hex = "#feb24c"
+            }
+            else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+              hex = "#fed976"
+            }
             var temp = dict[patientID]
             var temp2 = {}
             temp2["hex"] = hex
@@ -1077,7 +1192,9 @@ parseObject(data) {
     
       // }
       else if (nextProps.finalMinProb !== this.props.finalMinProb || nextProps.finalMaxProb !== this.props.finalMaxProb) {
-        this.stale2()
+        this.lastUpdateForMimic()
+       
+       
       }
     }
      handleOnInput = (e) => {
@@ -1113,6 +1230,8 @@ parseObject(data) {
         window.console.log("repaircell")
         window.console.log("staleCells")
         window.console.log(this.state.data)
+        console.log("this.state.data")
+        console.log(this.state.data)
         var dict = this.state.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',

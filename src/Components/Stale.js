@@ -53,6 +53,8 @@ var valid_id_Mimic = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '
 var arrayCells = []
 var kindDataset = ''
 var originalNumberStaleCells = 0
+var arrayStaleCells = []
+var numCellsWillBeCleaned = 0
 export default class Test extends Component {
 
   constructor(props) {
@@ -76,7 +78,8 @@ export default class Test extends Component {
       maxProb:100,
       valBeta:0,
       finalMinProb:0,
-      finalMaxProb: 0
+      finalMaxProb: 0,
+      numCellsWillBeCleaned: 0
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -341,6 +344,31 @@ export default class Test extends Component {
         (result) => {
           window.console.log()
           originalNumberStaleCells = result["stalecells"].length
+          arrayStaleCells = result["stalecells"]
+          this.setState({
+            numberStaleCells: result["stalecells"].length,
+            valBeta: beta*100
+          })
+        },
+
+        (error) => {
+          window.console.log(error)
+        }
+      )
+  }
+  staleToGetOringalNumBer() {
+    var question = this.props.match.params
+    var beta = question["beta"]
+    var url = constClass.DEEPDIVE_BACKEND + "stalecells"
+    window.console.log(url)
+    // this.props.history.push('/freq')
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          window.console.log()
+          originalNumberStaleCells = result["stalecells"].length
+          arrayStaleCells = result["stalecells"]
           this.setState({
             numberStaleCells: result["stalecells"].length,
             valBeta: beta*100
@@ -514,6 +542,23 @@ export default class Test extends Component {
 
     }
   }
+  cleanStaleCellsRangeProb = () => {
+    var minProb = this.state.finalMinProb / 100
+    var maxProb = this.state.finalMaxProb / 100
+    window.console.log("min")
+    window.console.log(minProb)
+   
+    var count = 0
+    for (var i=0; i<arrayStaleCells.length; i++) {
+      if (arrayStaleCells[i][2] >= minProb && arrayStaleCells[i][2] <= maxProb) {
+        count += 1
+      }
+    }
+   
+      numCellsWillBeCleaned = count
+
+
+  }
   handleClick = (kindSlider) => {
     if (kindSlider === "most") {
         window.console.log("most Clicked")
@@ -524,10 +569,17 @@ export default class Test extends Component {
         })
     }
     else if (kindSlider === "range") {
+      // this.stale()
+      this.cleanStaleCellsRangeProb()
+      window.console.log("@#@#")
+      window.console.log(originalNumberStaleCells)
+      window.console.log(this.state.numCellsWillBeCleaned)
+      window.console.log("@#@#")
+      
         this.setState({
           finalMinProb: this.state.minProb,
           finalMaxProb: this.state.maxProb,
-          numberStaleCells: originalNumberStaleCells
+          numberStaleCells: originalNumberStaleCells - numCellsWillBeCleaned
           
         })
     }
