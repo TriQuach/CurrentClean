@@ -79,7 +79,8 @@ export default class Test extends Component {
       valBeta:0,
       finalMinProb:0,
       finalMaxProb: 0,
-      numCellsWillBeCleaned: 0
+      numCellsWillBeCleaned: 0,
+      originalArrayStaleCells: []
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -347,7 +348,8 @@ export default class Test extends Component {
           arrayStaleCells = result["stalecells"]
           this.setState({
             numberStaleCells: result["stalecells"].length,
-            valBeta: beta*100
+            valBeta: beta*100,
+            originalArrayStaleCells: result["stalecells"]
           })
         },
 
@@ -543,19 +545,26 @@ export default class Test extends Component {
     }
   }
   cleanStaleCellsRangeProb = () => {
-    var minProb = this.state.finalMinProb / 100
-    var maxProb = this.state.finalMaxProb / 100
+    var minProb = this.state.minProb / 100
+    var maxProb = this.state.maxProb / 100
     window.console.log("min")
     window.console.log(minProb)
+    window.console.log("min")
+    window.console.log(maxProb)
+    window.console.log("originalArrayStaleCells")
+    window.console.log(this.state.originalArrayStaleCells)
    
     var count = 0
-    for (var i=0; i<arrayStaleCells.length; i++) {
-      if (arrayStaleCells[i][2] >= minProb && arrayStaleCells[i][2] <= maxProb) {
-        count += 1
+    for (var i=0; i<this.state.originalArrayStaleCells.length; i++) {
+      console.log("fuck<><>")
+      console.log(this.state.originalArrayStaleCells[i][2])
+      if (this.state.originalArrayStaleCells[i][2] >= minProb && this.state.originalArrayStaleCells[i][2] <= maxProb) {
+        
+        count = count + 1
       }
     }
    
-      numCellsWillBeCleaned = count
+    return count
 
 
   }
@@ -570,16 +579,14 @@ export default class Test extends Component {
     }
     else if (kindSlider === "range") {
       // this.stale()
-      this.cleanStaleCellsRangeProb()
-      window.console.log("@#@#")
-      window.console.log(originalNumberStaleCells)
-      window.console.log(this.state.numCellsWillBeCleaned)
-      window.console.log("@#@#")
+      var numCellstoClean = this.cleanStaleCellsRangeProb()
+      console.log('numCellstoClean')
+      console.log(numCellstoClean)
       
         this.setState({
           finalMinProb: this.state.minProb,
           finalMaxProb: this.state.maxProb,
-          numberStaleCells: originalNumberStaleCells - numCellsWillBeCleaned
+          numberStaleCells: this.state.originalArrayStaleCells.length - numCellstoClean
           
         })
     }
