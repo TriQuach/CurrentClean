@@ -221,7 +221,7 @@ checkNodesInGraph = (data,value) => {
                 <ReactBootstrapSlider
                     value={this.props.mostVal}
                     max={this.props.numberStaleCells}
-                    min={1}
+                    min={0}
                     change={e => this.props.onChange(e,"most")}
                     
                 />

@@ -74,7 +74,8 @@ class Sensor {
     }
   }
 var arrayCells = []     
-var currentValue = 0       
+var currentValue = 0     
+var coOccur = "<->"  
 export default class Test extends React.Component {
     
     constructor(props) {
@@ -812,7 +813,30 @@ parseObject(data) {
       
             var sensorID = data[j][0].split("_")[0]
             var prop = data[j][0].split("_")[1]
-            var hex = data[j][1]
+            var probability = data[j][2]
+            console.log(probability)
+            var hex = ""
+            if (probability >= 0 && probability <= 0.14285714285714285 ) {
+              hex = "#800026"
+            }
+            else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+              hex = "#bd0026"
+            }
+            else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+              hex = "#e31a1c"
+            }
+            else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+              hex = "#fc4e2a"
+            }
+            else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+              hex = "#fd8d3c"
+            }
+            else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+              hex = "#feb24c"
+            }
+            else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+              hex = "#fed976"
+            }
       
             var temp = dict[sensorID]
             var temp2 = {}
@@ -1274,7 +1298,7 @@ parseObject(data) {
                                 onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Temperature')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Temperature',item["Temperature"]) : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Temperature') : null} 
-                                style={{color:"#ffffff" ,cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["sensorID"]].hasOwnProperty("Temperature")?(dict[item["sensorID"]]["Temperature"]["isStale"] ? dict[item["sensorID"]]["Temperature"]["hex"] : "#42f445") : null}}>
+                                style={{color: dict[item["sensorID"]].hasOwnProperty("Temperature")?(dict[item["sensorID"]]["Temperature"]["isStale"] ? "#ffffff" : "#000000") : null ,cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["sensorID"]].hasOwnProperty("Temperature")?(dict[item["sensorID"]]["Temperature"]["isStale"] ? dict[item["sensorID"]]["Temperature"]["hex"] : "#42f445") : null}}>
                                 {item["Temperature"]}
                                 </td>
                             <td 
@@ -1283,7 +1307,7 @@ parseObject(data) {
                                 onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Humidity')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Humidity',item["Humidity"]) : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Humidity') : null} 
-                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Humidity")?(dict[item["sensorID"]]["Humidity"]["isStale"] ? dict[item["sensorID"]]["Humidity"]["hex"] : "#42f445") : null}} >
+                                style={{color: dict[item["sensorID"]].hasOwnProperty("Humidity")?(dict[item["sensorID"]]["Humidity"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Humidity")?(dict[item["sensorID"]]["Humidity"]["isStale"] ? dict[item["sensorID"]]["Humidity"]["hex"] : "#42f445") : null}} >
                                 {item["Humidity"]}
                             </td>
                             <td 
@@ -1292,7 +1316,7 @@ parseObject(data) {
                                 onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'AirPressure')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'AirPressure',item["AirPressure"]) : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'AirPressur') : null} 
-                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("AirPressure")?(dict[item["sensorID"]]["AirPressure"]["isStale"] ? dict[item["sensorID"]]["AirPressure"]["hex"] : "#42f445") : null}} >
+                                style={{color: dict[item["sensorID"]].hasOwnProperty("AirPressure")?(dict[item["sensorID"]]["AirPressure"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("AirPressure")?(dict[item["sensorID"]]["AirPressure"]["isStale"] ? dict[item["sensorID"]]["AirPressure"]["hex"] : "#42f445") : null}} >
                                 {item["AirPressure"]}
                             </td>
                             <td 
@@ -1301,7 +1325,7 @@ parseObject(data) {
                                 onBlur={(e) => this.handleOnBlur(e,item["sensorID"],'Voltage')}
                                 onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Voltage',item["Voltage"]) : null} 
                                 onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["sensorID"],'Voltage') : null} 
-                                style={{ cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Voltage")?(dict[item["sensorID"]]["Voltage"]["isStale"] ? dict[item["sensorID"]]["Voltage"]["hex"] : "#42f445") : null }} >
+                                style={{color: dict[item["sensorID"]].hasOwnProperty("Voltage")?(dict[item["sensorID"]]["Voltage"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null, background: dict[item["sensorID"]].hasOwnProperty("Voltage")?(dict[item["sensorID"]]["Voltage"]["isStale"] ? dict[item["sensorID"]]["Voltage"]["hex"] : "#42f445") : null }} >
                                 {item["Voltage"]}
                             </td>
                         </tr>
@@ -1616,8 +1640,15 @@ parseObject(data) {
             }.bind(this))}</tbody>
           </table>
          
+         <div id="legendsGraph">
+          <b className="legends" style={{color: "#b7b7b7"}}> -> :  <b style={{color: "#000000"}}>postitive causality</b> </b>
+          <br></br>
+          <b className="legends" style={{color: "#f44259"}}> -> :  <b style={{color: "#000000"}}>negative causality</b> </b>
+          <br></br>
+          <b className="legends" style={{color: "#b7b7b7"}}> {coOccur}:  <b style={{color: "#000000"}}>co-occurence</b> </b>
+          
+          </div>
           {this.state.isRightClickedInRepair === true ? this.state.arrayGraph : null}
-        
          
           
           

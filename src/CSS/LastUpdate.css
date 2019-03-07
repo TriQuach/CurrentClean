@@ -52,3 +52,15 @@ input#apply {
 .td {
   font-size: 160%;
 }
+div#legends {
+  position: relative;
+}
+b#b1 {
+  position:absolute;
+}
+.legends {
+  position:absolute;
+}
+div#legendsGraph {
+  margin-left: 10px
+}

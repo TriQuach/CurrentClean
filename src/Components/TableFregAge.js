@@ -222,7 +222,7 @@ export default class TableFregAge extends Component {
   
     }
     else if (this.props.typeRequest === constClass.AGE) {
-      if (event.metaKey) { //if (event.metaKey && checkInTheSameCol === true)
+      if (event.metaKey || event.ctrlKey) { //if (event.metaKey && checkInTheSameCol === true)
         window.console.log("event keycode:")
         window.console.log(event.keyCode)
         var temp = this.state.data
