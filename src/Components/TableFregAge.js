@@ -10,7 +10,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var arrayCells = []
 const contentStyle = {
   height: "40vh",
-  width: "20%"
+  width: "18%"
 };
 export default class TableFregAge extends Component {
 
@@ -481,24 +481,38 @@ export default class TableFregAge extends Component {
     }
     let optionsColumnAge = {
       animationEnabled: true,
-      exportEnabled: true,
-      width: 220,
+      
+      width: 250,
       height: 260,
+      
       title: {
-        text: "Accumulative time duration" 
+        text: "Accumulative time duration"
       },
+      subtitles: [{
+        text: "patient_" + this.state.currentID + "_" + this.state.currentProp ,		
+        fontSize : 15
+       
+      }],
+      
       axisX: {
         title: "Values",
         reversed: true,
+        titleFontSize: 14,
+        
+        labelFontSize: 14
       },
       axisY: {
         title: "Time (seconds)",
-        labelFormatter: this.addSymbols
+        labelFormatter: this.addSymbols,
+        titleFontSize: 14,
+        
+        labelFontSize: 14
       },
       data: [
         {
           // Change type to "doughnut", "line", "splineArea", etc.
           type: "column",
+       
           dataPoints: this.state.dataCanvas
         }
       ]

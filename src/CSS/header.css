@@ -11,7 +11,7 @@ img#logo {
     
     position: relative; /* Declared position allows for location changes */
     top: -25px; 
-    left: -120px;
+    left: -30px;
   width: 40%;
 }
 /* div#demo {
