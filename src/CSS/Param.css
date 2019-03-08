@@ -1,4 +1,4 @@
-h1#param {
+h3#param {
     margin-top: 0px
 }
 div#param {
@@ -6,11 +6,14 @@ div#param {
     background-color: #FFFFFF;
     border: 1px solid transparent;
     border-radius: 0.3cm;
-    padding-top: 10px;
+    padding-top: 0px;
   padding-right: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
 .b {
     margin-right: 1em
+}
+div#beta {
+    margin-top: -15px
 }

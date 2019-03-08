@@ -15,5 +15,9 @@ input#identify {
   width:0cm;
 }
 .largeSize {
-  font-size: 130%;
+  font-size: 150%;
+}
+
+.moveUp {
+  margin-top: -15px
 }

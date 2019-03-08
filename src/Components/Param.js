@@ -32,8 +32,9 @@ export default class Slider extends Component {
         }
         return (
             <div id="param">
-                <h1 id="param"> Parameters</h1>
-                <b className="largeSize">Currency Threshold (β)</b>
+                <h3 id="param"> Parameters</h3>
+                <div className="moveUp">
+                <b  className="largeSize">Currency Threshold (β)</b>
                 <b> {this.props.valBeta}</b>
                 <br></br>
                  <ReactBootstrapSlider
@@ -45,6 +46,7 @@ export default class Slider extends Component {
                 />
                 <br></br>
                 {theta}
+                </div>
 
             </div>
         )

@@ -61,23 +61,22 @@ export default class Slider extends Component {
       
         return (
             <div id="slider">
-                <h1 id="value">Time Duration</h1>
+                <h3 id="value">Update History Time Duration</h3>
                 <ReactBootstrapSlider
                     value={[this.props.startTime, this.props.endTime]}
                     max={this.props.typeRadio === "sensor" ? 1522987200 : 1466558522}
                     min={this.props.typeRadio === "sensor" ? 1522932390 : 1466410104}
                     change={this.props.onChange}
-                    tooltip="hide"
+                    tooltip="show"
                 />
                 <div id="startTime">
                     <form>
 
-                        <b className="largeSize"> Start Time: </b>
-                        <br></br>
+                        <b className="largeSize"> Start: </b>
                         <b className="largeSize" id="startTime"> {start}</b>
                         <br></br>
-                        <b className="largeSize" id="endTime"> End Time: </b>
-                        <br></br>
+                        <b className="largeSize" id="endTime"> End: </b>
+                        
                         <b className="largeSize"> {end}</b>
                         <br></br>
                         <input id={constClass.OK} onClick={this.props.onClick} className="btn btn-primary" type="button" value="View Dataset"></input>

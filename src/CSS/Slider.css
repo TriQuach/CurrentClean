@@ -16,7 +16,7 @@ div#slider {
     background-color: #FFFFFF;
     border: 1px solid transparent;
     border-radius: 0.3cm;
-    padding-top: 10px;
+    padding-top: 0px;
   padding-right: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
@@ -26,6 +26,6 @@ input#ok {
     padding: 4px 7px;
    
 }
-h1#value {
+h3#value {
     margin-top: 0px
 }
