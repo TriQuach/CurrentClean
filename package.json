@@ -12,7 +12,7 @@
     "react-alert": "^5.1.0",
     "react-bootstrap-slider": "^2.1.5",
     "react-charts": "^2.0.0-alpha.12",
-    "react-d3-graph": "^2.0.0-rc2",
+    "react-d3-graph": "^2.0.0",
     "react-dom": "^16.6.3",
     "react-force-graph": "^1.20.3",
     "react-popup": "^0.9.3",

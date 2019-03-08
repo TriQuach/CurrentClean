@@ -8,7 +8,10 @@ import CanvasJSReact from '../Chart/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var arrayCells = []
-
+const contentStyle = {
+  height: "40vh",
+  width: "20%"
+};
 export default class TableFregAge extends Component {
 
 
@@ -479,6 +482,8 @@ export default class TableFregAge extends Component {
     let optionsColumnAge = {
       animationEnabled: true,
       exportEnabled: true,
+      width: 220,
+      height: 260,
       title: {
         text: "Accumulative time duration" 
       },
@@ -654,8 +659,8 @@ export default class TableFregAge extends Component {
 
 
 
-        <Popup style={{ height: 1000, width: 1000 }} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
-          <div className="table-wrapper-scroll-chart">
+        <Popup contentStyle={this.state.typechart === constClass.AGEBARCHART ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+          <div >
             {this.state.typechart === constClass.AGELINECHART ?
               <CanvasJSChart options={optionsLineChartAge} /> : (this.state.typechart === constClass.AGEBARCHART ? 
                 <CanvasJSChart options={optionsColumnAge} />: <CanvasJSChart options={optionsColumnFreq} />)}
