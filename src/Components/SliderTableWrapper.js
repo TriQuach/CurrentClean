@@ -6,6 +6,7 @@ import Param from '../Components/Param'
 import '../CSS/SliderTableWrapper.css'
 import { Redirect } from 'react-router'
 import Popup from "reactjs-popup";
+import go from "../../node_modules/gojs/release/go"
 import * as constClass from '../Const/utils.js'
 import $ from 'jquery'; 
 
@@ -19,6 +20,7 @@ class Question {
         
       }
 }
+var myDiagram = null
 export default class SliderTableWrapper extends Component {
     constructor(props) {
         super(props)
@@ -31,7 +33,10 @@ export default class SliderTableWrapper extends Component {
             data:[],
             nolectedData: false,
             showPopUp: false,
-            valDelta: 69
+            valDelta: 69,
+            isClicked: false,
+            isClicked2: false,
+            
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeBeta = this.handleChangeBeta.bind(this)
@@ -57,6 +62,9 @@ export default class SliderTableWrapper extends Component {
     
     
         })
+      }
+      componentDidMount() {
+          this.init()
       }
     handleChangeBeta(e,typeParam) {
        if (typeParam === constClass.BETA) {
@@ -188,6 +196,102 @@ export default class SliderTableWrapper extends Component {
         }
         
     }
+    handleClickIdentify(e) {
+        if (this.state.typeRadio !== '') {
+            var question = new Question(this.state.typeRadio, this.state.startTime,this.state.endTime,this.state.valBeta)
+            // this.props.history.push('/stale')
+            var url = ""
+            if(this.state.typeRadio === constClass.SENSOR) {
+                 url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=20"
+            
+            } else if (this.state.typeRadio === constClass.CLINICAL) {
+                url = "/stale/deepdive_test?beta=" + question.beta + "&data=" + question.data + "&start=" + question.start + "&end=" + question.end +"&delta=" + this.state.valDelta
+            
+            }
+            this.props.history.push({
+                pathname: url,
+                data: question // your data array of objects
+              })
+        } else {
+            this.setState({
+                showPopUp: true
+            })
+        }
+        
+    }
+    init() {
+        var $ = go.GraphObject.make;  // for conciseness in defining templates
+      
+      myDiagram = $(go.Diagram, "myDiagramDiv");
+      // define a simple Node template
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",  // the Shape will go around the TextBlock
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          $(go.Shape, "RoundedRectangle", { strokeWidth: 0, fill: "white" },
+            // Shape.fill is bound to Node.data.color
+            new go.Binding("fill", "color")),
+          $(go.TextBlock,
+            { margin: 6 },  // some room around the text
+            // TextBlock.text is bound to Node.data.key
+            new go.Binding("text", "key")),
+        );
+
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link 23panel
+          { routing: go.Link.Normal },
+          $(go.Shape,  // the link shape
+            new go.Binding("strokeDashArray","dash"),
+            // the first element is assumed to be main element: as if isPanelMain were true
+            { stroke: "black", strokeWidth: 2 }),
+          $(go.Shape,  // the "from" arrowhead
+            new go.Binding("fromArrow", "fromArrow"),
+            { scale: 2, fill: "#D4B52C" }),
+          $(go.Shape,  // the "from" arrowhead
+            new go.Binding("toArrow", "toArrow"),
+            { scale: 2, fill: "#D4B52C" }),
+          $(go.Panel, "Auto",
+            $(go.Shape,  // the label background, which becomes transparent around the edges
+              {
+                fill: $(go.Brush, "Radial", { 0: "rgb(255,255,255)", 0.6: "rgb(255,255,255)", 1: "rgba(255,255,255, 0)" }),
+                stroke: null
+              }),
+            $(go.TextBlock,  // the label text
+              {
+                textAlign: "center",
+                font: "10pt helvetica, arial, sans-serif",
+                stroke: "#555555",
+                margin: 4
+              },
+              new go.Binding("text", "text"))
+          )
+        );
+      // but use the default Link template, by not setting Diagram.linkTemplate
+      // create the model data that will be represented by Nodes and Links
+     
+    }
+    creatGraph = () => {
+        myDiagram.model = new go.GraphLinksModel(
+            [
+              { key: "A", loc: "120 220", color: "lightblue" },
+              { key: "B", loc: "120 320", color: "orange" },
+              { key: "C", loc: "120 420", color: "lightgreen" },
+              { key: "E", loc: "220 220", color: "pink" },
+              { key: "F", loc: "220 350", color: "pink" }
+            ],
+            [
+              { from: "A", to: "B", text: "0.67", fromArrow:"", toArrow:"", dash: null},
+              { from: "B", to: "C", text: "0.81", fromArrow:"", toArrow:"OpenTriangle", dash: null },
+              { from: "E", to: "F", text: "0.77", fromArrow:"", toArrow:"OpenTriangle", dash: [8,3] }
+            ]);
+    }
+    handleTest =() => {
+        this.creatGraph()
+    }
+    handleTest2 =() => {
+        this.setState({
+            isClicked2: true
+        }, () => this.init())
+    }
 
    
     
@@ -212,6 +316,10 @@ export default class SliderTableWrapper extends Component {
                         valDelta={this.state.valDelta}
                     />
                     <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+                    <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+                    <input onClick={this.handleTest2} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+            
+            <div id="myDiagramDiv" style={{width:400, height:400}}></div>
             
                 </div>
                              

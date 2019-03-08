@@ -3,7 +3,7 @@ import * as constClass from '../Const/utils'
 import '../CSS/LastUpdate.css'
 import Popup from "reactjs-popup";
 import { Graph } from 'react-d3-graph';
-
+import go from "../../node_modules/gojs/release/go"
 const myConfig = {
   nodeHighlightBehavior: true,
   node: {
@@ -24,9 +24,20 @@ const myConfig = {
   width: 300
 };
 const contentStyle = {
+  height: "60vh",
+  width: "30%"
+  
+};
+const colWidth = {
   width: "100%",
   
 };
+var myDiagram = null
+var arrayKeys = []
+var arrayLinks =  []
+var arrayWeights = []
+
+
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -101,7 +112,8 @@ export default class Test extends React.Component {
             repairCell: [],
             checkBlur: false,
             isRightClickedInRepair: false,
-            arrayGraph: []
+            arrayGraph: [],
+            numClick: 1
             
             
         }
@@ -233,7 +245,8 @@ export default class Test extends React.Component {
           showPopUp: false,
           checkedRow: 999,
           isRightClickedInRepair: false,
-          arrayGraph: []
+          arrayGraph: [],
+          numClick: 1
         })
       }
     handleClickCellFalse() {
@@ -286,9 +299,9 @@ export default class Test extends React.Component {
     }
     isNodeExistInData = (data,value) => {
      
-      
+      console.log()
       for (var i=0; i<data.length;i++) {
-        var temp = data[i]["id"]
+        var temp = data[i]["key"]
         
         if ( temp === value) {
           return true
@@ -296,129 +309,222 @@ export default class Test extends React.Component {
       }
       return false
     }
-    parseAnElement = (data) => {
-      // var data = {
-      //   nodes: [{ id: 'Harry' }, { id: 'Sally' }, { id: 'Alice' }],
-      //   links: [{ source: 'Harry', target: 'Sally' }, { source: 'Harry', target: 'Alice' },{ source: 'Alice', target: 'Harry' },{ source: 'Harry', target: 'Sally' }]
-      // };
-      var dataReturn = {
-        nodes: [],
-        links: []
-      };
-      var weight0 = data[0]["weight"]
-      var weight1 = data[1]["weight"]
-      if (weight0 > weight1) {
-        weight0 = 12
-        weight1 = 2
+    parseAnElement = (data, Xposition, Yposition,index) => {
+      
+      var key0 = data[0]["from"]
+      var key1 = data[0]["to"]
+      var key2 = data[1]["to"]
+      
+      
+      var val_key0 = data[0]["from_val"]
+      var val_key1 = data[0]["to_val"]
+      var val_key2 = data[1]["to_val"]
+      var weight_0_1 = data[0]["weight"]
+      var weight_1_2 = data[1]["weight"]
+      var relation_0_1 = data[0]["relation"]
+      var relation_1_2 = data[1]["relation"]
+
+
+      
+
+
+     
+
+    
+      
+      key0 = key0 + ":" + val_key0
+      key1 = key1 + ":" + val_key1
+      key2 = key2 + ":" + val_key2
+
+    
+      var addedSpace1 = " ".repeat(index)
+      var addedSpace2 = " ".repeat(index)
+      var addedSpace3 = " ".repeat(index)
+
+      key0 = key0 + addedSpace1
+      key1 = key1 + addedSpace2
+      key2 = key2 + addedSpace3
+      
+      
+      
+
+
+
+      var temp = {}
+      temp.from = key0
+      temp.to = key1
+      temp.text = weight_0_1
+      if (relation_0_1 === "0") {
+        temp.fromArrow = ""
+        temp.toArrow = ""
+        temp.dash = null
       }
-      else {
-        weight0 = 2
-        weight1 = 12
+      else if (relation_0_1 === "1") {
+        temp.fromArrow = ""
+        temp.toArrow = "OpenTriangle"
+        temp.dash = null
       }
-      for (var i=0; i<data.length; i++) {
+      else if (relation_0_1 === "2") {
+        temp.fromArrow = ""
+        temp.toArrow = "OpenTriangle"
+        temp.dash = [8,3]
+      }
+     
+
+      var temp2 = {}
+      temp2.from = key1
+      temp2.to = key2
+      temp2.text = weight_1_2
+      if (relation_1_2 === "0") {
+        temp2.fromArrow = ""
+        temp2.toArrow = ""
+        temp2.dash = null
+      }
+      else if (relation_1_2 === "1") {
+        temp2.fromArrow = ""
+        temp2.toArrow = "OpenTriangle"
+        temp2.dash = null
+      }
+      else if (relation_1_2 === "2") {
+        temp2.fromArrow = ""
+        temp2.toArrow = "OpenTriangle"
+        temp2.dash = [8,3]
+      }
+
+      arrayLinks.push(temp)
+      arrayLinks.push(temp2)
+      
+        var key = {}
+        key.key = key0
+        var loc = Xposition.toString() + " " + Yposition.toString()
+        key.loc = loc
+        key.color = "lightblue"
+        arrayKeys.push(key)
+      
+     
+        var key = {}
+        key.key = key1
+        Yposition += 100
+        var loc = Xposition.toString() + " " + Yposition.toString()
+        key.loc = loc
+        key.color = "lightblue"
+        arrayKeys.push(key)
+      
+     
+        var key = {}
+        key.key = key2
+        Yposition += 100
+        var loc = Xposition.toString() + " " + Yposition.toString()
+        key.loc = loc
+        key.color = "lightblue"
+        arrayKeys.push(key)
+      
+      
+      // for (var i=0; i<data.length; i++) {
         
-          var temp = data[i]
-          var from = temp["from"]
-          var to = temp["to"]
+      //     var temp = data[i]
+      //     var from = temp["from"]
+      //     var to = temp["to"]
           
           
-          var relation = temp["relation"]
-          var from_val = temp["from_val"]
-          var to_val = temp["to_val"]
+      //     var relation = temp["relation"]
+      //     var from_val = temp["from_val"]
+      //     var to_val = temp["to_val"]
          
-          from = from + ":"  + from_val
-          to = to + ":" + to_val
-          var nodes = dataReturn.nodes
-          var links = dataReturn.links
-          if (this.isNodeExistInData(nodes, from) === false) {
+      //     from = from + ":"  + from_val
+      //     to = to + ":" + to_val
+      //     var nodes = dataReturn.nodes
+      //     var links = dataReturn.links
+      //     if (this.isNodeExistInData(nodes, from) === false) {
            
-            var id = {}
-            id.id = from
+      //       var key = {}
+      //       key.key = from
            
-            nodes.push(id)
-            dataReturn.nodes = this.decorateGraphNodesWithInitialPositioning(nodes)
-          }
-          if (this.isNodeExistInData(nodes, to) === false) {
-            var id = {}
-            id.id = to
+      //       nodes.push(id)
+           
+      //     }
+      //     if (this.isNodeExistInData(nodes, to) === false) {
+      //       var id = {}
+      //       id.id = to
             
-            nodes.push(id)
-            dataReturn.nodes = this.decorateGraphNodesWithInitialPositioning(nodes)
-          }
-          if (relation === "0") {
-            var sourceTarget = {}
-            sourceTarget.source = from
-            sourceTarget.target = to
+      //       nodes.push(id)
+      //       dataReturn.nodes = this.decorateGraphNodesWithInitialPositioning(nodes)
+      //     }
+      //     if (relation === "0") {
+      //       var sourceTarget = {}
+      //       sourceTarget.source = from
+      //       sourceTarget.target = to
             
-            var sourceTarget2 = {}
-            sourceTarget2.source = to
-            sourceTarget2.target = from
+      //       var sourceTarget2 = {}
+      //       sourceTarget2.source = to
+      //       sourceTarget2.target = from
           
-            if (i == 0) {
-              sourceTarget.value = weight0
-              sourceTarget2.value = weight0
-            }
-            else {
-              sourceTarget.value = weight1
-              sourceTarget2.value = weight1
-            }
-            links.push(sourceTarget)
-            links.push(sourceTarget2)
-          }
-          else if (relation === "1") {
-            var sourceTarget = {}
-            sourceTarget.source = from
-            sourceTarget.target = to
-            sourceTarget.label = "test"
-            if (i == 0) {
-              sourceTarget.value = weight0
-            }
-            else {
-              sourceTarget.value = weight1
-            }
-            links.push(sourceTarget)
-          }
-          else if (relation === "2") {
-            var sourceTarget = {}
-            sourceTarget.source = from
-            sourceTarget.target = to
+      //       if (i == 0) {
+      //         sourceTarget.value = weight0
+      //         sourceTarget2.value = weight0
+      //       }
+      //       else {
+      //         sourceTarget.value = weight1
+      //         sourceTarget2.value = weight1
+      //       }
+      //       links.push(sourceTarget)
+      //       links.push(sourceTarget2)
+      //     }
+      //     else if (relation === "1") {
+      //       var sourceTarget = {}
+      //       sourceTarget.source = from
+      //       sourceTarget.target = to
+      //       sourceTarget.label = "test"
+      //       if (i == 0) {
+      //         sourceTarget.value = weight0
+      //       }
+      //       else {
+      //         sourceTarget.value = weight1
+      //       }
+      //       links.push(sourceTarget)
+      //     }
+      //     else if (relation === "2") {
+      //       var sourceTarget = {}
+      //       sourceTarget.source = from
+      //       sourceTarget.target = to
             
-            sourceTarget.color = "#f44259"
-            if (i == 0) {
-              sourceTarget.value = weight0
-            }
-            else {
-              sourceTarget.value = weight1
-            }
-            // sourceTarget.className = 'dottedLink'
-            links.push(sourceTarget)
-          }
-          dataReturn.links = links
-      }
-      return dataReturn
+      //       sourceTarget.color = "#f44259"
+      //       if (i == 0) {
+      //         sourceTarget.value = weight0
+      //       }
+      //       else {
+      //         sourceTarget.value = weight1
+      //       }
+      //       // sourceTarget.className = 'dottedLink'
+      //       links.push(sourceTarget)
+      //     }
+      //     dataReturn.links = links
+      // }
+      // return dataReturn
     }
-    decorateGraphNodesWithInitialPositioning = nodes => (nodes.map(n =>
-      Object.assign({}, n, {
-        x: n.x || Math.floor(Math.random() * 150),
-        y: n.y || Math.floor(Math.random() * 500)
-      })
-    ));
+    
+    
     parseDataGraph = (data) => {
-      var dataGraph = []
+      
+      arrayKeys = []
+      arrayLinks = []
+      arrayWeights = []
+      var Xposition = 120
+      var Yposition = 220
         for (var i=0; i<data.length; i++) {
-            var temp = this.parseAnElement(data[i])
-            console.log(temp)
-            var tempGraph = <Graph
-            id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
-            data={temp}
-            
-            config={myConfig} />
-            dataGraph.push(tempGraph)
-        }
-        this.setState({
-          arrayGraph: dataGraph
-        })
+           
+          this.parseAnElement(data[i],Xposition,Yposition,i)
+         
+          Xposition += 100
+          Yposition = 220
     }
+    
+      console.log("arrayKeys")
+      console.log(arrayKeys)
+      console.log("arrayLinks")
+      console.log(arrayLinks)
+   
+  }
     getDataGraph = (value,idSensor,prop) => {
       var url = constClass.DEEPDIVE_BACKEND + "relations?id=" + idSensor + "&attr=" + prop + "&val=" + value
         window.console.log(url)
@@ -439,6 +545,89 @@ export default class Test extends React.Component {
             }
           )
     }
+   
+    creatGraph = (value,idSensor,prop) => {
+      
+      if (this.state.numClick === 1) {
+        var $ = go.GraphObject.make;  // for conciseness in defining templates
+         myDiagram = $(go.Diagram, "myDiagramDiv");
+        // define a simple Node template
+        myDiagram.nodeTemplate =
+          $(go.Node, "Auto",  // the Shape will go around the TextBlock
+            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+            $(go.Shape, "RoundedRectangle", { strokeWidth: 0, fill: "white" },
+              // Shape.fill is bound to Node.data.color
+              new go.Binding("fill", "color")),
+            $(go.TextBlock,
+              { margin: 6 },  // some room around the text
+              // TextBlock.text is bound to Node.data.key
+              new go.Binding("text", "key")),
+          );
+  
+        myDiagram.linkTemplate =
+          $(go.Link,  // the whole link 23panel
+            { routing: go.Link.Normal },
+            $(go.Shape,  // the link shape
+              new go.Binding("strokeDashArray","dash"),
+              // the first element is assumed to be main element: as if isPanelMain were true
+              { stroke: "black", strokeWidth: 2 }),
+            $(go.Shape,  // the "from" arrowhead
+              new go.Binding("fromArrow", "fromArrow"),
+              { scale: 2, fill: "#D4B52C" }),
+            $(go.Shape,  // the "from" arrowhead
+              new go.Binding("toArrow", "toArrow"),
+              { scale: 2, fill: "#D4B52C" }),
+            $(go.Panel, "Auto",
+              $(go.Shape,  // the label background, which becomes transparent around the edges
+                {
+                  fill: $(go.Brush, "Radial", { 0: "rgb(255,255,255)", 0.6: "rgb(255,255,255)", 1: "rgba(255,255,255, 0)" }),
+                  stroke: null
+                }),
+              $(go.TextBlock,  // the label text
+                {
+                  textAlign: "center",
+                  font: "10pt helvetica, arial, sans-serif",
+                  stroke: "#555555",
+                  margin: 4
+                },
+                new go.Binding("text", "text"))
+            )
+          );
+      }
+
+      this.getDataGraphFromServer(value,idSensor,prop)
+      
+      // but use the default Link template, by not setting Diagram.linkTemplate
+      // create the model data that will be represented by Nodes and Links
+    
+  }
+  getDataGraphFromServer = (value,idSensor,prop) => {
+    this.getDataGraph(value,idSensor,prop)
+    // var test1 =  [
+    //   { key: "A:1      ", loc: "120 220", color: "lightblue" },
+    //   { key: "A:1     ", loc: "220 220", color: "lightblue" },
+    
+    //   { key: "C:3", loc: "120 420", color: "lightgreen" },
+  
+    // ]
+    // var test2 =  [
+    //   { from: "A:1      ", to: "C:3", text: "0.67", fromArrow:"", toArrow:"", dash: null},
+    //   { from: "A:1     ", to: "C:3", text: "0.6", fromArrow:"", toArrow:"", dash: null},
+     
+    // ]
+    myDiagram.model = new go.GraphLinksModel(
+     arrayKeys,
+     
+    arrayLinks
+      
+      
+      );
+      console.log("miDiagramModel")
+      console.log(myDiagram.model)
+    this.setState({
+      numClick : this.state.numClick + 1
+    })
+  }
     handleClickRow = (e,key,value,idSensor,prop) => {
        
 
@@ -448,7 +637,7 @@ export default class Test extends React.Component {
             valueToChange: value,
             isRightClickedInRepair: true,
             arrayGraph: []
-        },() => this.getDataGraph(value,idSensor,prop))
+        },() => this.creatGraph(value,idSensor,prop))
       
         } else if (e.nativeEvent.which === 3) {
             e.preventDefault()
@@ -554,6 +743,8 @@ export default class Test extends React.Component {
        
         
     }
+  
+   
 
 parseObject(data) {
     if (this.props.kindDataset === constClass.SENSOR) {
@@ -1119,6 +1310,7 @@ parseObject(data) {
       }
       
      componentDidMount() {
+      //  this.init()
          this.lastUpdate()
          this.stale()
          this.repairs()
@@ -1612,8 +1804,8 @@ parseObject(data) {
             </table> </div>}
             
             <Popup contentStyle={contentStyle} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
-          <div className="table-wrapper-scroll-y row">
-          <table className="table table-striped">
+          <div className="table-wrapper-scroll-y">
+          <table className="table table-striped paddingBetweenCols">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -1649,15 +1841,15 @@ parseObject(data) {
             }.bind(this))}</tbody>
           </table>
          
-         <div id="legendsGraph">
+         {/* <div id="legendsGraph">
           <b className="legends" style={{color: "#b7b7b7"}}> -> :  <b style={{color: "#000000"}}>postitive causality</b> </b>
           <br></br>
           <b className="legends" style={{color: "#f44259"}}> -> :  <b style={{color: "#000000"}}>negative causality</b> </b>
           <br></br>
           <b className="legends" style={{color: "#b7b7b7"}}> {coOccur}:  <b style={{color: "#000000"}}>co-occurence</b> </b>
           
-          </div>
-          {this.state.isRightClickedInRepair === true ? this.state.arrayGraph : null}
+          </div> */}
+          {this.state.isRightClickedInRepair === true ? <div id="myDiagramDiv" style={{width:800, height:300}}></div> : null}
          
           
           
@@ -1666,6 +1858,7 @@ parseObject(data) {
         </Popup>
             
         </div> : null }
+        
             </div>
         )
 

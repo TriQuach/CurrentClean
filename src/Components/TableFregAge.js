@@ -482,31 +482,31 @@ export default class TableFregAge extends Component {
     let optionsColumnAge = {
       animationEnabled: true,
       
-      width: 250,
-      height: 260,
+      width: 340,
+      height: 280,
       
       title: {
         text: "Accumulative time duration"
       },
       subtitles: [{
         text: "patient_" + this.state.currentID + "_" + this.state.currentProp ,		
-        fontSize : 15
+        fontSize : 20
        
       }],
       
       axisX: {
         title: "Values",
         reversed: true,
-        titleFontSize: 14,
+        titleFontSize: 20,
         
-        labelFontSize: 14
+        labelFontSize: 20
       },
       axisY: {
         title: "Time (seconds)",
         labelFormatter: this.addSymbols,
-        titleFontSize: 14,
+        titleFontSize: 20,
         
-        labelFontSize: 14
+        labelFontSize: 20
       },
       data: [
         {
