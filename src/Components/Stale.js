@@ -80,7 +80,8 @@ export default class Test extends Component {
       finalMinProb:0,
       finalMaxProb: 0,
       numCellsWillBeCleaned: 0,
-      originalArrayStaleCells: []
+      originalArrayStaleCells: [],
+      orginNumberStaleCells: 0
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -349,7 +350,8 @@ export default class Test extends Component {
           this.setState({
             numberStaleCells: result["stalecells"].length,
             valBeta: beta*100,
-            originalArrayStaleCells: result["stalecells"]
+            originalArrayStaleCells: result["stalecells"],
+            orginNumberStaleCells: result["stalecells"].length,
           })
         },
 
@@ -526,7 +528,8 @@ export default class Test extends Component {
     var question = this.props.match.params
     var beta = question["beta"]
     this.setState({
-      maxProb: beta * 100
+      maxProb: beta * 100,
+
 
     })
   }
@@ -574,7 +577,8 @@ export default class Test extends Component {
         this.setState({
           mostValToClean: this.state.mostVal,
           mostVal: 0,
-          numberStaleCells: this.state.numberStaleCells - this.state.mostVal
+          numberStaleCells: this.state.numberStaleCells - this.state.mostVal,
+          orginNumberStaleCells: this.state.numberStaleCells
         })
     }
     else if (kindSlider === "range") {
@@ -586,14 +590,16 @@ export default class Test extends Component {
         this.setState({
           finalMinProb: this.state.minProb,
           finalMaxProb: this.state.maxProb,
-          numberStaleCells: this.state.originalArrayStaleCells.length - numCellstoClean
-          
+          numberStaleCells: this.state.originalArrayStaleCells.length - numCellstoClean,
+          orginNumberStaleCells: this.state.originalArrayStaleCells.length
         })
     }
   }
 
 
   render() {
+  
+
     return (
       <div className="rowStale">
               {this.state.isFinished === true ?
@@ -619,6 +625,7 @@ export default class Test extends Component {
                onChange={this.handleChangeSlider} 
                mostVal={this.state.mostVal}  
                isRepaired={this.state.isRepaired} 
+               orginNumberStaleCells={this.state.orginNumberStaleCells}
                kindDataset={kindDataset}/> : null}
 
 

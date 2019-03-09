@@ -5,6 +5,7 @@ import * as constClass from '../Const/utils.js'
 import { RadioGroup, Radio } from 'react-radio-group'
 import { Graph } from 'react-d3-graph';
 import { ForceGraph2D, ForceGraph3D, ForceGraphVR } from 'react-force-graph';
+import { Progress } from 'react-sweet-progress';
 const dataNodes = {
   "nodes": [],
 }
@@ -202,16 +203,36 @@ checkNodesInGraph = (data,value) => {
       window.console.log("this.props.valBeta")
       window.console.log(this.props.valBeta)
       
-    
-        
+      console.log("percenStaleCells")
+      console.log(this.props.orginNumberStaleCells)
+      console.log(this.props.numberStaleCells)
+      
+      var percent = this.props.numberStaleCells / this.props.orginNumberStaleCells * 100
+      
+      percent = 100 - percent
+      percent =  Math.round(percent * 100) / 100
         return (
           <div>
          {this.props.isRepaired === true?    
          <div id="graph"> 
          
-          <b className="largeSizePattern">Remaining number of  </b> 
-          <br></br>
-          <b className="largeSizePattern">stale cells: {this.props.numberStaleCells}</b>
+         <Progress
+  percent={percent}
+  
+  width={170}
+  status="error"
+  symbolClassName= "test"
+  theme={{
+    error: {
+      symbol: percent + "% ",
+      color: '#09ed09' ,
+      trailColor: '#e8060a',
+      
+    }
+  }}
+/>
+
+        
           <div id="sliderMostStaleCell">
                 <b className="largeSizePattern">Clean the most stale cells: </b>
                 <br></br>

@@ -36,7 +36,7 @@ var myDiagram = null
 var arrayKeys = []
 var arrayLinks =  []
 var arrayWeights = []
-
+var numClick = 1
 
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -113,7 +113,7 @@ export default class Test extends React.Component {
             checkBlur: false,
             isRightClickedInRepair: false,
             arrayGraph: [],
-            numClick: 1
+            
             
             
         }
@@ -241,12 +241,13 @@ export default class Test extends React.Component {
           }
     }
     closePopUp() {
+      numClick = 1
         this.setState({
           showPopUp: false,
           checkedRow: 999,
           isRightClickedInRepair: false,
           arrayGraph: [],
-          numClick: 1
+        
         })
       }
     handleClickCellFalse() {
@@ -404,7 +405,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key1
-        Yposition += 100
+        Yposition += 80
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -413,7 +414,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key2
-        Yposition += 100
+        Yposition += 80
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -509,20 +510,30 @@ export default class Test extends React.Component {
       arrayKeys = []
       arrayLinks = []
       arrayWeights = []
-      var Xposition = 120
-      var Yposition = 220
+      var Xposition = 10
+      var Yposition = 110
         for (var i=0; i<data.length; i++) {
            
           this.parseAnElement(data[i],Xposition,Yposition,i)
          
-          Xposition += 100
-          Yposition = 220
+          Xposition += 80
+          Yposition = 110
     }
     
       console.log("arrayKeys")
       console.log(arrayKeys)
       console.log("arrayLinks")
       console.log(arrayLinks)
+      myDiagram.model = new go.GraphLinksModel(
+        arrayKeys,
+        
+       arrayLinks
+         
+         
+         );
+         console.log("miDiagramModel")
+         console.log(myDiagram.model)
+       numClick += 1
    
   }
     getDataGraph = (value,idSensor,prop) => {
@@ -547,8 +558,10 @@ export default class Test extends React.Component {
     }
    
     creatGraph = (value,idSensor,prop) => {
+      console.log("numClick")
+      console.log(numClick)
       
-      if (this.state.numClick === 1) {
+      if (numClick === 1) {
         var $ = go.GraphObject.make;  // for conciseness in defining templates
          myDiagram = $(go.Diagram, "myDiagramDiv");
         // define a simple Node template
@@ -615,18 +628,7 @@ export default class Test extends React.Component {
     //   { from: "A:1     ", to: "C:3", text: "0.6", fromArrow:"", toArrow:"", dash: null},
      
     // ]
-    myDiagram.model = new go.GraphLinksModel(
-     arrayKeys,
-     
-    arrayLinks
-      
-      
-      );
-      console.log("miDiagramModel")
-      console.log(myDiagram.model)
-    this.setState({
-      numClick : this.state.numClick + 1
-    })
+  
   }
     handleClickRow = (e,key,value,idSensor,prop) => {
        
@@ -1439,7 +1441,7 @@ parseObject(data) {
 
     render() {
         
-        let kindRepair
+        
         if (this)
         window.console.log("this.state.dictStale")
         window.console.log(this.state.dictStale)
@@ -1451,6 +1453,12 @@ parseObject(data) {
         window.console.log(this.state.data)
         console.log("this.state.data")
         console.log(this.state.data)
+
+        console.log("arrayKeys%^%^")
+        console.log(arrayKeys)
+        console.log("arrayLinks")
+        console.log(arrayLinks)
+     
         var dict = this.state.dictStale
         var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
