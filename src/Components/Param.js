@@ -11,19 +11,20 @@ export default class Slider extends Component {
         if (typeRadio !== '') {
             if (typeRadio === constClass.SENSOR) {
                 theta = <div>
-                    <b className="b">Time unit size (δ)</b> <b>20 seconds</b>
+                    <b className="b">δ:</b> <b>20 seconds</b>
                 </div>
             } else if (typeRadio === constClass.CLINICAL || typeRadio == constClass.UPLOAD) {
                 theta =
                     <div>
-                        <b className="largeSize">Time unit size (δ)</b>
-                        <b> {this.props.valDelta} seconds </b>
+                        <b className="largeSize">δ:</b>
+                        <b id="boldDelta"> {this.props.valDelta} seconds </b>
                         <br></br>
                          <ReactBootstrapSlider
                             value={this.props.valDelta}
                             max={100}
                             min={1}
                             step={1}
+                            id="deltaSlider"
                             change={ e => this.props.onChange(e,'delta')}
                         />
                     </div>
@@ -32,20 +33,24 @@ export default class Slider extends Component {
         }
         return (
             <div id="param">
-                <h3 id="param"> Parameters</h3>
-                <div className="moveUp">
-                <b  className="largeSize">Currency Threshold (β)</b>
-                <b> {this.props.valBeta}</b>
+                <h2 id="param"> Parameters</h2>
+                <div className="moveUp " id="wrap">
+                <div className="block">
+                <b className="largeSize">β:</b>
+                <b id="boldBeta"> {this.props.valBeta}</b>
                 <br></br>
                  <ReactBootstrapSlider
                     value={this.props.valBeta}
                     max={1}
                     min={0}
                     step={0.1}
+                    id="betaSlider"
                     change={ e => this.props.onChange(e,'beta')}
                 />
-                <br></br>
+                </div>
+                <div className="block" id="blockDelta">
                 {theta}
+                </div>
                 </div>
 
             </div>

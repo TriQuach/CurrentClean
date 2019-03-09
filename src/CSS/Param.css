@@ -1,5 +1,6 @@
-h3#param {
-    margin-top: 0px
+h2#param {
+    margin-top: 0px;
+    font-size: 190%;
 }
 div#param {
     margin-top: 1.0em;
@@ -16,4 +17,28 @@ div#param {
 }
 div#beta {
     margin-top: -15px
+}
+div#deltaSlider {
+    width: 120px;
+   
+}
+div#betaSlider {
+    width: 120px;
+}
+.block {
+  
+      display: inline-block;
+     
+  }
+div#blockDelta {
+    margin-left: 20px
+}
+b#boldBeta {
+    margin-left: 5px
+}
+b#boldDelta {
+    margin-left: 5px
+}
+div#wrap {
+    margin-left: 10px
 }

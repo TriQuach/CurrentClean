@@ -29,7 +29,7 @@ export default class Slider extends Component {
     }
     timeConverter(UNIX_timestamp){
         var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
@@ -47,7 +47,9 @@ export default class Slider extends Component {
         if (sec.toString().length === 1) {
             sec = "0" + sec.toString()
         }
-        var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        // var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        var time = year + '/' + month + '/' + date + ' ' + hour + ':' + min + ':' + sec ;
+        
         return time;
       }
     render() {
@@ -61,14 +63,17 @@ export default class Slider extends Component {
       
         return (
             <div id="slider">
-                <h3 id="value">Update History Time Duration</h3>
+                <h2 id="value">Update History</h2>
+              
                 <ReactBootstrapSlider
                     value={[this.props.startTime, this.props.endTime]}
                     max={this.props.typeRadio === "sensor" ? 1522987200 : 1466558522}
                     min={this.props.typeRadio === "sensor" ? 1522932390 : 1466410104}
                     change={this.props.onChange}
-                    tooltip="show"
+                    id="test"
+                    tooltip="hide"
                 />
+               
                 <div id="startTime">
                     <form>
 

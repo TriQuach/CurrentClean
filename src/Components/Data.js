@@ -8,7 +8,7 @@ export default class Slider extends Component {
   render() {
     return (
       <div id="data">
-        <h3 id="data"> Dataset</h3>
+        <h2 id="data"> Data</h2>
         <div className="moveUp">
         <RadioGroup
           name="fruit"
@@ -26,12 +26,12 @@ export default class Slider extends Component {
           <label className="largeSize">
             <Radio value="upload" />  Upload your Data
         </label>
-        <input id={constClass.UPLOAD} className="btn btn-primary" type="button" value="Upload"></input>
-
+        
 
        
           <input type="file" />
-        
+          <input id={constClass.UPLOAD} className="btn btn-primary" type="button" value="Upload"></input>
+
 
 
         </RadioGroup>

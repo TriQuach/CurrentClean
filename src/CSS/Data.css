@@ -1,5 +1,6 @@
 label#clinical {
-    float: right
+    float: right;
+    margin-right: 10px
 }
 .radio {
     margin-right: 0
@@ -19,12 +20,10 @@ div#data {
   padding-right: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
+  width: 8.35cm
 }
-h3#data {
-    margin-top: 0px
+h2#data {
+    margin-top: 0px;
+    font-size: 190%;
 }
-input#upload {
-    margin-top: 0.5px;
-    float: right;
-    margin-right: 20px;
-}
+

@@ -158,13 +158,98 @@ export default class TableFregAge extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
+  newHexColor = (data) => {
+    console.log("92")
+    console.log(data)
+    for (var i=0; i<data.length; i++) {
+      for (var j=0; j<data[0].length; j++)
+      {
+        var probability = data[i][j]["probability"]
+        console.log('probability')
+        console.log(probability)
+        console.log(data[i][j]["hex"])
+        // if (probability >= 0 && probability <= 0.14285714285714285 ) {
+        //   data[i][j]["hex"] = "#67001f"
+        // }
+        // else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+        //   data[i][j]["hex"] = "#980043"
+        // }
+        // else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+        //   data[i][j]["hex"] = "#ce1256"
+        // }
+        // else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+        //   data[i][j]["hex"] = "#e7298a"
+        // }
+        // else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+        //   data[i][j]["hex"] = "#df65b0"
+        // }
+        // else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+        //   data[i][j]["hex"] = "#c994c7"
+        // }
+        // else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+        //   data[i][j]["hex"] = "#d4b9da"
+        // }
+
+
+        // if (probability >= 0 && probability <= 0.14285714285714285 ) {
+        //   data[i][j]["hex"] = "#00441b"
+        // }
+        // else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+        //   data[i][j]["hex"] = "#006d2c"
+        // }
+        // else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+        //   data[i][j]["hex"] = "#238b45"
+        // }
+        // else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+        //   data[i][j]["hex"] = "#41ab5d"
+        // }
+        // else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+        //   data[i][j]["hex"] = "#74c476"
+        // }
+        // else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+        //   data[i][j]["hex"] = "#a1d99b"
+        // }
+        // else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+        //   data[i][j]["hex"] = "#c7e9c0"
+        // }
+
+        if (probability >= 0 && probability <= 0.14285714285714285 ) {
+          data[i][j]["hex"] = "#08306b"
+        }
+        else if (probability >= 0.14285714285714285 && probability <= 0.2857142857142857 ) {
+          data[i][j]["hex"] = "#08519c"
+        }
+        else if (probability >= 0.2857142857142857 && probability <= 0.42857142857142855 ) {
+          data[i][j]["hex"] = "#2171b5"
+        }
+        else if (probability >= 0.42857142857142855 && probability <= 0.5714285714285714 ) {
+          data[i][j]["hex"] = "#4292c6"
+        }
+        else if (probability >= 0.5714285714285714 && probability <= 0.7142857142857142 ) {
+          data[i][j]["hex"] = "#6baed6"
+        }
+        else if (probability >= 0.7142857142857142 && probability <= 0.857142857142857 ) {
+          data[i][j]["hex"] = "#9ecae1"
+        }
+        else if (probability >= 0.857142857142857 && probability <= 1.0 ) {
+          data[i][j]["hex"] = "#c6dbef"
+        }
+      }
+     
+    }
+    return data
+  }
+
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.props.data) {
       //Perform some operation
       arrayCells = []
       window.console.log("90")
       window.console.log(nextProps.data)
-      this.setState({ data: nextProps.data });
+      var newHexData = this.newHexColor(nextProps.data)
+      
+      this.setState({ data: newHexData });
 
     }
   }
@@ -407,6 +492,8 @@ export default class TableFregAge extends Component {
     var x = this.checkInTheSameCol(1)
     window.console.log("checkInTheSameCol")
     window.console.log(x)
+    console.log("this.state.data")
+    console.log(this.state.data)
 
     var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
       'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
@@ -486,7 +573,7 @@ export default class TableFregAge extends Component {
       height: 280,
       
       title: {
-        text: "Accumulative time duration"
+        text: "Cumulative time duration"
       },
       subtitles: [{
         text: "patient_" + this.state.currentID + "_" + this.state.currentProp ,		
@@ -546,9 +633,9 @@ export default class TableFregAge extends Component {
 
       <div className="TableFregAge" id="table">
         <ul className="nav nav-tabs" style={{ width: "100%" }}>
-          <li className={this.props.typeRequest === constClass.AGE ? "active li" : "li"}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
+          <li id="boldAge" className={this.props.typeRequest === constClass.AGE ? "active li" : "li"}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
 
-          <li className={this.props.typeRequest === constClass.FREQUENCY ? "active li" : "li"} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Update Frequency</a></li>
+          <li id="boldFreq" className={this.props.typeRequest === constClass.FREQUENCY ? "active li" : "li"} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Update Frequency</a></li>
 
         </ul>
         {this.props.typeRadio === constClass.SENSOR ? (this.props.data.length === 58 ?  
@@ -593,13 +680,15 @@ export default class TableFregAge extends Component {
             <tr>
             <th scope="col">ID</th>
               
+            <th scope="col">TMP</th>
+            <th scope="col">SpO2</th>
               <th scope="col">HR</th>
               <th scope="col">DBP</th>
               <th scope="col">SBP</th>
               <th scope="col">WBC</th>
               <th scope="col">RR</th>
-              <th scope="col">SpO2</th>
-              <th scope="col">TMP</th>
+             
+             
               <th scope="col">RBC</th>
               <th scope="col">RBCF</th> 
               <th scope="col">MONO</th>
@@ -631,14 +720,15 @@ export default class TableFregAge extends Component {
                 <tr key={key} >
             
                   <td>{valid_id_Mimic[key]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#38ff5f" }} >{item[9]["value"]}</td>
+                  
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#38ff5f" }}  >{item[8]["value"]}</td>
 
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HR', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'DBP', key, 4,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#38ff5f" }}  >{item[4]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SBP', key, 5,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#38ff5f" }} >{item[5]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#38ff5f" }}  >{item[16]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RR', key, 7,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#38ff5f" }} >{item[7]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#38ff5f" }}  >{item[8]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#38ff5f" }} >{item[9]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBC', key, 14,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#38ff5f" }} >{item[14]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBCF', key, 15,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#38ff5f" }} >{item[15]["value"]}</td>
                   <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'MONO', key, 17,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#38ff5f" }} >{item[17]["value"]}</td>
