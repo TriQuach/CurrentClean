@@ -18,7 +18,7 @@ div#tableMimic {
   overflow: auto;
 }
 input#apply {
-  margin-left: 2cm;
+  margin-left: 40%;
   
   background-color: #4469b0;
     padding: 9px 16px;
@@ -64,7 +64,11 @@ b#b1 {
 div#legendsGraph {
   margin-left: 10px
 }
-.paddingBetweenCols td
-{
-    padding:0 15px 0 15px;
+table.paddingBetweenCols {
+  table-layout: auto;
+  width: 100px;  
+}
+table.paddingBetweenCols2 {
+  table-layout: auto;
+  width: 100%;  
 }

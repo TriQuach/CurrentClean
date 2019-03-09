@@ -24,8 +24,8 @@ const myConfig = {
   width: 300
 };
 const contentStyle = {
-  height: "60vh",
-  width: "30%"
+  height: "40vh",
+  width: "19%"
   
 };
 const colWidth = {
@@ -405,7 +405,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key1
-        Yposition += 80
+        Yposition += 100
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -414,7 +414,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key2
-        Yposition += 80
+        Yposition += 100
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -510,14 +510,14 @@ export default class Test extends React.Component {
       arrayKeys = []
       arrayLinks = []
       arrayWeights = []
-      var Xposition = 10
-      var Yposition = 110
+      var Xposition = 120
+      var Yposition = 220
         for (var i=0; i<data.length; i++) {
            
           this.parseAnElement(data[i],Xposition,Yposition,i)
          
-          Xposition += 80
-          Yposition = 110
+          Xposition += 100
+          Yposition = 220
     }
     
       console.log("arrayKeys")
@@ -1811,9 +1811,9 @@ parseObject(data) {
                 }.bind(this))}</tbody>
             </table> </div>}
             
-            <Popup contentStyle={contentStyle} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+            <Popup contentStyle={this.state.isRightClickedInRepair === false ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-y">
-          <table className="table table-striped paddingBetweenCols">
+          <table className={this.state.isRightClickedInRepair === false ?"table table-striped paddingBetweenCols" : "table table-striped paddingBetweenCols2"}>
             <thead>
               <tr>
                 <th scope="col">#</th>
