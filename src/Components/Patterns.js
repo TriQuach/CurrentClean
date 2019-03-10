@@ -205,7 +205,7 @@ checkNodesInGraph = (data,value) => {
 
       var percent = 0
       if (this.props.kindDataset === constClass.SENSOR) {
-        percent = this.props.numberStaleCells / 232
+        percent = this.props.numberStaleCells / 232 * 100
       }
       else {
         console.log("`12")
@@ -258,7 +258,9 @@ checkNodesInGraph = (data,value) => {
 
         
           <div id="sliderMostStaleCell">
-                <b className="largeSizePattern">Clean the most number stale cells: </b>
+                <b className="largeSizePattern">Clean the most number </b>
+                  <br></br>
+                  <b className="largeSizePattern"> stale cells: </b>
                 
                  <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>
                  <br></br>
@@ -295,9 +297,9 @@ checkNodesInGraph = (data,value) => {
                     <form>
                       
                         <b id="test45" className="largeSizePattern"> Start: </b>
-                        <b className="largeSizePattern" id="startTime"> {this.props.minProb}%</b>
+                        <b className="largeSizePattern" id="startTime123"> {this.props.minProb}%</b>
                         <div className="block">
-                        <b className="largeSizePattern" id="endTime"> End: </b>
+                        <b className="largeSizePattern" id="endTime123"> End: </b>
                         <b className="largeSizePattern"> {this.props.maxProb}%</b>
                         </div>
                         

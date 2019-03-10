@@ -106,7 +106,9 @@ export default class SliderTableWrapper extends Component {
         
         
     }
-
+    componentDidMount() {
+        // this.init()
+    }
 
 
 
@@ -178,6 +180,50 @@ export default class SliderTableWrapper extends Component {
            
        
         
+    }
+    init() {
+        var $ = go.GraphObject.make;  // for conciseness in defining templates
+        myDiagram = $(go.Diagram, "myDiagramDiv");
+        // define a simple Node template
+        myDiagram.nodeTemplate =
+          $(go.Node, "Auto",  // the Shape will go around the TextBlock
+            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+            $(go.Shape, "RoundedRectangle", { strokeWidth: 0, fill: "white" },
+              // Shape.fill is bound to Node.data.color
+              new go.Binding("fill", "color")),
+            $(go.TextBlock,
+              { margin: 6 },  // some room around the text
+              // TextBlock.text is bound to Node.data.key
+              new go.Binding("text", "key")),
+          );
+  
+          myDiagram.linkTemplate =
+          $(go.Link,
+            $(go.Shape,  // the link shape
+                new go.Binding("strokeDashArray","dash"),
+                // the first element is assumed to be main element: as if isPanelMain were true
+                { stroke: "black", strokeWidth: 2 }),
+              $(go.Shape,  // the "from" arrowhead
+                new go.Binding("fromArrow", "fromArrow"),
+                { scale: 2, fill: "#D4B52C" }),
+              $(go.Shape,  // the "from" arrowhead
+                new go.Binding("toArrow", "toArrow"),
+                { scale: 2, fill: "#D4B52C" }),
+            
+            $(go.TextBlock, { segmentOffset: new go.Point(0, -25) }, new go.Binding("text", "text")),
+          
+          );   
+
+          myDiagram.model = new go.GraphLinksModel(
+            [
+              { key: " ", loc: "120 220", color: "#ffffff" },
+              { key: "  :+ve", loc: "220 220", color: "#ffffff" },
+            
+            ],
+            [
+              { from: " ", to: "  :+ve",text:"0.5406", fromArrow:"", toArrow:"OpenTriangle", dash: [8,3]},
+              
+            ]);
     }
     handleClickIdentify(e) {
         if (this.state.typeRadio !== '') {
@@ -260,6 +306,7 @@ export default class SliderTableWrapper extends Component {
                     <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
                     {/* <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
                     */}
+                    {/* <div id="myDiagramDiv" style={{width:400, height:400}}></div> */}
                    
                     
          

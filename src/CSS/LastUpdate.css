@@ -17,10 +17,17 @@ div#tableMimic {
   width: 900px;
   overflow: auto;
 }
-input#apply {
+.apply {
 
   margin-left: 40%;
-  margin-top: -15px;
+  margin-top: 5px;
+  background-color: #4469b0;
+    padding: 4px 7px;
+}
+.applyBigger {
+
+  margin-left: 42%;
+  margin-top: 20px;
   background-color: #4469b0;
     padding: 4px 7px;
 }
@@ -30,10 +37,16 @@ input#apply {
 }
 .table-wrapper-scroll-y {
   display: block;
-  max-height: 760px;
+  max-height: 250px;
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   }
+  .table-wrapper-scroll-y2 {
+    display: block;
+    max-height: 550px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
   .row  {
     min-height: 50vh;
   display: flex;

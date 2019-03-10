@@ -10,7 +10,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var arrayCells = []
 const contentStyle = {
   height: "40vh",
-  width: "18%"
+  width: "25%"
 };
 export default class TableFregAge extends Component {
 
@@ -576,7 +576,7 @@ export default class TableFregAge extends Component {
         text: "Cumulative time duration"
       },
       subtitles: [{
-        text: "patient_" + this.state.currentID + "_" + this.state.currentProp ,		
+        text: this.props.typeRadio===constClass.CLINICAL ? "patient_"+ this.state.currentID + "_" + this.state.currentProp : "sensor_" + this.state.currentID + "_" + this.state.currentProp ,		
         fontSize : 20
        
       }],
@@ -661,10 +661,10 @@ export default class TableFregAge extends Component {
                   <td>{key + 1}</td>
                   <td>{valid_id[key]}</td>
 
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(0)) } style={{ cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#38ff5f" }}  >{item[0]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(1)) } style={{ cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#38ff5f" }} >{item[1]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(2)) } style={{ cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#38ff5f" }} >{item[2]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'temperature', key, 0,this.checkInTheSameCol(0)) } style={{color: item[0]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#38ff5f" }}  >{item[0]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'humidity', key, 1,this.checkInTheSameCol(1)) } style={{color: item[1]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#38ff5f" }} >{item[1]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'airPressure', key, 2,this.checkInTheSameCol(2)) } style={{color: item[2]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#38ff5f" }} >{item[2]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id[key], 'voltage', key, 3,this.checkInTheSameCol(3)) } style={{color: item[3]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
                 </tr>
 
               )
@@ -720,33 +720,33 @@ export default class TableFregAge extends Component {
                 <tr key={key} >
             
                   <td>{valid_id_Mimic[key]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{ cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#38ff5f" }} >{item[9]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TMP', key, 9,this.checkInTheSameCol(9)) } style={{color: item[9]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[9]["isSelected"] === false ? item[9]["hex"] : "#38ff5f" }} >{item[9]["value"]}</td>
                   
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{ cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#38ff5f" }}  >{item[8]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SpO2', key, 8,this.checkInTheSameCol(8)) } style={{color: item[8]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[8]["isSelected"] === false ? item[8]["hex"] : "#38ff5f" }}  >{item[8]["value"]}</td>
 
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HR', key, 3,this.checkInTheSameCol(3)) } style={{ cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'DBP', key, 4,this.checkInTheSameCol(4)) } style={{ cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#38ff5f" }}  >{item[4]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SBP', key, 5,this.checkInTheSameCol(5)) } style={{ cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#38ff5f" }} >{item[5]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{ cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#38ff5f" }}  >{item[16]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RR', key, 7,this.checkInTheSameCol(7)) } style={{ cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#38ff5f" }} >{item[7]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBC', key, 14,this.checkInTheSameCol(14)) } style={{ cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#38ff5f" }} >{item[14]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBCF', key, 15,this.checkInTheSameCol(15)) } style={{ cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#38ff5f" }} >{item[15]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'MONO', key, 17,this.checkInTheSameCol(17)) } style={{ cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#38ff5f" }} >{item[17]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WT', key, 0,this.checkInTheSameCol(0)) } style={{ cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#38ff5f" }}  >{item[0]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LDL', key, 1,this.checkInTheSameCol(1)) } style={{ cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#38ff5f" }} >{item[1]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HDL', key, 2,this.checkInTheSameCol(2)) } style={{ cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#38ff5f" }} >{item[2]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HR', key, 3,this.checkInTheSameCol(3)) } style={{color: item[3]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[3]["isSelected"] === false ? item[3]["hex"] : "#38ff5f" }} >{item[3]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'DBP', key, 4,this.checkInTheSameCol(4)) } style={{color: item[4]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[4]["isSelected"] === false ? item[4]["hex"] : "#38ff5f" }}  >{item[4]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'SBP', key, 5,this.checkInTheSameCol(5)) } style={{color: item[5]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[5]["isSelected"] === false ? item[5]["hex"] : "#38ff5f" }} >{item[5]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WBC', key, 16,this.checkInTheSameCol(16)) } style={{color: item[16]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[16]["isSelected"] === false ? item[16]["hex"] : "#38ff5f" }}  >{item[16]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RR', key, 7,this.checkInTheSameCol(7)) } style={{color: item[7]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[7]["isSelected"] === false ? item[7]["hex"] : "#38ff5f" }} >{item[7]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBC', key, 14,this.checkInTheSameCol(14)) } style={{color: item[14]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[14]["isSelected"] === false ? item[14]["hex"] : "#38ff5f" }} >{item[14]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RBCF', key, 15,this.checkInTheSameCol(15)) } style={{color: item[15]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[15]["isSelected"] === false ? item[15]["hex"] : "#38ff5f" }} >{item[15]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'MONO', key, 17,this.checkInTheSameCol(17)) } style={{color: item[17]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[17]["isSelected"] === false ? item[17]["hex"] : "#38ff5f" }} >{item[17]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'WT', key, 0,this.checkInTheSameCol(0)) } style={{color: item[0]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[0]["isSelected"] === false ? item[0]["hex"] : "#38ff5f" }}  >{item[0]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LDL', key, 1,this.checkInTheSameCol(1)) } style={{color: item[1]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[1]["isSelected"] === false ? item[1]["hex"] : "#38ff5f" }} >{item[1]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'HDL', key, 2,this.checkInTheSameCol(2)) } style={{color: item[2]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[2]["isSelected"] === false ? item[2]["hex"] : "#38ff5f" }} >{item[2]["value"]}</td>
                   
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ABE', key, 10,this.checkInTheSameCol(10)) } style={{ cursor: 'pointer', background: item[10]["isSelected"] === false ? item[10]["hex"] : "#38ff5f" }} >{item[10]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ACO2', key, 11,this.checkInTheSameCol(11)) } style={{ cursor: 'pointer', background: item[11]["isSelected"] === false ? item[11]["hex"] : "#38ff5f" }} >{item[11]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'APH', key, 12,this.checkInTheSameCol(12)) } style={{ cursor: 'pointer', background: item[12]["isSelected"] === false ? item[12]["hex"] : "#38ff5f" }}  >{item[12]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'Hb', key, 13,this.checkInTheSameCol(13)) } style={{ cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#38ff5f" }} >{item[13]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ABE', key, 10,this.checkInTheSameCol(10)) } style={{color: item[10]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[10]["isSelected"] === false ? item[10]["hex"] : "#38ff5f" }} >{item[10]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'ACO2', key, 11,this.checkInTheSameCol(11)) } style={{color: item[11]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[11]["isSelected"] === false ? item[11]["hex"] : "#38ff5f" }} >{item[11]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'APH', key, 12,this.checkInTheSameCol(12)) } style={{color: item[12]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[12]["isSelected"] === false ? item[12]["hex"] : "#38ff5f" }}  >{item[12]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'Hb', key, 13,this.checkInTheSameCol(13)) } style={{color: item[13]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[13]["isSelected"] === false ? item[13]["hex"] : "#38ff5f" }} >{item[13]["value"]}</td>
                   
                   
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'CVP', key, 6,this.checkInTheSameCol(6)) } style={{ cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#38ff5f" }} >{item[6]["value"]}</td>           
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'EOS', key, 18,this.checkInTheSameCol(18)) } style={{ cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#38ff5f" }} >{item[18]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LY', key, 19,this.checkInTheSameCol(19)) } style={{ cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#38ff5f" }} >{item[19]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RDW', key, 20,this.checkInTheSameCol(20)) } style={{ cursor: 'pointer', background: item[20]["isSelected"] === false ? item[20]["hex"] : "#38ff5f" }}  >{item[20]["value"]}</td>
-                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TC', key, 21,this.checkInTheSameCol(21)) } style={{ cursor: 'pointer', background: item[21]["isSelected"] === false ? item[21]["hex"] : "#38ff5f" }} >{item[21]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'CVP', key, 6,this.checkInTheSameCol(6)) } style={{color: item[6]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[6]["isSelected"] === false ? item[6]["hex"] : "#38ff5f" }} >{item[6]["value"]}</td>           
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'EOS', key, 18,this.checkInTheSameCol(18)) } style={{color: item[18]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[18]["isSelected"] === false ? item[18]["hex"] : "#38ff5f" }} >{item[18]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'LY', key, 19,this.checkInTheSameCol(19)) } style={{color: item[19]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[19]["isSelected"] === false ? item[19]["hex"] : "#38ff5f" }} >{item[19]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'RDW', key, 20,this.checkInTheSameCol(20)) } style={{color: item[20]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[20]["isSelected"] === false ? item[20]["hex"] : "#38ff5f" }}  >{item[20]["value"]}</td>
+                  <td className="td" onClick={(e) =>  this.handleClick(e, valid_id_Mimic[key], 'TC', key, 21,this.checkInTheSameCol(21)) } style={{color: item[21]["hex"] === "#08306b" ? "#ffffff" : null, cursor: 'pointer', background: item[21]["isSelected"] === false ? item[21]["hex"] : "#38ff5f" }} >{item[21]["value"]}</td>
                 
                 </tr>
 

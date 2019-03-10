@@ -42,3 +42,6 @@ b#boldDelta {
 div#wrap {
     margin-left: 10px
 }
+b#hide {
+    visibility: hidden;
+}

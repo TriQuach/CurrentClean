@@ -11,7 +11,10 @@ export default class Slider extends Component {
         if (typeRadio !== '') {
             if (typeRadio === constClass.SENSOR) {
                 theta = <div>
-                    <b className="b">δ:</b> <b>20 seconds</b>
+                     <b className="largeSize">δ:</b>
+                        <b id="boldDelta"> 20 seconds </b>
+                        <br></br>
+                        <b id="hide">asdsad</b>
                 </div>
             } else if (typeRadio === constClass.CLINICAL || typeRadio == constClass.UPLOAD) {
                 theta =

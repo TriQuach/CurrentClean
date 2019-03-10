@@ -23,15 +23,20 @@ const myConfig = {
   height: 400,
   width: 300
 };
+// const contentStyle = {
+//   height: "40vh",
+//   width: "26%"
+  
+// };
 const contentStyle = {
   height: "40vh",
-  width: "20%"
+  width: "27%"
   
 };
 const contentStyle2 = {
   
-  width: "100%"
-  
+  height: "80%",
+  width: "50%"
 };
 const colWidth = {
   width: "100%",
@@ -343,9 +348,15 @@ export default class Test extends React.Component {
       key2 = key2 + ":" + val_key2
 
     
-      var addedSpace1 = " ".repeat(index)
-      var addedSpace2 = " ".repeat(index)
-      var addedSpace3 = " ".repeat(index)
+    
+      
+        var addedSpace1 = " ".repeat(index)
+        var addedSpace2 = " ".repeat(index+1)
+        var addedSpace3 = " ".repeat(index+2)
+     
+    
+      
+      
 
       key0 = key0 + addedSpace1
       key1 = key1 + addedSpace2
@@ -410,6 +421,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key1
+       
         Yposition += 100
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
@@ -517,11 +529,25 @@ export default class Test extends React.Component {
       arrayWeights = []
       var Xposition = 120
       var Yposition = 220
-        for (var i=0; i<data.length; i++) {
+      var index = 0
+      var length = 0
+      if (data.length > 6) {
+        length = 6
+      }
+      else {
+        length = data.length
+      }
+        for (var i=0; i<length; i++) {
            
-          this.parseAnElement(data[i],Xposition,Yposition,i)
+          this.parseAnElement(data[i],Xposition,Yposition,index)
+          index += 3
+          if (this.props.kindDataset === constClass.CLINICAL) {
+            Xposition += 100
+          }
+          else {
+            Xposition += 130
+          }
          
-          Xposition += 100
           Yposition = 220
     }
     
@@ -529,6 +555,83 @@ export default class Test extends React.Component {
       console.log(arrayKeys)
       console.log("arrayLinks")
       console.log(arrayLinks)
+
+
+      var key = {}
+      key.key = " "
+      var loc = "120" + " " + "470"
+      key.loc = loc
+      key.color = "#ffffff"
+      arrayKeys.push(key)
+
+      var key2 = {}
+      key2.key = ": +ve"
+      var loc2 = "220" + " " + "470"
+      key2.loc = loc2
+      key2.color = "#ffffff"
+      arrayKeys.push(key2)
+
+      var key3 = {}
+      key3.key = "  "
+      var loc3 = "280" + " " + "470"
+      key3.loc = loc3
+      key3.color = "#ffffff"
+      arrayKeys.push(key3)
+
+      var key4 = {}
+      key4.key = ": -ve"
+      var loc4 = "380" + " " + "470"
+      key4.loc = loc4
+      key4.color = "#ffffff"
+      arrayKeys.push(key4)
+
+
+      var key5 = {}
+      key5.key = "   "
+      var loc5 = "440" + " " + "470"
+      key5.loc = loc5
+      key5.color = "#ffffff"
+      arrayKeys.push(key5)
+
+      var key6 = {}
+      key6.key = ": co-occur"
+      var loc6 = "540" + " " + "470"
+      key6.loc = loc6
+      key6.color = "#ffffff"
+      arrayKeys.push(key6)
+
+      
+
+      var temp = {}
+      temp.from = " "
+      temp.to = ": +ve"
+      temp.text = ""
+      temp.fromArrow = ""
+      temp.toArrow = "OpenTriangle"
+      temp.dash = null
+      arrayLinks.push(temp)
+
+
+      var temp2 = {}
+      temp2.from = "  "
+      temp2.to = ": -ve"
+      temp2.text = ""
+      temp2.fromArrow = ""
+      temp2.toArrow = "OpenTriangle"
+      temp2.dash = [8.3]
+      arrayLinks.push(temp2)
+
+      var temp3 = {}
+      temp3.from = "   "
+      temp3.to = ": co-occur"
+      temp3.text = ""
+      temp3.fromArrow = ""
+      temp3.toArrow = ""
+      temp3.dash = null
+      arrayLinks.push(temp3)
+      
+
+
       myDiagram.model = new go.GraphLinksModel(
         arrayKeys,
         
@@ -568,7 +671,7 @@ export default class Test extends React.Component {
       
       if (numClick === 1) {
         var $ = go.GraphObject.make;  // for conciseness in defining templates
-         myDiagram = $(go.Diagram, "myDiagramDiv");
+        myDiagram = $(go.Diagram, "myDiagramDiv");
         // define a simple Node template
         myDiagram.nodeTemplate =
           $(go.Node, "Auto",  // the Shape will go around the TextBlock
@@ -582,35 +685,22 @@ export default class Test extends React.Component {
               new go.Binding("text", "key")),
           );
   
-        myDiagram.linkTemplate =
-          $(go.Link,  // the whole link 23panel
-            { routing: go.Link.Normal },
+          myDiagram.linkTemplate =
+          $(go.Link,
             $(go.Shape,  // the link shape
-              new go.Binding("strokeDashArray","dash"),
-              // the first element is assumed to be main element: as if isPanelMain were true
-              { stroke: "black", strokeWidth: 2 }),
-            $(go.Shape,  // the "from" arrowhead
-              new go.Binding("fromArrow", "fromArrow"),
-              { scale: 2, fill: "#D4B52C" }),
-            $(go.Shape,  // the "from" arrowhead
-              new go.Binding("toArrow", "toArrow"),
-              { scale: 2, fill: "#D4B52C" }),
-            $(go.Panel, "Auto",
-              $(go.Shape,  // the label background, which becomes transparent around the edges
-                {
-                  fill: $(go.Brush, "Radial", { 0: "rgb(255,255,255)", 0.6: "rgb(255,255,255)", 1: "rgba(255,255,255, 0)" }),
-                  stroke: null
-                }),
-              $(go.TextBlock,  // the label text
-                {
-                  textAlign: "center",
-                  font: "10pt helvetica, arial, sans-serif",
-                  stroke: "#555555",
-                  margin: 4
-                },
-                new go.Binding("text", "text"))
-            )
-          );
+                new go.Binding("strokeDashArray","dash"),
+                // the first element is assumed to be main element: as if isPanelMain were true
+                { stroke: "black", strokeWidth: 2 }),
+              $(go.Shape,  // the "from" arrowhead
+                new go.Binding("fromArrow", "fromArrow"),
+                { scale: 2, fill: "#D4B52C" }),
+              $(go.Shape,  // the "from" arrowhead
+                new go.Binding("toArrow", "toArrow"),
+                { scale: 2, fill: "#D4B52C" }),
+            
+            $(go.TextBlock, { segmentOffset: new go.Point(0, -25) }, new go.Binding("text", "text")),
+          
+          );   
       }
 
       this.getDataGraphFromServer(value,idSensor,prop)
@@ -1817,12 +1907,14 @@ parseObject(data) {
                 }.bind(this))}</tbody>
             </table> </div>}
             
-            <Popup contentStyle={this.state.isRightClickedInRepair === false ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
-          <div className="table-wrapper-scroll-y">
+            
+            <Popup contentStyle={this.state.isRightClickedInRepair === false ? contentStyle : contentStyle2} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+          <div className={this.state.isRightClickedInRepair === false ? "table-wrapper-scroll-y" :"table-wrapper-scroll-y2"}>
           <table className={this.state.isRightClickedInRepair === false ?"table table-striped paddingBetweenCols" : "table table-striped"}>
             <thead>
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">Attribute</th>
                 <th scope="col">Value</th>
                 <th scope="col">Probability</th>
                 <th scope="col">RepairType</th>
@@ -1836,6 +1928,7 @@ parseObject(data) {
                 <tr key={key} >
                   <td>{key + 1}</td>
 
+                  <td > {this.state.currentProp} </td>
 
                   <td 
                     onClick={(e) =>  this.handleClickRow(e,key,item["value"],item["id"],item["prop"]) } 
@@ -1863,12 +1956,19 @@ parseObject(data) {
           <b className="legends" style={{color: "#b7b7b7"}}> {coOccur}:  <b style={{color: "#000000"}}>co-occurence</b> </b>
           
           </div> */}
-          {this.state.isRightClickedInRepair === true ? <div id="myDiagramDiv" style={{width:700, height:350}}></div> : null}
+          {this.state.isRightClickedInRepair === true ?
+          <div> 
+             <div id="myDiagramDiv" style={{width:650, height:400}}></div> 
+            
+             </div>
+             : null}
+          
+
          
           
           
           </div>
-          <input onClick={this.apply} id="apply" className="btn btn-primary" type="button" value="Apply"></input>
+          <input onClick={this.apply} className={this.state.isRightClickedInRepair === false ? "btn btn-primary apply" : "btn btn-primary applyBigger" } type="button" value="Apply"></input>
         </Popup>
             
         </div> : null }
