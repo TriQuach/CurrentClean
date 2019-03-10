@@ -18,10 +18,11 @@ div#tableMimic {
   overflow: auto;
 }
 input#apply {
+
   margin-left: 40%;
-  
+  margin-top: -15px;
   background-color: #4469b0;
-    padding: 9px 16px;
+    padding: 4px 7px;
 }
 .TableFregAge {
   margin-left: 1cm;
@@ -70,5 +71,5 @@ table.paddingBetweenCols {
 }
 table.paddingBetweenCols2 {
   table-layout: auto;
-  width: 100%;  
+  width: 30%;  
 }

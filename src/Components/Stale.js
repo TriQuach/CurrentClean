@@ -602,6 +602,18 @@ export default class Test extends Component {
 
     return (
       <div className="rowStale">
+        {this.state.isFinished === true ? <Patterns
+               minProb={this.state.minProb}
+               maxProb={this.state.maxProb} 
+               valBeta={this.state.valBeta} 
+               numberStaleCells={this.state.numberStaleCells} 
+               mostValToClean={this.state.mostValToClean} 
+               onClick={this.handleClick} 
+               onChange={this.handleChangeSlider} 
+               mostVal={this.state.mostVal}  
+               isRepaired={this.state.isRepaired} 
+               orginNumberStaleCells={this.state.orginNumberStaleCells}
+               kindDataset={kindDataset}/> : null}
               {this.state.isFinished === true ?
 
 <LastUpDate
@@ -615,18 +627,7 @@ export default class Test extends Component {
   numberStaleCells={this.state.numberStaleCells}
  
    /> : null}
-              {this.state.isFinished === true ? <Patterns
-               minProb={this.state.minProb}
-               maxProb={this.state.maxProb} 
-               valBeta={this.state.valBeta} 
-               numberStaleCells={this.state.numberStaleCells} 
-               mostValToClean={this.state.mostValToClean} 
-               onClick={this.handleClick} 
-               onChange={this.handleChangeSlider} 
-               mostVal={this.state.mostVal}  
-               isRepaired={this.state.isRepaired} 
-               orginNumberStaleCells={this.state.orginNumberStaleCells}
-               kindDataset={kindDataset}/> : null}
+            
 
 
 

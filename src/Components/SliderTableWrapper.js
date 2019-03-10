@@ -12,6 +12,10 @@ import "react-sweet-progress/lib/style.css";
 import go from "../../node_modules/gojs/release/go"
 import * as constClass from '../Const/utils.js'
 import $ from 'jquery'; 
+import "react-step-progress-bar/styles.css";
+import { ProgressBar, Step } from "react-step-progress-bar";
+
+
 
 
 class Question {
@@ -254,9 +258,9 @@ export default class SliderTableWrapper extends Component {
                         valDelta={this.state.valDelta}
                     />
                     <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
-                    {/* <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input> */}
+                    {/* <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+                    */}
                    
-                    
                     
          
             

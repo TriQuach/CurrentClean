@@ -5,7 +5,7 @@
   
 }
 div#graph {
-    margin-left: 1cm;
+    margin-left: 1.5cm;
     margin-right: 1.5cm
 }
 div#sliderMostStaleCell {
@@ -23,7 +23,8 @@ input#applyMost {
     margin-bottom: 5px
 }
 div#startTime {
-    margin-top: 0.5em
+    margin-top: 0.5em;
+   
 }
 .largeSizePattern {
     font-size: 170%;
@@ -31,4 +32,39 @@ div#startTime {
 input#applyMost{
     margin-top: 10px;
    margin-left: -10px;
+}
+.indexedStep {
+    color: white;
+    width: 45px;
+    height: 45px;
+    font-size: 12px;
+    background-color: rgba(0, 116, 217, 1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .indexedStep.accomplished {
+    background-color: rgba(0, 116, 217, 1);
+  }
+  .block {
+  
+    display: inline-block;
+   
+}
+b#endTime {
+    margin-left: 40px
+}
+div#startEnd {
+    margin-left: 10px
+}
+b#test45 {
+    margin-left:20px
+}
+div#progressbar {
+    margin-left: 18px
+}
+div#test123 {
+    margin-left: 20px
 }

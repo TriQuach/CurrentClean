@@ -25,7 +25,12 @@ const myConfig = {
 };
 const contentStyle = {
   height: "40vh",
-  width: "19%"
+  width: "20%"
+  
+};
+const contentStyle2 = {
+  
+  width: "100%"
   
 };
 const colWidth = {
@@ -1538,18 +1543,19 @@ parseObject(data) {
             </table> :
             
             <div id="tableMimic">  
-            <table className="table table-striped" id="age">
+            <table className="table table-striped" id="lastUpdate">
                 <thead>
                 <tr>
               <th scope="col">ID</th>
-             
+              <th scope="col">TMP</th>
+              <th scope="col">SpO2</th>
               <th scope="col">HR</th>
               <th scope="col">DBP</th>
               <th scope="col">SBP</th>
               <th scope="col">WBC</th>
               <th scope="col">RR</th>
-              <th scope="col">SpO2</th>
-              <th scope="col">TMP</th>
+             
+             
               <th scope="col">RBC</th>
               <th scope="col">RBCF</th>
               <th scope="col">MONO</th>
@@ -1576,8 +1582,26 @@ parseObject(data) {
                         <tr key={key} >
                           
                             <td>{item["id_patient"]}</td>
-
-                          
+                            <td
+                                className="td" 
+                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("TMP")? "true" : null}
+                                onInput={e => this.handleOnInput(e)}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'TMP')}
+                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'TMP',item["TMP"]) : null} 
+                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'TMP') : null} 
+                                style={{color: dict[item["id_patient"]].hasOwnProperty("TMP")?(dict[item["id_patient"]]["TMP"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("TMP")?(dict[item["id_patient"]]["TMP"]["isStale"] ? dict[item["id_patient"]]["TMP"]["hex"] : "#42f445") : null}}>
+                                {item["TMP"]}
+                            </td>
+                            <td
+                                className="td" 
+                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("SpO2")? "true" : null}
+                                onInput={e => this.handleOnInput(e)}
+                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'SpO2')}
+                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'SpO2',item["SpO2"]) : null} 
+                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'SpO2') : null} 
+                                style={{color: dict[item["id_patient"]].hasOwnProperty("SpO2")?(dict[item["id_patient"]]["SpO2"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("SpO2")?(dict[item["id_patient"]]["SpO2"]["isStale"] ? dict[item["id_patient"]]["SpO2"]["hex"] : "#42f445") : null}}>
+                                {item["SpO2"]}
+                            </td>
                             <td
                                 className="td" 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("HR")? "true" : null}
@@ -1629,26 +1653,8 @@ parseObject(data) {
                                 style={{color: dict[item["id_patient"]].hasOwnProperty("RR")?(dict[item["id_patient"]]["RR"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("RR")?(dict[item["id_patient"]]["RR"]["isStale"] ? dict[item["id_patient"]]["RR"]["hex"] : "#42f445") : null}}>
                                 {item["RR"]}
                             </td>
-                            <td
-                                className="td" 
-                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("SpO2")? "true" : null}
-                                onInput={e => this.handleOnInput(e)}
-                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'SpO2')}
-                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'SpO2',item["SpO2"]) : null} 
-                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'SpO2') : null} 
-                                style={{color: dict[item["id_patient"]].hasOwnProperty("SpO2")?(dict[item["id_patient"]]["SpO2"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("SpO2")?(dict[item["id_patient"]]["SpO2"]["isStale"] ? dict[item["id_patient"]]["SpO2"]["hex"] : "#42f445") : null}}>
-                                {item["SpO2"]}
-                            </td>
-                            <td
-                                className="td" 
-                                contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("TMP")? "true" : null}
-                                onInput={e => this.handleOnInput(e)}
-                                onBlur={(e) => this.handleOnBlur(e,item["id_patient"],'TMP')}
-                                onContextMenu={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'TMP',item["TMP"]) : null} 
-                                onClick={(e) => this.props.isRepaired === true ? this.handleClickCell(e,item["id_patient"],'TMP') : null} 
-                                style={{color: dict[item["id_patient"]].hasOwnProperty("TMP")?(dict[item["id_patient"]]["TMP"]["isStale"] ? "#ffffff" : "#000000") : null, cursor: this.props.isRepaired === true?  'pointer' : null,background: dict[item["id_patient"]].hasOwnProperty("TMP")?(dict[item["id_patient"]]["TMP"]["isStale"] ? dict[item["id_patient"]]["TMP"]["hex"] : "#42f445") : null}}>
-                                {item["TMP"]}
-                            </td>
+                            
+                           
                             <td
                                 className="td" 
                                 contenteditable={this.props.isRepaired === true && dict[item["id_patient"]].hasOwnProperty("RBC")? "true" : null}
@@ -1813,7 +1819,7 @@ parseObject(data) {
             
             <Popup contentStyle={this.state.isRightClickedInRepair === false ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-y">
-          <table className={this.state.isRightClickedInRepair === false ?"table table-striped paddingBetweenCols" : "table table-striped paddingBetweenCols2"}>
+          <table className={this.state.isRightClickedInRepair === false ?"table table-striped paddingBetweenCols" : "table table-striped"}>
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -1857,7 +1863,7 @@ parseObject(data) {
           <b className="legends" style={{color: "#b7b7b7"}}> {coOccur}:  <b style={{color: "#000000"}}>co-occurence</b> </b>
           
           </div> */}
-          {this.state.isRightClickedInRepair === true ? <div id="myDiagramDiv" style={{width:800, height:300}}></div> : null}
+          {this.state.isRightClickedInRepair === true ? <div id="myDiagramDiv" style={{width:700, height:350}}></div> : null}
          
           
           

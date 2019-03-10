@@ -5,7 +5,7 @@ import * as constClass from '../Const/utils.js'
 import { RadioGroup, Radio } from 'react-radio-group'
 import { Graph } from 'react-d3-graph';
 import { ForceGraph2D, ForceGraph3D, ForceGraphVR } from 'react-force-graph';
-import { Progress } from 'react-sweet-progress';
+import { ProgressBar, Step } from "react-step-progress-bar";
 const dataNodes = {
   "nodes": [],
 }
@@ -189,15 +189,7 @@ checkNodesInGraph = (data,value) => {
   
 
     render() {
-      
-        // arrayLinks = []
-        // dataNodes["nodes"] = []
-    // this.getLinks(this.state.patterns)
-   
-      // dataNodes["links"] = arrayLinks
-      // window.console.log("arrayLinks:")
-      // window.console.log(dataNodes)
-      // window.console.log("arrayLinks:")
+     
    
       var data = this.mapPatters(this.state.patterns)
       window.console.log("this.props.valBeta")
@@ -207,35 +199,67 @@ checkNodesInGraph = (data,value) => {
       console.log(this.props.orginNumberStaleCells)
       console.log(this.props.numberStaleCells)
       
-      var percent = this.props.numberStaleCells / this.props.orginNumberStaleCells * 100
+      // var percent = this.props.numberStaleCells / this.props.orginNumberStaleCells * 100
       
-      percent = 100 - percent
+      // percent = 100 - percent
+
+      var percent = 0
+      if (this.props.kindDataset === constClass.SENSOR) {
+        percent = this.props.numberStaleCells / 232
+      }
+      else {
+        console.log("`12")
+        percent = this.props.numberStaleCells / 2200 * 100
+      }
       percent =  Math.round(percent * 100) / 100
         return (
-          <div>
+          <div id="test123">
          {this.props.isRepaired === true?    
          <div id="graph"> 
-         
-         <Progress
-  percent={percent}
+        <b className="largeSizePattern">Staleness percentage</b>
+        <br></br>
+        <br></br>
+        <div  id="progressbar">
+         <ProgressBar width={325} filledBackground={"#e50b21"} unfilledBackground={"#00ff16"} height={20} stepPositions={[0,percent,100]} percent={percent}>
+  <Step >
+    {({ accomplished, index }) => (
+      <div
+        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+      >
+        {"0%"}
+      </div>
+    )}
+  </Step>
+  <Step
+   
+  >
   
-  width={170}
-  status="error"
-  symbolClassName= "test"
-  theme={{
-    error: {
-      symbol: percent + "% ",
-      color: '#09ed09' ,
-      trailColor: '#e8060a',
       
-    }
-  }}
-/>
+    {({ accomplished, index }) => (
+      <div
+        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+      >
+        {percent + "%"}
+      </div>
+    )}
+     
+  </Step>
+  <Step>
+    {({ accomplished, index }) => (
+      <div
+        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+      >
+        {"100%"}
+      </div>
+    )}
+  </Step>
+</ProgressBar>
+</div>
 
         
           <div id="sliderMostStaleCell">
-                <b className="largeSizePattern">Clean the most stale cells: </b>
-                <br></br>
+                <b className="largeSizePattern">Clean the most number stale cells: </b>
+                
                  <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>
                  <br></br>
                  
@@ -269,12 +293,14 @@ checkNodesInGraph = (data,value) => {
             
                  <div id="startTime">
                     <form>
-
-                        <b className="largeSizePattern"> Start probability: </b>
+                      
+                        <b id="test45" className="largeSizePattern"> Start: </b>
                         <b className="largeSizePattern" id="startTime"> {this.props.minProb}%</b>
-                        <br></br>
-                        <b className="largeSizePattern" id="endTime"> End probability: </b>
+                        <div className="block">
+                        <b className="largeSizePattern" id="endTime"> End: </b>
                         <b className="largeSizePattern"> {this.props.maxProb}%</b>
+                        </div>
+                        
                         <br></br>
             {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
             <input className="apply" onClick={() => this.props.onClick("range")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>

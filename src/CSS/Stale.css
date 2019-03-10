@@ -4,6 +4,7 @@
     
     margin-left: 1cm;
   justify-content: left;
+  margin-top: -5px;
 }
 .rowStaleMimic  {
   min-height: 10vh;
