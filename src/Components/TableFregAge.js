@@ -608,14 +608,14 @@ export default class TableFregAge extends Component {
       animationEnabled: true,
       exportEnabled: true,
       title: {
-        text: "Top 10 popular values"
+        text: "Frequently updated values"
       },
       axisX: {
-        title: "Values",
+        title: "Value",
         reversed: true,
       },
       axisY: {
-        title: "Frequency",
+        title: "Update frequency",
         labelFormatter: this.addSymbols
       },
       data: [

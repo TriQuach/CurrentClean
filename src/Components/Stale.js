@@ -541,8 +541,8 @@ export default class Test extends Component {
     }
     else if (kindSlider === "range") {
       this.setState({
-        minProb: e.target.value[0],
-        maxProb:e.target.value[1]
+        minProb: e.target.value
+       
       })
 
     }
@@ -578,7 +578,8 @@ export default class Test extends Component {
           mostValToClean: this.state.mostVal,
           mostVal: 0,
           numberStaleCells: this.state.numberStaleCells - this.state.mostVal,
-          orginNumberStaleCells: this.state.numberStaleCells
+          orginNumberStaleCells: this.state.numberStaleCells,
+          finalMinProb: this.state.minProb,
         })
     }
     else if (kindSlider === "range") {
@@ -625,6 +626,7 @@ export default class Test extends Component {
   finalMinProb={this.state.finalMinProb}
   finalMaxProb={this.state.finalMaxProb}
   numberStaleCells={this.state.numberStaleCells}
+  finalMinProb={this.state.finalMinProb}
  
    /> : null}
             

@@ -24,7 +24,7 @@ export default class Slider extends Component {
           </div>
 
           <label className="largeSize">
-            <Radio value="upload" />  Upload your Data
+            <Radio value="upload" />  Upload your data
         </label>
         
 

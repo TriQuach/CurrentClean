@@ -216,7 +216,7 @@ checkNodesInGraph = (data,value) => {
           <div id="test123">
          {this.props.isRepaired === true?    
          <div id="graph"> 
-        <b className="largeSizePattern">Staleness percentage</b>
+        <b className="largeSizePattern">Progress bar</b>
         <br></br>
         <br></br>
         <div  id="progressbar">
@@ -258,9 +258,9 @@ checkNodesInGraph = (data,value) => {
 
         
           <div id="sliderMostStaleCell">
-                <b className="largeSizePattern">Clean the most number </b>
+                <b className="largeSizePattern">Number cells:</b>
                   <br></br>
-                  <b className="largeSizePattern"> stale cells: </b>
+               
                 
                  <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>
                  <br></br>
@@ -273,44 +273,20 @@ checkNodesInGraph = (data,value) => {
                     
                 />
                 <br></br>
-                
-                <input className="apply" onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
-            
-               
-            </div>
-            <div id="sliderMostStaleCell">
-                <b className="largeSizePattern"> Clean stale cells within </b>
-                <br></br>
-                <b className="largeSizePattern">currency probability range</b>
-                <br></br>
+                <b className="largeSizePattern"> Staleness threshold </b>
                 <ReactBootstrapSlider
-                    value={[this.props.minProb, this.props.maxProb]}
-                    max={this.props.valBeta}
-                    min={0}
+                    value={this.props.minProb}
+                    max={100}
+                    min={this.props.valBeta}
                     change={e => this.props.onChange(e,"range")}
                     
                 />
                 <br></br>
-                
-            
-                 <div id="startTime">
-                    <form>
-                      
-                        <b id="test45" className="largeSizePattern"> Start: </b>
-                        <b className="largeSizePattern" id="startTime123"> {this.props.minProb}%</b>
-                        <div className="block">
-                        <b className="largeSizePattern" id="endTime123"> End: </b>
-                        <b className="largeSizePattern"> {this.props.maxProb}%</b>
-                        </div>
-                        
-                        <br></br>
-            {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
-            <input className="apply" onClick={() => this.props.onClick("range")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
-                    </form>
-                </div>
+                <input className="apply" onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
             
                
             </div>
+           
   
 </div>: null}
        </div>
