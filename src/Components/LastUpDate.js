@@ -1431,25 +1431,25 @@ parseObject(data) {
         }
        }
      } 
-     cleanStaleCells = () => {
+     cleanStaleCells = (arrayNeedClean) => {
        window.console.log(numberStaleCells)
        var numberStaleCells = this.props.numberStaleCells
       var numCellToClean = arrayStaleCells.length - numberStaleCells
-      var tempArray = arrayStaleCells
-        for (var i=0; i<tempArray.length; i++) {
-          for (var j=i+1; j<tempArray.length; j++) {
-            if (tempArray[i][2] < tempArray[j][2]) {
-                var temp = tempArray[i]
-                tempArray[i] = tempArray[j]
-                tempArray[j] = temp 
-            }
-          }
-        }
+      var tempArray = arrayNeedClean
+        // for (var i=0; i<tempArray.length; i++) {
+        //   for (var j=i+1; j<tempArray.length; j++) {
+        //     if (tempArray[i][2] < tempArray[j][2]) {
+        //         var temp = tempArray[i]
+        //         tempArray[i] = tempArray[j]
+        //         tempArray[j] = temp 
+        //     }
+        //   }
+        // }
         window.console.log("tempArray:")
         window.console.log(tempArray)
         var x = this.state.dictStale
         var y = this.state.data
-        for (var j=0; j<numCellToClean; j++) {
+        for (var j=0; j<tempArray.length; j++) {
           var idSensor = tempArray[j][0].split("_")[0]
           var propSensor = tempArray[j][0].split("_")[1]
 
@@ -1492,26 +1492,25 @@ parseObject(data) {
 
      }
      componentWillReceiveProps(nextProps) {
-      if (nextProps.numberStaleCells !== this.props.numberStaleCells && nextProps.finalMinProb === this.props.finalMinProb && nextProps.finalMaxProb === this.props.finalMaxProb) {
+      if (nextProps.arrayNeedClean !== this.props.arrayNeedClean ) {
         window.console.log("arrayStae:")
         window.console.log(arrayStaleCells.length)
-       this.staleCleanMost()
+      //  this.staleCleanMost()
         // window.console.log("testfuck")
         // var x = this.getValueToRepair("2","HDL")
         // window.console.log(x)
-    
+        console.log(nextProps.arrayNeedClean)
+        console.log(this.props.arrayNeedClean)
+        this.cleanStaleCells(nextProps.arrayNeedClean)
       }
       // else if (nextProps.isRefreshed !== this.props.isRefreshed || nextProps.isRefreshed === true) {
       //   this.stale2()
 
-        
+     
+    
     
       // }
-      else if (nextProps.finalMinProb !== this.props.finalMinProb || nextProps.finalMaxProb !== this.props.finalMaxProb) {
-        this.lastUpdateForMimic()
-       
-       
-      }
+     
     }
      handleOnInput = (e) => {
        window.console.log("handleOnInput")
@@ -1566,7 +1565,7 @@ parseObject(data) {
             'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
         return (
-            
+            <div id="newLastUpdate">
             <div>
                 {Object.keys(this.state.dictStale).length !== 0 ? 
             <div>
@@ -1973,6 +1972,7 @@ parseObject(data) {
             
         </div> : null }
         
+            </div>
             </div>
         )
 

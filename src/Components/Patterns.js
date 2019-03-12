@@ -211,16 +211,20 @@ checkNodesInGraph = (data,value) => {
         console.log("`12")
         percent = this.props.numberStaleCells / 2200 * 100
       }
-      percent =  Math.round(percent * 100) / 100
+      percent =  Math.round(percent * 10) / 10
+      percent = 100 - percent
         return (
           <div id="test123">
          {this.props.isRepaired === true?    
          <div id="graph"> 
-        <b className="largeSizePattern">Progress bar</b>
-        <br></br>
-        <br></br>
-        <div  id="progressbar">
-         <ProgressBar width={325} filledBackground={"#e50b21"} unfilledBackground={"#00ff16"} height={20} stepPositions={[0,percent,100]} percent={percent}>
+         <b className="largeSizeCleaningStatus">Cleaning status</b>
+        
+        
+          <div id="sliderMostStaleCell">
+          <b className="largeSizePatternProgressLabel">Progress</b>
+        
+        <div  id="progressbar"> 
+         <ProgressBar width={160} filledBackground={"#00ff16"} unfilledBackground={"#e50b21"} height={20} stepPositions={[0,percent,100]} percent={percent}>
   <Step >
     {({ accomplished, index }) => (
       <div
@@ -254,12 +258,11 @@ checkNodesInGraph = (data,value) => {
     )}
   </Step>
 </ProgressBar>
+<br></br>
 </div>
 
-        
-          <div id="sliderMostStaleCell">
-                <b className="largeSizePattern">Number cells:</b>
-                  <br></br>
+                <b className="largeSizePattern"># cells:</b>
+                 
                
                 
                  <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>

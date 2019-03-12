@@ -25,7 +25,8 @@ export default class TableFregAge extends Component {
       dataLineChart: [],
       typechart: '',
       currentID:'',
-      currentProp: ''
+      currentProp: '',
+      valueForm:''
 
     }
     this.myRef = React.createRef();
@@ -35,7 +36,8 @@ export default class TableFregAge extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this)
   }
   createLineChartData(response) {
-    window.console.log(response[0])
+    window.console.log("response[0]")
+    window.console.log(response)
     var array = []
     for (var i = 0; i < arrayCells.length; i++) {
       var temp = {}
@@ -75,7 +77,7 @@ export default class TableFregAge extends Component {
   }
   keydownHandler(e) {
     if (this.props.typeRadio === constClass.SENSOR) {
-      if (e.keyCode === 13 ) {
+      if (e.keyCode === 13 && e.metaKey || e.keyCode === 13 && e.ctrlKey ) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.SENSOR , {
@@ -111,7 +113,7 @@ export default class TableFregAge extends Component {
       }
     }
     else if (this.props.typeRadio === constClass.CLINICAL) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && e.metaKey || e.keyCode === 13 && e.ctrlKey) {
         window.console.log(constClass.LOCAL_BACKEND + "comparecells")
   
         fetch(constClass.LOCAL_BACKEND + 'comparecells?dataset=' + constClass.CLINICAL , {
@@ -487,6 +489,20 @@ export default class TableFregAge extends Component {
     //   window.console.log("outside")
     // }
   };
+
+  handleChangeForm = (event) => {
+    event.preventDefault()
+    this.setState({valueForm: event.target.value});
+  }
+
+  handleSubmitForm = (event) => {
+    alert('A name was submitted: ' + this.state.valueForm + " " + this.state.currentID + " " + this.state.currentProp);
+    
+    event.preventDefault();
+  }
+  handleClickBarChart = () => {
+    alert('A name was submitted: ' + this.state.valueForm);
+  }
  
   render() {
     var x = this.checkInTheSameCol(1)
@@ -769,6 +785,18 @@ export default class TableFregAge extends Component {
               <CanvasJSChart options={optionsLineChartAge} /> : (this.state.typechart === constClass.AGEBARCHART ? 
                 <CanvasJSChart options={optionsColumnAge} />: <CanvasJSChart options={optionsColumnFreq} />)}
 
+            {this.state.typechart === constClass.FREQBARCHART ?
+              <div>
+                <form onSubmit={this.handleSubmitForm}>
+                  <label>
+                    Name:
+                      <input type="text" value={this.state.valueForm} onChange={this.handleChangeForm} />
+                  </label>
+                  <input type="submit" value="Submit" />
+                </form>
+              </div> : null
+
+            }
 
 
 

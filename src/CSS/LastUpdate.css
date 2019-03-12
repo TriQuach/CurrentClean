@@ -86,3 +86,7 @@ table.paddingBetweenCols2 {
   table-layout: auto;
   width: 30%;  
 }
+div#newLastUpdate {
+  margin-right: 30px;
+  padding-right: 30px
+}
