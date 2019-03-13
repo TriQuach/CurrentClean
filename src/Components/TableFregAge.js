@@ -12,6 +12,7 @@ const contentStyle = {
   height: "40vh",
   width: "25%"
 };
+
 export default class TableFregAge extends Component {
 
 
@@ -26,7 +27,10 @@ export default class TableFregAge extends Component {
       typechart: '',
       currentID:'',
       currentProp: '',
-      valueForm:''
+      valueForm:'',
+      dataUpdateCount: [],
+      dataUpdateCountInterval: [],
+      
 
     }
     this.myRef = React.createRef();
@@ -44,10 +48,10 @@ export default class TableFregAge extends Component {
       var key = Object.keys(arrayCells[i])[0]
       temp.type = "line"
       if (this.props.typeRadio === constClass.SENSOR) {
-        temp.name ="sensor_" + key + "_" + arrayCells[i][key]
+        temp.name ="sensor_" + key 
       }
       else if (this.props.typeRadio === constClass.CLINICAL) {
-        temp.name ="patient_" + key + "_" + arrayCells[i][key]
+        temp.name ="patient_" + key 
       }
       temp.showInLegend = true
       temp.toolTipContent = "Time {x}: {y}"
@@ -62,6 +66,7 @@ export default class TableFregAge extends Component {
 
 
   }
+  
   resetSelectedCells() {
     var temp = this.state.data
     for (var i = 0; i < arrayCells.length; i++) {
@@ -496,12 +501,87 @@ export default class TableFregAge extends Component {
   }
 
   handleSubmitForm = (event) => {
-    alert('A name was submitted: ' + this.state.valueForm + " " + this.state.currentID + " " + this.state.currentProp);
+
     
+    var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dateset=" + constClass.CLINICAL
+    window.console.log(url)
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          window.console.log('*********')
+          window.console.log(result)
+          // this.convertToArrayObject(result)
+          this.createLineChartDataUpdateCount(result)
+          this.setState({
+            
+            typechart: constClass.UPDATECOUNTCHART
+          })
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          window.console.log(error)
+        }
+      )
     event.preventDefault();
   }
   handleClickBarChart = () => {
     alert('A name was submitted: ' + this.state.valueForm);
+  }
+  createLineChartDataUpdateCount(response) {
+    var relativeUpdates = response["relativeUpdates"]
+    var dataPoints = []
+    var dataPointsInterval = []
+    
+    var count = 0
+    var sum = 0
+    var intervalCounts = response["intervalCounts"]
+    
+    console.log()
+    for (var j=0; j<intervalCounts.length; j++) {
+      sum += intervalCounts[j]
+    }
+    var min = 9999
+    for (var i=0; i<relativeUpdates.length; i++) {
+      var temp = {}
+      temp.x = i
+      temp.y = relativeUpdates[i]
+      dataPoints.push(temp)
+      if (relativeUpdates[i] < min) {
+        min = relativeUpdates[i]
+      }
+      
+    }
+    
+    var check = 0
+    var step = relativeUpdates.length / intervalCounts.length
+    var temp2 = {}
+    temp2.x = 
+    temp2.y = min-1.0
+    dataPointsInterval.push(temp2)
+    for (var k=0; k<intervalCounts.length; k++) {
+      var temp = {}
+      temp.x = check + step
+      temp.y = min - 1.0
+      dataPointsInterval.push(temp)
+      check += step
+      temp.indexLabel = intervalCounts[k].toString()
+      
+
+    }
+    console.log("intervalCounts")
+    console.log(dataPointsInterval)
+
+    this.setState({
+      dataUpdateCount: dataPoints,
+      dataUpdateCountInterval: dataPointsInterval
+    })
+
+
+
+
   }
  
   render() {
@@ -558,7 +638,7 @@ export default class TableFregAge extends Component {
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
-        text: "Comparative Evolution"
+        text: "Comparative Evolution" + " (" + this.state.currentProp + ")"
       },
       legend: {
         fontSize: 30
@@ -624,15 +704,22 @@ export default class TableFregAge extends Component {
       animationEnabled: true,
       exportEnabled: true,
       title: {
-        text: "Frequently updated values"
+        text: "Frequently updated values",
+        fontSize: 40,
       },
       axisX: {
         title: "Value",
         reversed: true,
+        titleFontSize: 25,
+        includeZero: false,
+        labelFontSize: 25
       },
       axisY: {
         title: "Update frequency",
-        labelFormatter: this.addSymbols
+        labelFormatter: this.addSymbols,
+        titleFontSize: 25,
+        includeZero: false,
+        labelFontSize: 25
       },
       data: [
         {
@@ -642,6 +729,71 @@ export default class TableFregAge extends Component {
         }
       ]
     }
+    const optionsUpdateCount = {
+      animationEnabled: true,
+     
+			colorSet: "colorSet2",
+      exportEnabled: true,
+      axisX:{
+        title: "Time",
+        titleFontSize: 25,
+        includeZero: false,
+        labelFontSize: 25
+        
+       },
+       axisY:{
+        labelFormatter: function(e){
+          return e.value + "%";
+        },
+        titleFontSize: 25,
+        includeZero: false,
+        labelFontSize: 25
+      },
+       legend: {
+        fontSize: 30,
+        verticalAlign: "top",
+        horizontalAlign: "right"  // "top" , "bottom"
+      },
+      toolTip:{
+        enabled: false   //enable here
+      },
+			data: [{
+        type: "spline",
+        
+        dataPoints: this.state.dataUpdateCount
+      },
+      {
+        type: "spline",
+        indexLabelFontSize: 25,
+        legendText:"Update frequency",
+        showInLegend: true,
+        
+        dataPoints: this.state.dataUpdateCountInterval
+      }
+      
+      // {
+			// 	type: "column",
+			// 	name: "Actual Sales",
+			// 	showInLegend: true,
+			// 	xValueFormatString: "MMMM YYYY",
+			// 	yValueFormatString: "$#,##0",
+			// 	dataPoints: [
+			// 		{ x: new Date(2017, 0), y: 27500 ,indexLabel : "some label" },
+			// 		{ x: new Date(2017, 1), y: 29000 ,label : "some label" },
+			// 		{ x: new Date(2017, 2), y: 22000 },
+			// 		{ x: new Date(2017, 3), y: 26500 },
+			// 		{ x: new Date(2017, 4), y: 33000 },
+			// 		{ x: new Date(2017, 5), y: 37000 },
+			// 		{ x: new Date(2017, 6), y: 32000 },
+			// 		{ x: new Date(2017, 7), y: 27500 },
+			// 		{ x: new Date(2017, 8), y: 29500 },
+			// 		{ x: new Date(2017, 9), y: 43000 },
+			// 		{ x: new Date(2017, 10), y: 55000, indexLabel: "High Renewals" },
+			// 		{ x: new Date(2017, 11), y: 39500 }
+			// 	]
+			// }
+      ]
+		}
    
     var typeRequest = this.props.typeRequest
     var data = this.props.data
@@ -780,23 +932,28 @@ export default class TableFregAge extends Component {
 
 
         <Popup contentStyle={this.state.typechart === constClass.AGEBARCHART ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
-          <div >
+          <div className="table-wrapper-scroll-y2">
             {this.state.typechart === constClass.AGELINECHART ?
               <CanvasJSChart options={optionsLineChartAge} /> : (this.state.typechart === constClass.AGEBARCHART ? 
-                <CanvasJSChart options={optionsColumnAge} />: <CanvasJSChart options={optionsColumnFreq} />)}
+                <CanvasJSChart options={optionsColumnAge} />:  
+                <CanvasJSChart options={optionsColumnFreq} />)}
 
-            {this.state.typechart === constClass.FREQBARCHART ?
+            {this.state.typechart === constClass.FREQBARCHART || this.state.typechart === constClass.UPDATECOUNTCHART?
               <div>
                 <form onSubmit={this.handleSubmitForm}>
                   <label>
-                    Name:
-                      <input type="text" value={this.state.valueForm} onChange={this.handleChangeForm} />
+                    Baseline value:
+                      <input id="baseline" type="text" value={this.state.valueForm} onChange={this.handleChangeForm} />
                   </label>
                   <input type="submit" value="Submit" />
                 </form>
               </div> : null
 
             }
+            {this.state.typechart === constClass.UPDATECOUNTCHART ? <div>
+               
+                <CanvasJSChart options={optionsUpdateCount} /> 
+                </div>: null}
 
 
 

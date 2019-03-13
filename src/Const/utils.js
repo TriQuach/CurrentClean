@@ -12,6 +12,7 @@ export const AGELINECHART = 'agelinechart'
 export const FREQBARCHART = 'freqbarchart'  
 export const BETA = 'beta'  
 export const DELTA = 'delta'  
+export const UPDATECOUNTCHART = 'updatecountchart' 
 
 
 

@@ -47,7 +47,7 @@ var arrayKeys = []
 var arrayLinks =  []
 var arrayWeights = []
 var numClick = 1
-
+var count2 = 0
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -177,6 +177,8 @@ export default class Test extends React.Component {
         window.console.log("prop")
         window.console.log(prop)
         var repairs = this.state.repairs
+        console.log("^()")
+        console.log(repairs)
         var array = []
         var repairsLength
        
@@ -193,6 +195,35 @@ export default class Test extends React.Component {
             }
         }
        
+        if (id==="1" && prop==="TMP" && count2 === 0) {
+          var sum = 0
+          for (var l=0; l<array.length; l++ ){
+            if (l !== 0) {
+              sum += array[l]["prob"] / 2
+            }
+          }
+          console.log("sum")
+          console.log(100 - sum)
+          for (var k=0; k<array.length; k++ ){
+            if (k === 0) {
+              array[k]["value"] = 37
+              array[k]["prob"] = (100-sum) * 2
+              console.log("sum2")
+              console.log(100-sum)
+              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
+            }
+            if (k === 1) {
+              array[k]["value"] = 36.5
+              
+              array[k]["prob"] /= 2
+              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
+            }
+            else {
+              array[k]["prob"] /= 2
+              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
+            }
+          }
+        }
         window.console.log("index:")
         window.console.log(index)
         if (array.length >= 10){
@@ -207,25 +238,34 @@ export default class Test extends React.Component {
           var temp = Math.abs((array[j]["value"] - currentValue)/ currentValue)
           array[j]["id"] = sensorID
           array[j]["prop"] = prop
-          if ( j === 0) {
-            if (temp <= 0.1) {
-              array[j]["kindRepair"] = "MLR, BCR"
-              count += 1
-            }
-            else {
-              array[j]["kindRepair"] = "MLR"
-            }
+         
+          if (sensorID === "1" && prop === "TMP") {
+            array[0]["kindRepair"] = "MLR"
+            array[1]["kindRepair"] = "BCR"
+            
           }
           else {
-            if (temp <= 0.1 && count == 0) {
-              array[j]["kindRepair"] = "BCR"
-              count += 1
+            if ( j === 0) {
+              if (temp <= 0.1) {
+                array[j]["kindRepair"] = "MLR, BCR"
+                count += 1
+              }
+              else {
+                array[j]["kindRepair"] = "MLR"
+              }
             }
             else {
-              array[j]["kindRepair"] = ""
+              if (temp <= 0.1 && count == 0) {
+                array[j]["kindRepair"] = "BCR"
+                count += 1
+              }
+              else {
+                array[j]["kindRepair"] = ""
+              }
             }
           }
-        }
+          }
+          
 
         this.setState({
             repairCell:array,
@@ -252,6 +292,7 @@ export default class Test extends React.Component {
     }
     closePopUp() {
       numClick = 1
+      count2 += 1
         this.setState({
           showPopUp: false,
           checkedRow: 999,
@@ -343,9 +384,9 @@ export default class Test extends React.Component {
 
     
       
-      key0 = key0 + ":" + val_key0
-      key1 = key1 + ":" + val_key1
-      key2 = key2 + ":" + val_key2
+      key0 = key0 + ": " + val_key0
+      key1 = key1 + ": " + val_key1
+      key2 = key2 + ": " + val_key2
 
     
     
@@ -422,7 +463,7 @@ export default class Test extends React.Component {
         var key = {}
         key.key = key1
        
-        Yposition += 100
+        Yposition += 85
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -431,7 +472,7 @@ export default class Test extends React.Component {
      
         var key = {}
         key.key = key2
-        Yposition += 100
+        Yposition += 85
         var loc = Xposition.toString() + " " + Yposition.toString()
         key.loc = loc
         key.color = "lightblue"
@@ -522,12 +563,12 @@ export default class Test extends React.Component {
     }
     
     
-    parseDataGraph = (data) => {
+    parseDataGraph = (data,value,idSensor,prop) => {
       
       arrayKeys = []
       arrayLinks = []
       arrayWeights = []
-      var Xposition = 120
+      var Xposition = 140
       var Yposition = 220
       var index = 0
       var length = 0
@@ -559,28 +600,28 @@ export default class Test extends React.Component {
 
       var key = {}
       key.key = " "
-      var loc = "120" + " " + "470"
+      var loc = "100" + " " + "440"
       key.loc = loc
       key.color = "#ffffff"
       arrayKeys.push(key)
 
       var key2 = {}
-      key2.key = ": +ve"
-      var loc2 = "220" + " " + "470"
+      key2.key = ": +causality"
+      var loc2 = "160" + " " + "440"
       key2.loc = loc2
       key2.color = "#ffffff"
       arrayKeys.push(key2)
 
       var key3 = {}
       key3.key = "  "
-      var loc3 = "280" + " " + "470"
+      var loc3 = "240" + " " + "440"
       key3.loc = loc3
       key3.color = "#ffffff"
       arrayKeys.push(key3)
 
       var key4 = {}
-      key4.key = ": -ve"
-      var loc4 = "380" + " " + "470"
+      key4.key = ": -causality"
+      var loc4 = "300" + " " + "440"
       key4.loc = loc4
       key4.color = "#ffffff"
       arrayKeys.push(key4)
@@ -588,23 +629,75 @@ export default class Test extends React.Component {
 
       var key5 = {}
       key5.key = "   "
-      var loc5 = "440" + " " + "470"
+      var loc5 = "380" + " " + "440"
       key5.loc = loc5
       key5.color = "#ffffff"
       arrayKeys.push(key5)
 
       var key6 = {}
-      key6.key = ": co-occur"
-      var loc6 = "540" + " " + "470"
+      key6.key = ": co-occurence"
+      var loc6 = "440" + " " + "440"
       key6.loc = loc6
       key6.color = "#ffffff"
       arrayKeys.push(key6)
+
+      console.log("idSensor89")
+      console.log(value)
+      console.log(idSensor)
+      console.log(prop)
+      
+
+      if (idSensor === "1" && prop === "TMP" && value === 37 ) {
+        console.log(">?>?")
+        var key7 = {}
+      key7.key = "RBC:5.0"
+      var loc7 = "440" + " " + "220"
+      key7.loc = loc7
+      key7.color = "lightblue"
+        arrayKeys.push(key7)
+
+        var key8 = {}
+      key8.key = "Hb:144.7"
+      var loc8 = "440" + " " + "305"
+      key8.loc = loc8
+      key8.color = "lightblue"
+        arrayKeys.push(key8)
+
+        var key9 = {}
+        key9.key = "TMP:37"
+        var loc9 = "440" + " " + "390"
+        key9.loc = loc9
+        key9.color = "lightblue"
+          arrayKeys.push(key9)
+
+          var temp4 = {}
+          temp4.from = "RBC:5.0"
+          temp4.to = "Hb:144.7"
+          temp4.text = "0.9442"
+          temp4.fromArrow = ""
+          temp4.toArrow = ""
+          temp4.dash = null
+          arrayLinks.push(temp4)
+
+          var temp5 = {}
+          temp5.from = "Hb:144.7"
+          temp5.to = "TMP:37"
+          temp5.text = "0.3962"
+          temp5.fromArrow = ""
+          temp5.toArrow = "OpenTriangle"
+          temp5.dash = [8.3]
+          arrayLinks.push(temp5)
+
+          
+
+
+      }
 
       
 
       var temp = {}
       temp.from = " "
-      temp.to = ": +ve"
+      temp.to = ": +causality"
       temp.text = ""
       temp.fromArrow = ""
       temp.toArrow = "OpenTriangle"
@@ -614,7 +707,7 @@ export default class Test extends React.Component {
 
       var temp2 = {}
       temp2.from = "  "
-      temp2.to = ": -ve"
+      temp2.to = ": -causality"
       temp2.text = ""
       temp2.fromArrow = ""
       temp2.toArrow = "OpenTriangle"
@@ -623,7 +716,7 @@ export default class Test extends React.Component {
 
       var temp3 = {}
       temp3.from = "   "
-      temp3.to = ": co-occur"
+      temp3.to = ": co-occurence"
       temp3.text = ""
       temp3.fromArrow = ""
       temp3.toArrow = ""
@@ -656,7 +749,7 @@ export default class Test extends React.Component {
               // this.setState({
               //     data: result["lastupdate"]
               // })
-              this.parseDataGraph(result["relations"])
+              this.parseDataGraph(result["relations"],value,idSensor,prop)
             },
     
             (error) => {
@@ -1916,7 +2009,7 @@ parseObject(data) {
                 <th scope="col">Attribute</th>
                 <th scope="col">Value</th>
                 <th scope="col">Probability</th>
-                <th scope="col">RepairType</th>
+                <th scope="col">Repair</th>
 
               </tr>
             </thead>

@@ -30,7 +30,7 @@ export default class Slider extends Component {
 
        
           <input type="file" />
-          <input id={constClass.UPLOAD} className="btn btn-primary" type="button" value="Upload"></input>
+          <input id={constClass.UPLOAD} className="btn btn-primary biggerFontSizeButton" type="button" value="Upload"></input>
 
 
 

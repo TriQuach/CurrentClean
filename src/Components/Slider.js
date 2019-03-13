@@ -84,7 +84,7 @@ export default class Slider extends Component {
                         
                         <b className="largeSize"> {end}</b>
                         <br></br>
-                        <input id={constClass.OK} onClick={this.props.onClick} className="btn btn-primary" type="button" value="View Dataset"></input>
+                        <input id={constClass.OK} onClick={this.props.onClick} className="btn btn-primary biggerFontSizeButton" type="button" value="View Dataset"></input>
                         {/* <a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Frequency</a>   */}
 
                     </form>

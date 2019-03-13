@@ -24,3 +24,6 @@ input#identify {
 .test {
   font-size: 30px
 }
+.biggerFontSizeButton {
+  font-size: 120%
+}

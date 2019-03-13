@@ -303,7 +303,7 @@ export default class SliderTableWrapper extends Component {
                         typeRadio={this.state.typeRadio}
                         valDelta={this.state.valDelta}
                     />
-                    <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
+                    <input onClick={this.handleClickIdentify} id="identify" className="btn btn-primary biggerFontSizeButton" type="button" value="Identify stale cells"></input>
                     {/* <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
                     */}
                     {/* <div id="myDiagramDiv" style={{width:400, height:400}}></div> */}

@@ -17,6 +17,12 @@ div#tableMimic {
     overflow-y: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     }
+    .table-wrapper-scroll-y2 {
+        display: block;
+        max-height: 80vh;
+        overflow-y: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        }    
 .table-wrapper-scroll-chart {
     display: block;
     max-height: 700px;
@@ -36,4 +42,7 @@ li#boldFreq {
 li#boldAge {
     font-weight: bold;
     font-size: 165%
+}
+input#baseline {
+    width: 70px
 }
