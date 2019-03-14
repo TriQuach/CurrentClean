@@ -224,13 +224,13 @@ checkNodesInGraph = (data,value) => {
           <b className="largeSizePatternProgressLabel">Progress</b>
         
         <div  id="progressbar"> 
-         <ProgressBar width={160} filledBackground={"#00ff16"} unfilledBackground={"#e50b21"} height={20} stepPositions={[0,percent,100]} percent={percent}>
+         <ProgressBar width={120} filledBackground={"#00ff16"} unfilledBackground={"#e50b21"} height={20} stepPositions={[0,percent,100]} percent={percent}>
   <Step >
     {({ accomplished, index }) => (
       <div
-        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+        className={`indexedStep0 ${accomplished ? "accomplished" : null}`}
       >
-        {"0%"}
+        
       </div>
     )}
   </Step>
@@ -243,7 +243,7 @@ checkNodesInGraph = (data,value) => {
       <div
         className={`indexedStep ${accomplished ? "accomplished" : null}`}
       >
-        {percent + "%"}
+        {percent}
       </div>
     )}
      
@@ -251,7 +251,7 @@ checkNodesInGraph = (data,value) => {
   <Step>
     {({ accomplished, index }) => (
       <div
-        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+        className={`indexedStep100 ${accomplished ? "accomplished" : null}`}
       >
         {"100%"}
       </div>
@@ -261,7 +261,7 @@ checkNodesInGraph = (data,value) => {
 <br></br>
 </div>
 
-                <b className="largeSizePattern"># cells:</b>
+                <b className="largeSizePattern"># cells</b>
                  
                
                 
@@ -269,6 +269,7 @@ checkNodesInGraph = (data,value) => {
                  <br></br>
                  
                 <ReactBootstrapSlider
+                    id="slider1"
                     value={this.props.mostVal}
                     max={this.props.numberStaleCells}
                     min={0}
@@ -276,8 +277,10 @@ checkNodesInGraph = (data,value) => {
                     
                 />
                 <br></br>
-                <b className="largeSizePattern"> Staleness threshold </b>
+                <b className="largeSizePattern"> Staleness threshold {this.props.minProb + "%"}</b>
+               
                 <ReactBootstrapSlider
+                    id="slider2"
                     value={this.props.minProb}
                     max={100}
                     min={this.props.valBeta}

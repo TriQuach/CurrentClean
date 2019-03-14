@@ -38,6 +38,38 @@ export default class TableFregAge extends Component {
     this.closePopUp = this.closePopUp.bind(this)
     this.keydownHandler = this.keydownHandler.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.timeConverter = this.timeConverter.bind(this)
+  }
+  timeConverter = (UNIX_timestamp) => {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    window.console.log(hour)
+    if (hour.toString().length === 1) {
+        window.console.log("hour")
+        hour = "0" + hour.toString()
+    }
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    if (min.toString().length === 1) {
+        min = "0" + min.toString()
+    }
+    if (sec.toString().length === 1) {
+        sec = "0" + sec.toString()
+    }
+    // var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    var time = year + '/' + month + '/' + date + ' ' + hour + ':' + min + ':' + sec ;
+    
+    return time;
+  }
+  convertListOfTimeStamp = (data) => {
+    for (var i=0; i<data.length; i++) {
+      data[i]["x"] = this.timeConverter(data[i]["x"])
+    }
+    return data
   }
   createLineChartData(response) {
     window.console.log("response[0]")
@@ -47,14 +79,18 @@ export default class TableFregAge extends Component {
       var temp = {}
       var key = Object.keys(arrayCells[i])[0]
       temp.type = "line"
+     
       if (this.props.typeRadio === constClass.SENSOR) {
         temp.name ="sensor_" + key 
       }
       else if (this.props.typeRadio === constClass.CLINICAL) {
-        temp.name ="patient_" + key 
+        // temp.name ="patient_" + key 
+        temp.legendText = "WBC"
+        
       }
       temp.showInLegend = true
       temp.toolTipContent = "Time {x}: {y}"
+      
       temp.dataPoints = response[i]
       array.push(temp)
     }
@@ -99,7 +135,7 @@ export default class TableFregAge extends Component {
           }
         }).then(res => res.json())
           .then(response => {
-  
+            console.log("responseCompareCells")
             this.createLineChartData(response)
             this.setState({
   
@@ -271,6 +307,11 @@ export default class TableFregAge extends Component {
     }
     window.console.log('array')
     window.console.log(array)
+    if (this.state.typechart === constClass.AGEBARCHART) {
+      for (var j=0; j<array.length; j++) {
+        array[j].y = array[j].y / 60
+      }
+    }
     this.setState({
       dataCanvas: array
     })
@@ -503,7 +544,7 @@ export default class TableFregAge extends Component {
   handleSubmitForm = (event) => {
 
     
-    var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dateset=" + constClass.CLINICAL
+    var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dataset=" + constClass.CLINICAL
     window.console.log(url)
     fetch(url)
       .then(res => res.json())
@@ -546,20 +587,21 @@ export default class TableFregAge extends Component {
     var min = 9999
     for (var i=0; i<relativeUpdates.length; i++) {
       var temp = {}
-      temp.x = i
-      temp.y = relativeUpdates[i]
+      temp.x = relativeUpdates[i][1]
+      temp.y = relativeUpdates[i][0]
       dataPoints.push(temp)
-      if (relativeUpdates[i] < min) {
-        min = relativeUpdates[i]
+      if (relativeUpdates[i][0] < min) {
+        min = relativeUpdates[i][0]
       }
       
     }
     
-    var check = 0
-    var step = relativeUpdates.length / intervalCounts.length
+    var check = relativeUpdates[1][1]
+    var step = (relativeUpdates[relativeUpdates.length-1][1] -  relativeUpdates[0][1])/ intervalCounts.length
     var temp2 = {}
-    temp2.x = 
+    temp2.x = relativeUpdates[0][1]
     temp2.y = min-1.0
+    temp2.markerSize = 20
     dataPointsInterval.push(temp2)
     for (var k=0; k<intervalCounts.length; k++) {
       var temp = {}
@@ -568,11 +610,11 @@ export default class TableFregAge extends Component {
       dataPointsInterval.push(temp)
       check += step
       temp.indexLabel = intervalCounts[k].toString()
-      
+      temp.markerSize = 20
 
     }
     console.log("intervalCounts")
-    console.log(dataPointsInterval)
+    // console.log(dataPointsInterval)
 
     this.setState({
       dataUpdateCount: dataPoints,
@@ -638,13 +680,14 @@ export default class TableFregAge extends Component {
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
-        text: "Comparative Evolution" + " (" + this.state.currentProp + ")"
+         fontFamily: "tahoma",
+        text: "Comparative Evolution" + " (" + "TMP" + " & WBC)"
       },
       legend: {
         fontSize: 30
       },
       axisY: {
-        title: "Values",
+        
         titleFontSize: 25,
         includeZero: false,
         labelFontSize: 25
@@ -652,6 +695,40 @@ export default class TableFregAge extends Component {
       },
       axisX: {
         title: "Time",
+        interval: 3500,
+        labelFormatter: function(e){
+          
+          console.log("e value")
+          console.log(e)
+          var a = new Date(e.value * 1000);
+          var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+          var year = a.getFullYear();
+          var month = months[a.getMonth()];
+          var date = a.getDate();
+          var hour = a.getHours();
+          window.console.log(hour)
+          
+          var min = a.getMinutes();
+          var sec = a.getSeconds();
+          if (min.toString().length === 1) {
+              min = "0" + min.toString()
+          }
+          if (sec.toString().length === 1) {
+              sec = "0" + sec.toString()
+          }
+          // var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+          if (parseInt(hour) > 12) {
+            hour = (parseInt(hour) - 12).toString() + "pm"
+          }
+          else {
+            hour = hour + "am"
+          }
+          var time = hour ;
+          
+
+          
+          return time;
+        },
         titleFontSize: 25,
         includeZero: false,
         labelFontSize: 25
@@ -685,7 +762,7 @@ export default class TableFregAge extends Component {
         labelFontSize: 20
       },
       axisY: {
-        title: "Time (seconds)",
+        title: "Time (minutes)",
         labelFormatter: this.addSymbols,
         titleFontSize: 20,
         
@@ -735,10 +812,46 @@ export default class TableFregAge extends Component {
 			colorSet: "colorSet2",
       exportEnabled: true,
       axisX:{
+        
         title: "Time",
+        interval: 3500,
         titleFontSize: 25,
         includeZero: false,
-        labelFontSize: 25
+        labelFontSize: 25,
+        labelFormatter: function(e){
+          
+          console.log("e value")
+          console.log(e)
+          var a = new Date(e.value * 1000);
+          var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+          var year = a.getFullYear();
+          var month = months[a.getMonth()];
+          var date = a.getDate();
+          var hour = a.getHours();
+          window.console.log(hour)
+          
+          var min = a.getMinutes();
+          var sec = a.getSeconds();
+          if (min.toString().length === 1) {
+              min = "0" + min.toString()
+          }
+          if (sec.toString().length === 1) {
+              sec = "0" + sec.toString()
+          }
+          // var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+          if (parseInt(hour) > 12) {
+            hour = (parseInt(hour) - 12).toString() + "pm"
+          }
+          else {
+            hour = hour + "am"
+          }
+          var time = hour ;
+          
+
+          
+          return time;
+        },
+        
         
        },
        axisY:{
@@ -746,6 +859,7 @@ export default class TableFregAge extends Component {
           return e.value + "%";
         },
         titleFontSize: 25,
+        gridThickness: 0,
         includeZero: false,
         labelFontSize: 25
       },
@@ -764,9 +878,9 @@ export default class TableFregAge extends Component {
       },
       {
         type: "spline",
+        lineDashType: "dash",
         indexLabelFontSize: 25,
-        legendText:"Update frequency",
-        showInLegend: true,
+        
         
         dataPoints: this.state.dataUpdateCountInterval
       }
@@ -801,7 +915,7 @@ export default class TableFregAge extends Component {
 
       <div className="TableFregAge" id="table">
         <ul className="nav nav-tabs" style={{ width: "100%" }}>
-          <li id="boldAge" className={this.props.typeRequest === constClass.AGE ? "active li" : "li"}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Age</a></li>
+          <li id="boldAge" className={this.props.typeRequest === constClass.AGE ? "active li" : "li"}><a href="#" id={constClass.AGE} onClick={this.props.onClick}>Historical values</a></li>
 
           <li id="boldFreq" className={this.props.typeRequest === constClass.FREQUENCY ? "active li" : "li"} ><a href="#" onClick={this.props.onClick} id={constClass.FREQUENCY}>Update Frequency</a></li>
 

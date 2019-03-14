@@ -35,8 +35,8 @@ const contentStyle = {
 };
 const contentStyle2 = {
   
-  height: "80%",
-  width: "50%"
+  height: "100%",
+  width: "70%"
 };
 const colWidth = {
   width: "100%",
@@ -60,6 +60,7 @@ var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
 var valid_id_Mimic = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']
 var arrayStaleCells = []
+
 class Sensor {
     constructor(sensorID, Temperature, Humidity, AirPressure, Voltage) {
       this.sensorID = sensorID;
@@ -123,6 +124,8 @@ export default class Test extends React.Component {
             checkBlur: false,
             isRightClickedInRepair: false,
             arrayGraph: [],
+            arrayRelations: [],
+            numRelations: 0
             
             
             
@@ -569,7 +572,7 @@ export default class Test extends React.Component {
       arrayLinks = []
       arrayWeights = []
       var Xposition = 140
-      var Yposition = 220
+      var Yposition = 330
       var index = 0
       var length = 0
       if (data.length > 6) {
@@ -583,13 +586,13 @@ export default class Test extends React.Component {
           this.parseAnElement(data[i],Xposition,Yposition,index)
           index += 3
           if (this.props.kindDataset === constClass.CLINICAL) {
-            Xposition += 100
+            Xposition += 140
           }
           else {
             Xposition += 130
           }
          
-          Yposition = 220
+          Yposition = 330
     }
     
       console.log("arrayKeys")
@@ -600,28 +603,28 @@ export default class Test extends React.Component {
 
       var key = {}
       key.key = " "
-      var loc = "100" + " " + "440"
+      var loc = "100" + " " + "550"
       key.loc = loc
       key.color = "#ffffff"
       arrayKeys.push(key)
 
       var key2 = {}
       key2.key = ": +causality"
-      var loc2 = "160" + " " + "440"
+      var loc2 = "160" + " " + "550"
       key2.loc = loc2
       key2.color = "#ffffff"
       arrayKeys.push(key2)
 
       var key3 = {}
       key3.key = "  "
-      var loc3 = "240" + " " + "440"
+      var loc3 = "280" + " " + "550"
       key3.loc = loc3
       key3.color = "#ffffff"
       arrayKeys.push(key3)
 
       var key4 = {}
       key4.key = ": -causality"
-      var loc4 = "300" + " " + "440"
+      var loc4 = "340" + " " + "550"
       key4.loc = loc4
       key4.color = "#ffffff"
       arrayKeys.push(key4)
@@ -629,14 +632,14 @@ export default class Test extends React.Component {
 
       var key5 = {}
       key5.key = "   "
-      var loc5 = "380" + " " + "440"
+      var loc5 = "460" + " " + "550"
       key5.loc = loc5
       key5.color = "#ffffff"
       arrayKeys.push(key5)
 
       var key6 = {}
       key6.key = ": co-occurence"
-      var loc6 = "440" + " " + "440"
+      var loc6 = "520" + " " + "550"
       key6.loc = loc6
       key6.color = "#ffffff"
       arrayKeys.push(key6)
@@ -651,21 +654,21 @@ export default class Test extends React.Component {
         console.log(">?>?")
         var key7 = {}
       key7.key = "RBC:5.0"
-      var loc7 = "440" + " " + "220"
+      var loc7 = "560" + " " + "240"
       key7.loc = loc7
       key7.color = "lightblue"
         arrayKeys.push(key7)
 
         var key8 = {}
       key8.key = "Hb:144.7"
-      var loc8 = "440" + " " + "305"
+      var loc8 = "560" + " " + "325"
       key8.loc = loc8
       key8.color = "lightblue"
         arrayKeys.push(key8)
 
         var key9 = {}
         key9.key = "TMP:37"
-        var loc9 = "440" + " " + "390"
+        var loc9 = "560" + " " + "410"
         key9.loc = loc9
         key9.color = "lightblue"
           arrayKeys.push(key9)
@@ -732,6 +735,16 @@ export default class Test extends React.Component {
          
          
          );
+      
+         myDiagram.toolManager.panningTool.isEnabled = false;
+        myDiagram.isReadOnly = true
+        myDiagram.allowMove = false
+        myDiagram.allowHorizontalScroll = false
+         myDiagram.allowVerticalScroll= false 
+
+         this.setState({
+           numRelations: length
+         })
          console.log("miDiagramModel")
          console.log(myDiagram.model)
        numClick += 1
@@ -749,7 +762,10 @@ export default class Test extends React.Component {
               // this.setState({
               //     data: result["lastupdate"]
               // })
+            
               this.parseDataGraph(result["relations"],value,idSensor,prop)
+              
+
             },
     
             (error) => {
@@ -772,14 +788,19 @@ export default class Test extends React.Component {
             $(go.Shape, "RoundedRectangle", { strokeWidth: 0, fill: "white" },
               // Shape.fill is bound to Node.data.color
               new go.Binding("fill", "color")),
-            $(go.TextBlock,
-              { margin: 6 },  // some room around the text
+            $(go.TextBlock,  "Diagram.isReadOnly == true",
+              { 
+                margin: 6,
+                font: "bold 16pt serif",
+                
+              
+              },  // some room around the text
               // TextBlock.text is bound to Node.data.key
               new go.Binding("text", "key")),
           );
   
           myDiagram.linkTemplate =
-          $(go.Link,
+          $(go.Link,  "Diagram.isReadOnly == true",
             $(go.Shape,  // the link shape
                 new go.Binding("strokeDashArray","dash"),
                 // the first element is assumed to be main element: as if isPanelMain were true
@@ -791,7 +812,9 @@ export default class Test extends React.Component {
                 new go.Binding("toArrow", "toArrow"),
                 { scale: 2, fill: "#D4B52C" }),
             
-            $(go.TextBlock, { segmentOffset: new go.Point(0, -25) }, new go.Binding("text", "text")),
+            $(go.TextBlock, { 
+              font: "12pt helvetica, arial, sans-serif",
+              segmentOffset: new go.Point(0, -30) }, new go.Binding("text", "text")),
           
           );   
       }
@@ -817,6 +840,32 @@ export default class Test extends React.Component {
      
     // ]
   
+  }
+  createArrayButton = (length) => {
+    var res = []
+    for (var i=0; i<this.state.numRelations; i++) {
+        var temp 
+        if ( i === 0) {
+          temp = <input
+          style = {{width:70, height:70,  marginLeft : 200 }}
+          name="isGoing"
+          type="checkbox"
+          className="click"
+          checked={this.state.isGoing}
+          onChange={this.handleInputChange} />
+        }
+        else {
+          temp = <input
+          style = {{width:70, height:70,  marginLeft : 70 }}
+          name="isGoing"
+          type="checkbox"
+          className="click"
+          checked={this.state.isGoing}
+          onChange={this.handleInputChange} />
+        }
+        res.push(temp)
+    }
+    return res
   }
     handleClickRow = (e,key,value,idSensor,prop) => {
        
@@ -1641,6 +1690,8 @@ parseObject(data) {
         console.log("this.state.data")
         console.log(this.state.data)
 
+        var arrayButton = this.createArrayButton(this.state.repairCell.length)
+
         console.log("arrayKeys%^%^")
         console.log(arrayKeys)
         console.log("arrayLinks")
@@ -2050,7 +2101,7 @@ parseObject(data) {
           </div> */}
           {this.state.isRightClickedInRepair === true ?
           <div> 
-             <div id="myDiagramDiv" style={{width:650, height:400}}></div> 
+             <div id="myDiagramDiv" style={{width:950, height:370}}></div> 
             
              </div>
              : null}
@@ -2060,7 +2111,11 @@ parseObject(data) {
           
           
           </div>
-          <input onClick={this.apply} className={this.state.isRightClickedInRepair === false ? "btn btn-primary apply" : "btn btn-primary applyBigger" } type="button" value="Apply"></input>
+          {this.state.isRightClickedInRepair === true ? arrayButton
+       : null}
+          <br></br>
+          <input  onClick={this.apply} className={this.state.isRightClickedInRepair === false ? "btn btn-primary apply" : "btn btn-primary applyBigger" } type="button" value="Apply"></input>
+        
         </Popup>
             
         </div> : null }

@@ -14,7 +14,7 @@ div#sliderMostStaleCell {
     border: 1px solid transparent;
     border-radius: 0.3cm;
     padding-top: 12px;
-  padding-right: 30px;
+  padding-right: 12px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
@@ -43,19 +43,38 @@ input#applyMost{
    margin-left: -10px;
 }
 .indexedStep {
-    color: white;
-    width: 43px;
-    height: 43px;
-    font-size: 15px;
-    background-color: rgba(0, 116, 217, 1);
-    border-radius: 50%;
+    
+    margin-right: 55px;
+    font-size: 20px;
+   
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.indexedStep0 {
+    
+    margin-right: 30px;
+    font-size: 20px;
+   
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .indexedStep100 {
+    
+    margin-left: 50px;
+    font-size: 20px;
+   
+  
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
   .indexedStep.accomplished {
-    background-color: rgba(0, 116, 217, 1);
+    
   }
   .block {
   
@@ -72,10 +91,19 @@ b#test45 {
     margin-left:20px
 }
 div#progressbar {
-    margin-left: 120px;
+    margin-left: 100px;
     margin-top: -25px;
     
 }
 div#test123 {
     margin-left: 30px
+}
+div#slider1 {
+    margin-right: 20px
+}
+div#slider2 {
+    margin-right: 20px
+}
+.largeSizePattern6{
+    font-size: 90%;
 }
