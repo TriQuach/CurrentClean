@@ -46,3 +46,12 @@ li#boldAge {
 input#baseline {
     width: 70px
 }
+.baseLineClass {
+    font-size: 150%
+}
+.smallPadding {
+    padding-top: -70px
+}
+input#baseline {
+    padding-top: -70px
+}

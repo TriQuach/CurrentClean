@@ -575,41 +575,44 @@ export default class Test extends Component {
   getArrayNeedClean =() => {
     var res = []
     var count = 0
-    var prob = 1 - this.state.minProb/100
+   
     var tempArray = this.state.originalArrayStaleCells
-    for (var i=0; i<tempArray.length; i++) {
-      if (tempArray[i][2] <= prob && count < this.state.mostVal) {
-        res.push(tempArray[i])
-        count += 1
-      }
+
+     for (var i=0; i<tempArray.length; i++) {
+          for (var j=i+1; j<tempArray.length; j++) {
+            if (tempArray[i][2] < tempArray[j][2]) {
+                var temp = tempArray[i]
+                tempArray[i] = tempArray[j]
+                tempArray[j] = temp 
+            }
+          }
+        }
+    console.log("tempArray")
+    console.log(tempArray)
+    
+    for (var k=0; k<this.state.mostVal; k++) {
+     
+              res.push(tempArray[k])
+       
+      
     }
     return res
   }
-  getRemainArray = (res) => {
-    var tempArray = this.state.originalArrayStaleCells
-    for (var i=0; i<tempArray.length; i++) {
-      for (var j=0; j<res.length; j++) {
-        if (tempArray[i][0] === res[j][0]) {
-          tempArray.splice(i,1)
-        }
-      }
-    }
-    return tempArray
-  }
+  
   handleClick = (kindSlider) => {
     if (kindSlider === "most") {
         window.console.log("most Clicked")
         var res = this.getArrayNeedClean()
-        var remain = this.getRemainArray(res)
+        // var remain = this.getRemainArray(res)
         console.log(res)
-        console.log(remain)
+        // console.log(remain)
         this.setState({
           mostValToClean: this.state.mostVal,
           mostVal: 0,
-          numberStaleCells: remain.length - res.length,
+          numberStaleCells: this.state.numberStaleCells - res.length,
           orginNumberStaleCells: this.state.numberStaleCells,
           finalMinProb: this.state.minProb,
-          originalNumberStaleCells: remain,
+         
           arrayNeedClean: res
         })
     }

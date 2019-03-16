@@ -30,7 +30,9 @@ export default class TableFregAge extends Component {
       valueForm:'',
       dataUpdateCount: [],
       dataUpdateCountInterval: [],
-      
+      interval: 0,
+      max: 0,
+      stripLines: []
 
     }
     this.myRef = React.createRef();
@@ -208,9 +210,7 @@ export default class TableFregAge extends Component {
       for (var j=0; j<data[0].length; j++)
       {
         var probability = data[i][j]["probability"]
-        console.log('probability')
-        console.log(probability)
-        console.log(data[i][j]["hex"])
+       
         // if (probability >= 0 && probability <= 0.14285714285714285 ) {
         //   data[i][j]["hex"] = "#67001f"
         // }
@@ -307,6 +307,8 @@ export default class TableFregAge extends Component {
     }
     window.console.log('array')
     window.console.log(array)
+    console.log("typeChart")
+    console.log(this.state.typechart)
     if (this.state.typechart === constClass.AGEBARCHART) {
       for (var j=0; j<array.length; j++) {
         array[j].y = array[j].y / 60
@@ -340,11 +342,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-              this.convertToArrayObject(result)
+             
               this.setState({
                 showPopUp: true,
                 typechart: constClass.FREQBARCHART
-              })
+              }, () =>  this.convertToArrayObject(result))
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -390,11 +392,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-              this.convertToArrayObject(result)
+             
               this.setState({
                 showPopUp: true,
                 typechart: constClass.AGEBARCHART
-              })
+              }, () =>  this.convertToArrayObject(result))
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -420,11 +422,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-              this.convertToArrayObject(result)
+              
               this.setState({
                 showPopUp: true,
                 typechart: constClass.FREQBARCHART
-              })
+              }, () => this.convertToArrayObject(result))
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -468,11 +470,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-              this.convertToArrayObject(result)
+              
               this.setState({
                 showPopUp: true,
                 typechart: constClass.AGEBARCHART
-              })
+              }, () => this.convertToArrayObject(result))
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -543,29 +545,55 @@ export default class TableFregAge extends Component {
 
   handleSubmitForm = (event) => {
 
+    if (this.props.typeRadio === constClass.SENSOR) {
+      var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dataset=" + constClass.SENSOR
+      window.console.log(url)
+      fetch(url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            window.console.log('*********')
+            window.console.log(result)
+            // this.convertToArrayObject(result)
+            this.createLineChartDataUpdateCount(result)
+            this.setState({
+              
+              typechart: constClass.UPDATECOUNTCHART
+            })
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            window.console.log(error)
+          }
+        )
+    }
+    else if (this.props.typeRadio === constClass.CLINICAL) {
+      var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dataset=" + constClass.CLINICAL
+      window.console.log(url)
+      fetch(url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            window.console.log('*********')
+            window.console.log(result)
+            // this.convertToArrayObject(result)
+            this.createLineChartDataUpdateCount(result)
+            this.setState({
+              
+              typechart: constClass.UPDATECOUNTCHART
+            })
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            window.console.log(error)
+          }
+        )
+    }
     
-    var url = constClass.LOCAL_BACKEND + "updateCount?start=" + this.props.start + "&end=" + this.props.end + "&id=" + this.state.currentID + "&attr=" + this.state.currentProp +"&value=" +this.state.valueForm+ "&dataset=" + constClass.CLINICAL
-    window.console.log(url)
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          window.console.log('*********')
-          window.console.log(result)
-          // this.convertToArrayObject(result)
-          this.createLineChartDataUpdateCount(result)
-          this.setState({
-            
-            typechart: constClass.UPDATECOUNTCHART
-          })
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          window.console.log(error)
-        }
-      )
     event.preventDefault();
   }
   handleClickBarChart = () => {
@@ -584,41 +612,70 @@ export default class TableFregAge extends Component {
     for (var j=0; j<intervalCounts.length; j++) {
       sum += intervalCounts[j]
     }
-    var min = 9999
+    var max2 = -9999
     for (var i=0; i<relativeUpdates.length; i++) {
       var temp = {}
       temp.x = relativeUpdates[i][1]
       temp.y = relativeUpdates[i][0]
       dataPoints.push(temp)
-      if (relativeUpdates[i][0] < min) {
-        min = relativeUpdates[i][0]
+      if (relativeUpdates[i][0] > max2) {
+        max2 = relativeUpdates[i][0]
       }
       
     }
     
-    var check = relativeUpdates[1][1]
-    var step = (relativeUpdates[relativeUpdates.length-1][1] -  relativeUpdates[0][1])/ intervalCounts.length
+    var check = relativeUpdates[0][1]
+    var step = (relativeUpdates[relativeUpdates.length-1][1] -  relativeUpdates[0][1])/ (intervalCounts.length )
+    var step2 = (relativeUpdates[relativeUpdates.length-1][1] -  relativeUpdates[0][1])/ (intervalCounts.length )
+    
+
+
     var temp2 = {}
     temp2.x = relativeUpdates[0][1]
-    temp2.y = min-1.0
-    temp2.markerSize = 20
+    temp2.y = max2 + 0.6
+    temp2.markerSize = 14
     dataPointsInterval.push(temp2)
+
     for (var k=0; k<intervalCounts.length; k++) {
       var temp = {}
       temp.x = check + step
-      temp.y = min - 1.0
+      temp.y = max2  + 0.6
       dataPointsInterval.push(temp)
       check += step
       temp.indexLabel = intervalCounts[k].toString()
-      temp.markerSize = 20
+      temp.markerSize = 14
 
     }
     console.log("intervalCounts")
-    // console.log(dataPointsInterval)
+    console.log(dataPoints)
+    console.log(dataPointsInterval)
+    console.log(step2)
+    console.log(parseInt(step2) * intervalCounts.length + relativeUpdates[0][1])
+
+    var max = parseInt(step2) * intervalCounts.length + relativeUpdates[0][1]
+    for (var v=0; v<dataPoints.length; v++) {
+      if (dataPoints[v].x > max) {
+        dataPoints.splice(v,1)
+      }
+    }
+
+    var stripLines = []
+    for (var c=0; c<dataPointsInterval.length; c++) {
+      var value = {}
+      value.value = dataPointsInterval[c]["x"]
+      value.lineDashType = "dash"
+      stripLines.push(value)
+    }
+
+    console.log("stripLines")
+    console.log(stripLines)
 
     this.setState({
       dataUpdateCount: dataPoints,
-      dataUpdateCountInterval: dataPointsInterval
+      dataUpdateCountInterval: dataPointsInterval,
+      interval: parseInt(step2),
+      max: parseInt(step2) * intervalCounts.length + relativeUpdates[0][1],
+      stripLines: stripLines
     })
 
 
@@ -746,7 +803,7 @@ export default class TableFregAge extends Component {
       height: 280,
       
       title: {
-        text: "Cumulative time duration"
+        text: "Total time"
       },
       subtitles: [{
         text: this.props.typeRadio===constClass.CLINICAL ? "patient_"+ this.state.currentID + "_" + this.state.currentProp : "sensor_" + this.state.currentID + "_" + this.state.currentProp ,		
@@ -811,10 +868,11 @@ export default class TableFregAge extends Component {
      
 			colorSet: "colorSet2",
       exportEnabled: true,
+     
       axisX:{
-        
+        stripLines: this.state.stripLines,
         title: "Time",
-        interval: 3500,
+        interval: this.state.interval,
         titleFontSize: 25,
         includeZero: false,
         labelFontSize: 25,
@@ -855,8 +913,9 @@ export default class TableFregAge extends Component {
         
        },
        axisY:{
+        title: "Change %",
         labelFormatter: function(e){
-          return e.value + "%";
+          return e.value ;
         },
         titleFontSize: 25,
         gridThickness: 0,
@@ -869,7 +928,7 @@ export default class TableFregAge extends Component {
         horizontalAlign: "right"  // "top" , "bottom"
       },
       toolTip:{
-        enabled: false   //enable here
+        enabled: true   //enable here
       },
 			data: [{
         type: "spline",
@@ -880,8 +939,8 @@ export default class TableFregAge extends Component {
         type: "spline",
         lineDashType: "dash",
         indexLabelFontSize: 25,
-        
-        
+        markerType:"cross",
+     
         dataPoints: this.state.dataUpdateCountInterval
       }
       
@@ -1055,11 +1114,11 @@ export default class TableFregAge extends Component {
             {this.state.typechart === constClass.FREQBARCHART || this.state.typechart === constClass.UPDATECOUNTCHART?
               <div>
                 <form onSubmit={this.handleSubmitForm}>
-                  <label>
+                  <label className="baseLineClass smallPadding">
                     Baseline value:
                       <input id="baseline" type="text" value={this.state.valueForm} onChange={this.handleChangeForm} />
                   </label>
-                  <input type="submit" value="Submit" />
+                  <input className="baseLineClass smallPadding" type="submit" value="Submit" />
                 </form>
               </div> : null
 

@@ -217,7 +217,7 @@ checkNodesInGraph = (data,value) => {
           <div id="test123">
          {this.props.isRepaired === true?    
          <div id="graph"> 
-         <b className="largeSizeCleaningStatus">Cleaning status</b>
+         <b className="largeSizeCleaningStatus">Stale data cleaning</b>
         
         
           <div id="sliderMostStaleCell">
@@ -261,11 +261,11 @@ checkNodesInGraph = (data,value) => {
 <br></br>
 </div>
 
-                <b className="largeSizePattern"># cells</b>
-                 
+                <b className="largeSizePattern"># cells to clean:</b>
+               <br></br>
                
                 
-                 <b className="largeSizePattern">  {this.props.mostVal} (cells)</b>
+                 <b className="largeSizePattern">  [{this.props.mostVal}] out of {this.props.numberStaleCells} cells </b>
                  <br></br>
                  
                 <ReactBootstrapSlider
@@ -276,17 +276,7 @@ checkNodesInGraph = (data,value) => {
                     change={e => this.props.onChange(e,"most")}
                     
                 />
-                <br></br>
-                <b className="largeSizePattern"> Staleness threshold {this.props.minProb + "%"}</b>
-               
-                <ReactBootstrapSlider
-                    id="slider2"
-                    value={this.props.minProb}
-                    max={100}
-                    min={this.props.valBeta}
-                    change={e => this.props.onChange(e,"range")}
-                    
-                />
+              
                 <br></br>
                 <input className="apply" onClick={() => this.props.onClick("most")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
             
