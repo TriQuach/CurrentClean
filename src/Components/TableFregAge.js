@@ -940,7 +940,7 @@ export default class TableFregAge extends Component {
         lineDashType: "dash",
         indexLabelFontSize: 25,
         markerType:"cross",
-     
+        
         dataPoints: this.state.dataUpdateCountInterval
       }
       

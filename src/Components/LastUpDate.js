@@ -35,7 +35,7 @@ const contentStyle = {
 };
 const contentStyle2 = {
   
-  height: "80%",
+  height: "92%",
   width: "60%"
 };
 const colWidth = {
@@ -1590,7 +1590,7 @@ parseObject(data) {
 
      for (var i=0; i<tempArray.length; i++) {
           for (var j=i+1; j<tempArray.length; j++) {
-            if (tempArray[i][2] < tempArray[j][2]) {
+            if (tempArray[i][2] > tempArray[j][2]) {
                 var temp = tempArray[i]
                 tempArray[i] = tempArray[j]
                 tempArray[j] = temp 
