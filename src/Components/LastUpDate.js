@@ -4,6 +4,7 @@ import '../CSS/LastUpdate.css'
 import Popup from "reactjs-popup";
 import { Graph } from 'react-d3-graph';
 import go from "../../node_modules/gojs/release/go"
+import Loader from 'react-loader-spinner'
 const myConfig = {
   nodeHighlightBehavior: true,
   node: {
@@ -125,7 +126,8 @@ export default class Test extends React.Component {
             isRightClickedInRepair: false,
             arrayGraph: [],
             arrayRelations: [],
-            numRelations: 0
+            numRelations: 0,
+            isSpinner: true
             
             
             
@@ -1183,7 +1185,8 @@ parseObject(data) {
           window.console.log(dict)
       
           this.setState({
-            dictStale: dict
+            dictStale: dict,
+            isSpinner: false
           })
         }
         else if (this.props.kindDataset === constClass.CLINICAL) {
@@ -1234,7 +1237,8 @@ parseObject(data) {
           window.console.log(dict)
           window.console.log("dictStaleClinical")
           this.setState({
-            dictStale: dict
+            dictStale: dict,
+            isSpinner: false
           })
         }
         
@@ -1343,7 +1347,8 @@ parseObject(data) {
           window.console.log(dict)
           window.console.log("dictStaleClinical")
           this.setState({
-            dictStale: dict
+            dictStale: dict,
+            isSpinner: false
           },() => this.cleanStaleCells())
         }
         
@@ -1723,6 +1728,15 @@ parseObject(data) {
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
         return (
             <div id="newLastUpdate">
+            
+          {/* {this.state.isSpinner === true ? <div className="loader">
+              <Loader 
+         type="ThreeDots"
+         color="#00BFFF"
+         height="100"	
+         width="100"
+      />  
+      </div> : null}   */}
             <div>
                 {Object.keys(this.state.dictStale).length !== 0 ? 
             <div>

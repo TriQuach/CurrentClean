@@ -16,6 +16,7 @@
     "react-d3-graph": "^2.0.0",
     "react-dom": "^16.6.3",
     "react-force-graph": "^1.20.3",
+    "react-loader-spinner": "^2.3.0",
     "react-popup": "^0.9.3",
     "react-radio-buttons": "^1.2.2",
     "react-radio-group": "^3.0.3",

@@ -307,7 +307,7 @@ export default class SliderTableWrapper extends Component {
                     {/* <input onClick={this.handleTest} id="identify" className="btn btn-primary" type="button" value="Identify stale cells"></input>
                     */}
                     {/* <div id="myDiagramDiv" style={{width:400, height:400}}></div> */}
-                    
+                  
             
                 </div>
                              

@@ -3,6 +3,7 @@ import LastUpDate from '../Components/LastUpDate'
 import Patterns from '../Components/Patterns'
 import * as constClass from '../Const/utils'
 import '../CSS/Stale.css'
+import Loader from 'react-loader-spinner'
 class Sensor {
   constructor(sensorID, temperature, humidity, airPressure, voltage) {
     this.sensorID = sensorID;
@@ -648,7 +649,14 @@ export default class Test extends Component {
                mostVal={this.state.mostVal}  
                isRepaired={this.state.isRepaired} 
                orginNumberStaleCells={this.state.orginNumberStaleCells}
-               kindDataset={kindDataset}/> : null}
+               kindDataset={kindDataset}/> :  <div className="loader">
+               <Loader 
+          type="ThreeDots"
+          color="#466bae"
+          height="100"	
+          width="100"
+       />  
+       </div> }
               {this.state.isFinished === true ?
 
 <LastUpDate
@@ -662,7 +670,22 @@ export default class Test extends Component {
   numberStaleCells={this.state.numberStaleCells}
   finalMinProb={this.state.finalMinProb}
   arrayNeedClean={this.state.arrayNeedClean}
-   /> : null}
+   /> :  
+   <div>
+   <div className="loader">
+   <Loader 
+type="ThreeDots"
+color="#466bae"
+height="100"	
+width="100"
+/>  
+
+</div> 
+<div className="loaderText">
+<b> Deepdive is running, which will take around 90 seconds.</b>
+<div/>
+
+</div> </div>}
             
 
 
