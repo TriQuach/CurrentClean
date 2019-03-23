@@ -30,14 +30,14 @@ const myConfig = {
   
 // };
 const contentStyle = {
-  height: "40vh",
-  width: "27%"
+  
+  width: "75%"
   
 };
 const contentStyle2 = {
   
-  height: "92%",
-  width: "60%"
+  height: "50%",
+  
 };
 const colWidth = {
   width: "100%",
@@ -2078,7 +2078,7 @@ parseObject(data) {
             </table> </div>}
             
             
-            <Popup contentStyle={this.state.isRightClickedInRepair === false ? contentStyle : contentStyle2} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+            <Popup contentStyle={this.state.isRightClickedInRepair === true ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className={this.state.isRightClickedInRepair === false ? "table-wrapper-scroll-y" :"table-wrapper-scroll-y2"}>
           <table className={this.state.isRightClickedInRepair === false ?"table table-striped paddingBetweenCols" : "table table-striped"}>
             <thead>
@@ -2138,6 +2138,7 @@ parseObject(data) {
           
           {this.state.isRightClickedInRepair === true ? arrayButton
        : null}
+       <br></br>
          <input  onClick={this.apply} className={this.state.isRightClickedInRepair === false ? "btn btn-primary apply" : "btn btn-primary applyBigger" } type="button" value="Apply"></input>
         
           </div>

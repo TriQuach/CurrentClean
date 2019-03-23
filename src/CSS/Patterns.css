@@ -14,7 +14,7 @@ div#sliderMostStaleCell {
     border: 1px solid transparent;
     border-radius: 0.3cm;
     padding-top: 12px;
-  padding-right: 12px;
+  padding-right: 50px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
@@ -36,7 +36,7 @@ div#startTime {
   }
   .largeSizeCleaningStatus {
       margin-left: 10px;
-    font-size: 230%;
+    font-size: 220%;
   }
 input#applyMost{
     margin-top: 10px;

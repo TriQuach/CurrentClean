@@ -27,6 +27,11 @@ class Question {
         
       }
 }
+const contentStyle = {
+    height: "10%",
+    width: "27%"
+    
+  };
 var myDiagram = null
 export default class SliderTableWrapper extends Component {
     constructor(props) {
@@ -55,6 +60,8 @@ export default class SliderTableWrapper extends Component {
         this.closePopUp = this.closePopUp.bind(this)
     }
     handleChange(e) {
+        if (this.state.typeRadio !== '') {
+        
         window.console.log(e.target.value[0])
         window.console.log(e.target.value[1])
         
@@ -62,6 +69,12 @@ export default class SliderTableWrapper extends Component {
             startTime: e.target.value[0],
             endTime: e.target.value[1],    
         }) 
+    }
+    else {
+        this.setState({
+            showPopUp: true
+        })
+    }
         // window.console.log(e.target.value[0])
     }  
     closePopUp() {
@@ -169,7 +182,7 @@ export default class SliderTableWrapper extends Component {
     }
     handleClick(e) {
         // window.console.log(e.target.getAttribute('id'))
-        
+        if (this.state.typeRadio !== '') {
         if (e.target.getAttribute('id') !== constClass.OK)
             this.setState({
                 typeRequest: e.target.getAttribute('id'),
@@ -177,6 +190,12 @@ export default class SliderTableWrapper extends Component {
         else {
             this.sendRequest(this.state.typeRequest)
         }
+    }
+    else {
+        this.setState({
+            showPopUp: true
+        })
+    }
            
        
         
@@ -319,9 +338,9 @@ export default class SliderTableWrapper extends Component {
                     data={this.state.data} 
                     typeRadio={this.state.typeRadio}/>
                
-                <Popup className="pop" onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+                <Popup contentStyle={contentStyle}  className="pop" onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
                 <div className="alert alert-danger" role="alert">
-  This is a danger alert—check it out!
+  Please select one of datasets.
 </div>
         </Popup>
 

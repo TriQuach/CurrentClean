@@ -75,7 +75,7 @@ export default class TableFregAge extends Component {
   }
   createLineChartData(response) {
     window.console.log("response[0]")
-    window.console.log(response)
+    window.console.log(arrayCells)
     var array = []
     for (var i = 0; i < arrayCells.length; i++) {
       var temp = {}
@@ -83,11 +83,11 @@ export default class TableFregAge extends Component {
       temp.type = "line"
      
       if (this.props.typeRadio === constClass.SENSOR) {
-        temp.name ="sensor_" + key 
+        temp.name ="sensor_" + key + "_" + arrayCells[i][key]
       }
       else if (this.props.typeRadio === constClass.CLINICAL) {
-        // temp.name ="patient_" + key 
-        temp.legendText = "WBC"
+        temp.name ="patient_" + key + "_" + arrayCells[i][key]
+        // temp.legendText = "WBC"
         
       }
       temp.showInLegend = true
@@ -738,7 +738,7 @@ export default class TableFregAge extends Component {
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
          fontFamily: "tahoma",
-        text: "Comparative Evolution" + " (" + "TMP" + " & WBC)"
+        text: "Comparative Evolution"
       },
       legend: {
         fontSize: 30
@@ -752,7 +752,7 @@ export default class TableFregAge extends Component {
       },
       axisX: {
         title: "Time",
-        interval: 3500,
+        
         labelFormatter: function(e){
           
           console.log("e value")
@@ -799,9 +799,7 @@ export default class TableFregAge extends Component {
     let optionsColumnAge = {
       animationEnabled: true,
       
-      width: 340,
-      height: 280,
-      
+     
       title: {
         text: "Total time"
       },
@@ -1104,7 +1102,7 @@ export default class TableFregAge extends Component {
 
 
 
-        <Popup contentStyle={this.state.typechart === constClass.AGEBARCHART ? contentStyle : null} onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
+        <Popup onClose={this.closePopUp} open={this.state.showPopUp} position="right center">
           <div className="table-wrapper-scroll-y2">
             {this.state.typechart === constClass.AGELINECHART ?
               <CanvasJSChart options={optionsLineChartAge} /> : (this.state.typechart === constClass.AGEBARCHART ? 

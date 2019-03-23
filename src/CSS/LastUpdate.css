@@ -26,8 +26,8 @@ div#tableMimic {
 }
 .applyBigger {
 
-  margin-left: 42%;
-  margin-top: 20px;
+  margin-left: 40%;
+  margin-top: 5px;
   background-color: #4469b0;
     padding: 4px 7px;
 }
@@ -80,7 +80,7 @@ div#legendsGraph {
 }
 table.paddingBetweenCols {
   table-layout: auto;
-  width: 100px;  
+  
 }
 table.paddingBetweenCols2 {
   table-layout: auto;
