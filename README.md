@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## License
 
-See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+See the [LICENSE](https://github.com/TriQuach/CurrentClean/blob/master/LICENSE) file for license rights and limitations (MIT).
 
 ## Available Scripts
 
