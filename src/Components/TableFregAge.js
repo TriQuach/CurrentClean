@@ -32,7 +32,8 @@ export default class TableFregAge extends Component {
       dataUpdateCountInterval: [],
       interval: 0,
       max: 0,
-      stripLines: []
+      stripLines: [],
+      
 
     }
     this.myRef = React.createRef();
@@ -315,7 +316,8 @@ export default class TableFregAge extends Component {
       }
     }
     this.setState({
-      dataCanvas: array
+      dataCanvas: array,
+      
     })
   }
  
@@ -342,11 +344,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-             
+              
               this.setState({
                 showPopUp: true,
                 typechart: constClass.FREQBARCHART
-              }, () =>  this.convertToArrayObject(result))
+              }, () => this.convertToArrayObject(result) )
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -396,7 +398,7 @@ export default class TableFregAge extends Component {
               this.setState({
                 showPopUp: true,
                 typechart: constClass.AGEBARCHART
-              }, () =>  this.convertToArrayObject(result))
+              }, () =>  this.convertToArrayObject(result) )
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -426,7 +428,8 @@ export default class TableFregAge extends Component {
               this.setState({
                 showPopUp: true,
                 typechart: constClass.FREQBARCHART
-              }, () => this.convertToArrayObject(result))
+              },  () =>  this.convertToArrayObject(result) )
+             
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -470,11 +473,11 @@ export default class TableFregAge extends Component {
             (result) => {
               window.console.log('*********')
               window.console.log(result)
-              
+              this.convertToArrayObject(result)
               this.setState({
                 showPopUp: true,
                 typechart: constClass.AGEBARCHART
-              }, () => this.convertToArrayObject(result))
+              }, () =>  this.convertToArrayObject(result) )
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -798,7 +801,7 @@ export default class TableFregAge extends Component {
     }
     let optionsColumnAge = {
       animationEnabled: true,
-      
+      exportEnabled: true,
      
       title: {
         text: "Total time"
@@ -926,7 +929,7 @@ export default class TableFregAge extends Component {
         horizontalAlign: "right"  // "top" , "bottom"
       },
       toolTip:{
-        enabled: true   //enable here
+        enabled: false   //enable here
       },
 			data: [{
         type: "spline",
