@@ -1707,6 +1707,8 @@ parseObject(data) {
         window.console.log(this.state.data)
         console.log("this.state.data")
         console.log(this.state.data)
+        console.log("isCompare:")
+        console.log(this.props.isCompare)
 
         var arrayButton = this.createArrayButton(this.state.repairCell.length)
 
@@ -1727,8 +1729,9 @@ parseObject(data) {
             'A434F11F1607', 'A434F11F4287', 'A434F11F1F02', 'A434F11F1406', 'A434F11F0E85', 'A434F11EEF8C',
             'A434F11F1E09', 'A434F11F0E03', 'A434F11F1483', 'A434F11F1F85']
         return (
+          
             <div id="newLastUpdate">
-            
+            {this.props.isCompare === true ? <h1>asd</h1> : null}
           {/* {this.state.isSpinner === true ? <div className="loader">
               <Loader 
          type="ThreeDots"
@@ -2117,6 +2120,8 @@ parseObject(data) {
 
             }.bind(this))}</tbody>
           </table>
+
+          
          
          {/* <div id="legendsGraph">
           <b className="legends" style={{color: "#b7b7b7"}}> -> :  <b style={{color: "#000000"}}>postitive causality</b> </b>

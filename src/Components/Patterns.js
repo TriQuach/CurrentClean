@@ -282,10 +282,13 @@ checkNodesInGraph = (data,value) => {
             
                
             </div>
+            <input className="apply" onClick={() => this.props.onClick("compare")} id="compare" className="btn btn-primary" type="button" value="Compare"></input>
            
   
 </div>: null}
+            
        </div>
+       
         )
 
     }

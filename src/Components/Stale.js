@@ -83,7 +83,8 @@ export default class Test extends Component {
       numCellsWillBeCleaned: 0,
       originalArrayStaleCells: [],
       orginNumberStaleCells: 0,
-      arrayNeedClean: []
+      arrayNeedClean: [],
+      isCompare: false
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -630,6 +631,11 @@ export default class Test extends Component {
           orginNumberStaleCells: this.state.originalArrayStaleCells.length
         })
     }
+    else if (kindSlider === "compare") {
+      this.setState({
+        isCompare: true
+      })
+    }
   }
 
 
@@ -639,6 +645,7 @@ export default class Test extends Component {
     return (
       <div className="rowStale">
         {this.state.isFinished === true ? <Patterns
+              
                minProb={this.state.minProb}
                maxProb={this.state.maxProb} 
                valBeta={this.state.valBeta} 
@@ -649,6 +656,7 @@ export default class Test extends Component {
                mostVal={this.state.mostVal}  
                isRepaired={this.state.isRepaired} 
                orginNumberStaleCells={this.state.orginNumberStaleCells}
+              
                kindDataset={kindDataset}/> :  <div className="loader">
                <Loader 
           type="ThreeDots"
@@ -669,6 +677,7 @@ export default class Test extends Component {
   finalMaxProb={this.state.finalMaxProb}
   numberStaleCells={this.state.numberStaleCells}
   finalMinProb={this.state.finalMinProb}
+  isCompare={this.state.isCompare}
   arrayNeedClean={this.state.arrayNeedClean}
    /> :  
    <div>
