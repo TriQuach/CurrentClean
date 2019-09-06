@@ -48,7 +48,8 @@ export default class SliderTableWrapper extends Component {
             valDelta: 69,
             isClicked: false,
             isClicked2: false,
-            percent: 10
+            percent: 10,
+           
             
         }
         this.handleChange = this.handleChange.bind(this)
@@ -97,6 +98,7 @@ export default class SliderTableWrapper extends Component {
                valDelta: e.target.value
            })
        }
+     
         
     }
    

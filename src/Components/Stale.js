@@ -84,7 +84,9 @@ export default class Test extends Component {
       originalArrayStaleCells: [],
       orginNumberStaleCells: 0,
       arrayNeedClean: [],
-      isCompare: false
+      isCompare: false,
+      valDeltaIMR: 0.1,
+      maxNumIterations: 200
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -549,6 +551,20 @@ export default class Test extends Component {
       })
 
     }
+    else if (kindSlider === "deltaIMR") {
+      this.setState({
+        valDeltaIMR: e.target.value
+       
+      })
+
+    }
+    else if (kindSlider === "maxNumIterations") {
+      this.setState({
+        maxNumIterations: e.target.value
+       
+      })
+
+    }
   }
   cleanStaleCellsRangeProb = () => {
     var minProb = this.state.minProb / 100
@@ -631,10 +647,10 @@ export default class Test extends Component {
           orginNumberStaleCells: this.state.originalArrayStaleCells.length
         })
     }
-    else if (kindSlider === "compare") {
-      this.setState({
-        isCompare: true
-      })
+    else if (kindSlider === "IMR") {
+     console.log(this.state.valDeltaIMR)
+     console.log(this.state.maxNumIterations)
+     
     }
   }
 
@@ -656,8 +672,10 @@ export default class Test extends Component {
                mostVal={this.state.mostVal}  
                isRepaired={this.state.isRepaired} 
                orginNumberStaleCells={this.state.orginNumberStaleCells}
-              
+               valDeltaIMR={this.state.valDeltaIMR}
+               maxNumIterations={this.state.maxNumIterations}
                kindDataset={kindDataset}/> :  <div className="loader">
+              
                <Loader 
           type="ThreeDots"
           color="#466bae"
@@ -679,6 +697,8 @@ export default class Test extends Component {
   finalMinProb={this.state.finalMinProb}
   isCompare={this.state.isCompare}
   arrayNeedClean={this.state.arrayNeedClean}
+  valDeltaIMR={this.state.valDeltaIMR}
+  maxNumIterations={this.state.maxNumIterations}
    /> :  
    <div>
    <div className="loader">

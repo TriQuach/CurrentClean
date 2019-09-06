@@ -14,8 +14,9 @@ input#repair {
     padding: 9px 16px;
 }
 div#tableMimic {
-  width: 900px;
+  width: 950px;
   overflow: auto;
+  height: 500px;
 }
 .apply {
 

@@ -282,8 +282,37 @@ checkNodesInGraph = (data,value) => {
             
                
             </div>
-            <input className="apply" onClick={() => this.props.onClick("compare")} id="compare" className="btn btn-primary" type="button" value="Compare"></input>
+            <div id="sliderMostStaleCell">
+          <b className="largeSizePatternProgressLabel">IMR algorithm</b>
+          <br></br>
+          <b className="largeSize">order p: 1</b>
+          <br></br>
+          <b className="largeSize">delta p: {this.props.valDeltaIMR}</b>
+         
+                <br></br>
+                 <ReactBootstrapSlider
+                    value={this.props.valDeltaIMR}
+                    max={3}
+                    min={0}
+                    step={0.1}
+                    id="deltaIMRSlider"
+                    change={ e => this.props.onChange(e,'deltaIMR')}
+                />
+                 <b className="largeSize">maxIterations: {this.props.maxNumIterations}</b>
+                 <ReactBootstrapSlider
+                    value={this.props.maxNumIterations}
+                    max={800}
+                    min={200}
+                    step={10}
+                    id="maxNumIterations"
+                    change={ e => this.props.onChange(e,'maxNumIterations')}
+                />
            
+              
+                <br></br>
+            
+               
+            </div>
   
 </div>: null}
             

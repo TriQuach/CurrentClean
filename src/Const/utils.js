@@ -12,7 +12,9 @@ export const AGELINECHART = 'agelinechart'
 export const FREQBARCHART = 'freqbarchart'  
 export const BETA = 'beta'  
 export const DELTA = 'delta'  
+export const DELTA_IMR = 'deltaIMR' 
 export const UPDATECOUNTCHART = 'updatecountchart' 
+export const MAXNUMITERATIONS = 'maxNumIterations'
 
 
 
