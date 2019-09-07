@@ -86,7 +86,7 @@ export default class Test extends Component {
       arrayNeedClean: [],
       isCompare: false,
       valDeltaIMR: 0.1,
-      maxNumIterations: 200
+      maxNumIterations: 1000
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)

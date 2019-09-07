@@ -18,6 +18,12 @@ div#tableMimic {
   overflow: auto;
   height: 500px;
 }
+div#tableMimicIMR {
+  margin-top: 30px;
+  width: 950px;
+  overflow: auto;
+  height: 500px;
+}
 .apply {
 
   margin-left: 40%;

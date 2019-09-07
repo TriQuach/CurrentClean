@@ -18,6 +18,17 @@ div#sliderMostStaleCell {
   padding-bottom: 10px;
   padding-left: 20px;
 }
+div#sliderMostStaleCellIMR {
+    margin-top: 1.5em;
+    background-color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 0.3cm;
+    padding-top: 12px;
+  padding-right: 50px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+ 
+}
 input#applyMost {
     margin-left: 40px;
     margin-bottom: 5px
