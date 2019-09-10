@@ -7,8 +7,8 @@
 table#freq {
     width: 20cm
 }
-div#tableMimic {
-    width: 900px;
+div#tableMimicFreqAge {
+    width: 950px;
     overflow: auto;
 }
 .table-wrapper-scroll-y {

@@ -86,7 +86,8 @@ export default class Test extends Component {
       arrayNeedClean: [],
       isCompare: false,
       valDeltaIMR: 0.1,
-      maxNumIterations: 1000
+      maxNumIterations: 200,
+      isClickedApplyIMRAll: false
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -647,10 +648,15 @@ export default class Test extends Component {
           orginNumberStaleCells: this.state.originalArrayStaleCells.length
         })
     }
-    else if (kindSlider === "IMR") {
-     console.log(this.state.valDeltaIMR)
-     console.log(this.state.maxNumIterations)
-     
+    else if (kindSlider === "imrall") {
+      // this.stale()
+      console.log('imrall:')
+      console.log(this.state.valDeltaIMR)
+      console.log(this.state.maxNumIterations)
+      this.setState({
+        isClickedApplyIMRAll: !this.state.isClickedApplyIMRAll,
+        // isFinished: false
+      })
     }
   }
 
@@ -699,6 +705,7 @@ export default class Test extends Component {
   arrayNeedClean={this.state.arrayNeedClean}
   valDeltaIMR={this.state.valDeltaIMR}
   maxNumIterations={this.state.maxNumIterations}
+  isClickedApplyIMRAll= {this.state.isClickedApplyIMRAll}
    /> :  
    <div>
    <div className="loader">

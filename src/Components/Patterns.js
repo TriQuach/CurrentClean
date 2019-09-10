@@ -283,11 +283,11 @@ checkNodesInGraph = (data,value) => {
                
             </div>
             <div id="sliderMostStaleCellIMR">
-          <b className="largeSizePatternProgressLabel">IMR algorithm</b>
+          <b className="largeSizePatternProgressLabel">Parameters</b>
           <br></br>
           <b className="largeSize">order p: 1</b>
           <br></br>
-          <b className="largeSize">delta p: {this.props.valDeltaIMR}</b>
+          <b className="largeSize">delta δ: {this.props.valDeltaIMR}</b>
          
                 <br></br>
                  <ReactBootstrapSlider
@@ -303,8 +303,8 @@ checkNodesInGraph = (data,value) => {
                  <br></br>
                  <ReactBootstrapSlider
                     value={this.props.maxNumIterations}
-                    max={100000}
-                    min={1000}
+                    max={1000}
+                    min={100}
                     step={20}
                     id="maxNumIterations"
                     change={ e => this.props.onChange(e,'maxNumIterations')}
@@ -313,7 +313,8 @@ checkNodesInGraph = (data,value) => {
               
                 <br></br>
             
-               
+                <input className="apply" onClick={() => this.props.onClick("imrall")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
+            
             </div>
   
 </div>: null}

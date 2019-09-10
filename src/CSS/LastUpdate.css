@@ -109,3 +109,19 @@ input[type=checkbox]
   -o-transform: scale(2); /* Opera */
   padding: 5x;
 }
+.loaderIMR {
+  position: absolute;
+  top: 120%;
+  left: 17%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+.loaderTextIMR {
+  position: absolute;
+  top: 125%;
+  left: 17%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}

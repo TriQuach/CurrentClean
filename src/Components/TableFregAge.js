@@ -1016,7 +1016,7 @@ export default class TableFregAge extends Component {
 
         </table> : null)
         : (this.props.data.length === valid_id_Mimic.length ? 
-        <div id="tableMimic"> 
+        <div id="tableMimicFreqAge"> 
         <table ref={this. myRef}  className="table table-striped">
           <thead>
             <tr>
