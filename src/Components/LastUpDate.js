@@ -2100,35 +2100,35 @@ parseObject(data) {
             
             <div id="tableMimic">  
             <table className="table table-striped" id="lastUpdate">
-                <thead>
+                <thead >
                 <tr>
-              <th scope="col">ID</th>
-              <th scope="col">TMP</th>
-              <th scope="col">SpO2</th>
-              <th scope="col">HR</th>
-              <th scope="col">DBP</th>
-              <th scope="col">SBP</th>
-              <th scope="col">WBC</th>
-              <th scope="col">RR</th>
+              <th className="fixedHeader" scope="col">ID</th>
+              <th className="fixedHeader" scope="col">TMP</th>
+              <th className="fixedHeader" scope="col">SpO2</th>
+              <th className="fixedHeader" scope="col">HR</th>
+              <th className="fixedHeader" scope="col">DBP</th>
+              <th className="fixedHeader" scope="col">SBP</th>
+              <th className="fixedHeader" scope="col">WBC</th>
+              <th className="fixedHeader" scope="col">RR</th>
              
              
-              <th scope="col">RBC</th>
-              <th scope="col">RBCF</th>
-              <th scope="col">MONO</th>
-              <th scope="col">WT</th>
-              <th scope="col">LDL</th>
-              <th scope="col">HDL</th>
-              <th scope="col">ABE</th>
-              <th scope="col">ACO2</th>
-              <th scope="col">APH</th>
-              <th scope="col">Hb</th>
+              <th className="fixedHeader" scope="col">RBC</th>
+              <th className="fixedHeader" scope="col">RBCF</th>
+              <th className="fixedHeader" scope="col">MONO</th>
+              <th className="fixedHeader" scope="col">WT</th>
+              <th className="fixedHeader" scope="col">LDL</th>
+              <th className="fixedHeader" scope="col">HDL</th>
+              <th className="fixedHeader" scope="col">ABE</th>
+              <th className="fixedHeader" scope="col">ACO2</th>
+              <th className="fixedHeader" scope="col">APH</th>
+              <th className="fixedHeader" scope="col">Hb</th>
                            
-              <th scope="col">CVP</th>
+              <th className="fixedHeader" scope="col">CVP</th>
              
-              <th scope="col">EOS</th>
-              <th scope="col">LY</th>
-              <th scope="col">RDW</th>
-              <th scope="col">TC</th>
+              <th className="fixedHeader" scope="col">EOS</th>
+              <th className="fixedHeader" scope="col">LY</th>
+              <th className="fixedHeader" scope="col">RDW</th>
+              <th className="fixedHeader" scope="col">TC</th>
             </tr>
                 </thead>
                 <tbody>{this.state.data.map(function (item, key) {
@@ -2512,33 +2512,33 @@ parseObject(data) {
             <table className="table table-striped" id="lastUpdateIMR">
                 <thead>
                 <tr>
-              <th scope="col">ID</th>
-              <th scope="col">TMP</th>
-              <th scope="col">SpO2</th>
-              <th scope="col">HR</th>
-              <th scope="col">DBP</th>
-              <th scope="col">SBP</th>
-              <th scope="col">WBC</th>
-              <th scope="col">RR</th>
+              <th className="fixedHeader" scope="col">ID</th>
+              <th className="fixedHeader" scope="col">TMP</th>
+              <th className="fixedHeader" scope="col">SpO2</th>
+              <th className="fixedHeader" scope="col">HR</th>
+              <th className="fixedHeader" scope="col">DBP</th>
+              <th className="fixedHeader" scope="col">SBP</th>
+              <th className="fixedHeader" scope="col">WBC</th>
+              <th className="fixedHeader" scope="col">RR</th>
              
              
-              <th scope="col">RBC</th>
-              <th scope="col">RBCF</th>
-              <th scope="col">MONO</th>
-              <th scope="col">WT</th>
-              <th scope="col">LDL</th>
-              <th scope="col">HDL</th>
-              <th scope="col">ABE</th>
-              <th scope="col">ACO2</th>
-              <th scope="col">APH</th>
-              <th scope="col">Hb</th>
+              <th className="fixedHeader" scope="col">RBC</th>
+              <th className="fixedHeader" scope="col">RBCF</th>
+              <th className="fixedHeader" scope="col">MONO</th>
+              <th className="fixedHeader" scope="col">WT</th>
+              <th className="fixedHeader" scope="col">LDL</th>
+              <th className="fixedHeader" scope="col">HDL</th>
+              <th className="fixedHeader" scope="col">ABE</th>
+              <th className="fixedHeader" scope="col">ACO2</th>
+              <th className="fixedHeader" scope="col">APH</th>
+              <th className="fixedHeader" scope="col">Hb</th>
                            
-              <th scope="col">CVP</th>
+              <th className="fixedHeader" scope="col">CVP</th>
              
-              <th scope="col">EOS</th>
-              <th scope="col">LY</th>
-              <th scope="col">RDW</th>
-              <th scope="col">TC</th>
+              <th className="fixedHeader" scope="col">EOS</th>
+              <th className="fixedHeader" scope="col">LY</th>
+              <th className="fixedHeader" scope="col">RDW</th>
+              <th className="fixedHeader" scope="col">TC</th>
             </tr>
                 </thead>
                 <tbody>{this.state.lastUpdateIMR.map(function (item, key) {

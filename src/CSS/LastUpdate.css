@@ -125,3 +125,9 @@ input[type=checkbox]
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
+
+.fixedHeader {
+  position: sticky;
+  background-color: #e9ebee;
+  top:0px;
+}
