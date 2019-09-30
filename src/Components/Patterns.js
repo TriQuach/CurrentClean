@@ -76,7 +76,7 @@ export default class Patterns extends Component {
     super(props)
     this.state = {
       patterns: [],  
-        numStaleCells: 0
+      numStaleCells: 0,
         
     }
  
@@ -159,6 +159,7 @@ checkNodesInGraph = (data,value) => {
     // this.patterns()
   
   }
+  
 
   mapPatters(data) {
     data = data.slice(0,10)
@@ -217,7 +218,8 @@ checkNodesInGraph = (data,value) => {
           <div id="test123">
          {this.props.isRepaired === true?    
          <div id="graph"> 
-         <b className="largeSizeCleaningStatus">Stale data cleaning</b>
+         <div id="CC"> 
+         <b className="largeSizeCleaningStatus">CurrentClean</b>
         
         
           <div id="sliderMostStaleCell">
@@ -282,11 +284,15 @@ checkNodesInGraph = (data,value) => {
             
                
             </div>
+            </div>
+            <div id="IMR"> 
+            <b className="largeSizeCleaningStatus">IMR algorithm</b>
+
             <div id="sliderMostStaleCellIMR">
           <b className="largeSizePatternProgressLabel">Parameters</b>
+         
           <br></br>
-          <b className="largeSize">order p: 1</b>
-          <br></br>
+           
           <b className="largeSize">delta δ: {this.props.valDeltaIMR}</b>
          
                 <br></br>
@@ -298,6 +304,8 @@ checkNodesInGraph = (data,value) => {
                     id="deltaIMRSlider"
                     change={ e => this.props.onChange(e,'deltaIMR')}
                 />
+                
+                
                 <br></br>
                  <b className="largeSize">maxIterations: {this.props.maxNumIterations}</b>
                  <br></br>
@@ -309,12 +317,13 @@ checkNodesInGraph = (data,value) => {
                     id="maxNumIterations"
                     change={ e => this.props.onChange(e,'maxNumIterations')}
                 />
-           
+          
               
                 <br></br>
             
                 <input className="apply" onClick={() => this.props.onClick("imrall")} id="applyMost" className="btn btn-primary" type="button" value="Apply"></input>
             
+            </div>
             </div>
   
 </div>: null}

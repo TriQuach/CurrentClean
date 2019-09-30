@@ -645,7 +645,7 @@ export default class TableFregAge extends Component {
       temp.y = max2  + 0.6
       dataPointsInterval.push(temp)
       check += step
-      temp.indexLabel = intervalCounts[k].toString()
+      temp.indexLabel = "+" + intervalCounts[k].toString()
       temp.markerSize = 14
 
     }

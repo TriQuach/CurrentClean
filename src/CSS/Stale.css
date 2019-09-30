@@ -1,6 +1,6 @@
 .rowStale  {
     min-height: 10vh;
-  display: flex;
+  /* display: flex; */
     
     margin-left: 1cm;
   justify-content: left;

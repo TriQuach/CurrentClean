@@ -6,7 +6,8 @@
 }
 div#graph {
     margin-left: 1.5cm;
-    margin-right: 1.5cm
+    margin-right: 1.5cm;
+    display: flex;
 }
 div#sliderMostStaleCell {
     margin-top: 1.5em;
@@ -19,7 +20,7 @@ div#sliderMostStaleCell {
   padding-left: 20px;
 }
 div#sliderMostStaleCellIMR {
-    margin-top: 95%;
+    margin-top: 1.5em;
     background-color: #FFFFFF;
     border: 1px solid transparent;
     border-radius: 0.3cm;
@@ -120,4 +121,15 @@ div#slider2 {
 }
 input#compare {
     margin-top: 10px
+}
+div#IMR {
+    margin-left: 35%;
+}
+div#CC {
+    margin-left: 5%;
+}
+.block {
+  
+    display: inline-block;
+   
 }

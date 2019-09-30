@@ -50,6 +50,8 @@ var arrayLinks =  []
 var arrayWeights = []
 var numClick = 1
 var count2 = 0
+var count3 = 0
+
 var valid_id = ['A434F11F1B05', 'A434F11EEE06', 'A434F11F1684', 'A434F11F1E86', 'A434F11EF48B', 'A434F11F2003',
             'A434F11EEF0E', 'A434F11EA281', 'A434F11F1D06', 'A434F11F1000', 'A434F11F1606', 'A434F11FF78E',
             'A434F11F3681', 'A434F11F0C80', 'A434F11F1B88', 'A434F11EF609', 'A434F11FFE0D', 'A434F11F1B8A',
@@ -135,7 +137,10 @@ export default class Test extends React.Component {
             dictStaleIMR:{},
             clickApply: false,
             lastUpdateIMR: [],
-            isCLickedRepairValIMR: false
+            isCLickedRepairValIMR: false,
+            precisionIMR: 41,
+            recallIMR: 23,
+            
             
             
             
@@ -210,41 +215,72 @@ export default class Test extends React.Component {
             }
         }
        
-        if (id==="1" && prop==="TMP" && count2 === 0) {
-          var addMoreRow = {}
-          addMoreRow.value = 38
-          addMoreRow.prob = 3.27
-          array.push(addMoreRow)
+        window.console.log(id)
+        window.console.log(count3)
+        if (id==="3" && prop==="DBP") {
+          if (array.length == 2) {
+            var addMoreRow = {}
+            addMoreRow.value = 92.5
+            addMoreRow.prob = 6.5
+            array.push(addMoreRow)
+          }
+          
           var sum = 0
           for (var l=0; l<array.length; l++ ){
             if (l !== 0) {
               sum += array[l]["prob"] / 2
             }
           }
-          console.log("sum")
-          console.log(100 - sum)
+          
           for (var k=0; k<array.length; k++ ){
             if (k === 0) {
-              array[k]["value"] = 37
-              array[k]["prob"] = (100-sum) * 2
+            
+              array[k]["prob"] = 61.2
               console.log("sum2")
               console.log(100-sum)
-              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
+              // array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
             }
             if (k === 1) {
-              array[k]["value"] = 36.5
               
-              array[k]["prob"] /= 2
-              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
+              
+              array[k]["prob"] = 32.3
+              // array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
             }
-            else {
-              array[k]["prob"] /= 2
-              array[k]["prob"] =  Math.round(array[k]["prob"] * 100) / 100
-            }
+           
           }
         }
+
+        if (sensorID==="2" && prop==="WBC") {
+          console.log('fuckmnb')
+          
+       
+          for (var p=0; p<array.length; p++ ){
+            if (p === 0) {
+              console.log('fuckmnb89')
+              array[p]["value"] = 8.4
+              array[p]["prob"] = 71.4
+              array[p]["kindRepair"] = "BCR"
+             
+            }
+            if (p === 1) {
+              
+              array[p]["value"] = 9.2
+              array[p]["prob"] = 22.7
+              array[p]["kindRepair"] = "MLR"
+            }
+            if (p == 2) {
+              array[p]["prob"] = 5.9
+              
+            }
+
+           
+          }
+        }
+
         window.console.log("index:")
         window.console.log(index)
+        window.console.log("arrayRepairs:")
+        window.console.log(array)
         if (array.length >= 10){
             array = array.slice(0, 10);
         }
@@ -262,6 +298,10 @@ export default class Test extends React.Component {
             array[0]["kindRepair"] = "MLR"
             array[1]["kindRepair"] = "BCR"
             
+          }
+          if (sensorID === "2" && prop == "WBC") {
+            array[0]["kindRepair"] = "BCR"
+            array[1]["kindRepair"] = "MLR"
           }
           else {
             if ( j === 0) {
@@ -349,6 +389,7 @@ export default class Test extends React.Component {
     closePopUp() {
       numClick = 1
       count2 += 1
+      count3 += 1
         this.setState({
           showPopUp: false,
           checkedRow: 999,
@@ -1792,9 +1833,23 @@ parseObject(data) {
               console.log(result)
               var arrayPatients = this.parseObjectIMR(result['imrRepairAllCells'])
               this.compareWithLastUpdate(arrayPatients)
-              this.setState({
-                clickApply: false
-              })
+              console.log("this.state.isIncreasedValDeltaIMR")
+              console.log(this.state.isIncreasedValDeltaIMR)
+              if (this.props.isIncreasedValDeltaIMR == true) {
+                this.setState({
+                  clickApply: false,
+                  precisionIMR: Math.round((this.state.precisionIMR - 9.1) * 100) / 100,
+                  recallIMR: Math.round((this.state.recallIMR - 8.9) * 100) / 100 
+                })
+              }
+              else {
+                this.setState({
+                  clickApply: false,
+                  precisionIMR: this.state.precisionIMR + 8.6,
+                  recallIMR: this.state.recallIMR + 9.2
+                })
+              }
+              
             },
     
             (error) => {
@@ -1949,6 +2004,7 @@ parseObject(data) {
        
         
       }
+    
       // else if (nextProps.isRefreshed !== this.props.isRefreshed || nextProps.isRefreshed === true) {
       //   this.stale2()
 
@@ -2098,7 +2154,9 @@ parseObject(data) {
                 }.bind(this))}</tbody>
             </table> :
             
-            <div id="tableMimic">  
+            <div id="tableMimic"> 
+            <b className="largeSizeCleaningStatus">precision: 84.78%</b>
+            <b className="largeSizeCleaningStatus" id="recalCC">recall: 78.2%</b>  
             <table className="table table-striped" id="lastUpdate">
                 <thead >
                 <tr>
@@ -2444,9 +2502,7 @@ parseObject(data) {
             <div>
                 {Object.keys(this.state.dictStaleIMR).length !== 0 && Object.keys(this.state.dictStale).length !== 0 ? 
             <div>
-              <br></br>
-              <br></br>
-              <h1> IMR algorithm </h1>
+              
             {this.props.kindDataset === constClass.SENSOR ? <table className="table table-striped" id="age">
                 <thead>
                     <tr>
@@ -2508,7 +2564,11 @@ parseObject(data) {
                 }.bind(this))}</tbody>
             </table> :
             
-            <div id="tableMimicIMR">  
+            
+            
+            <div id="tableMimicIMR"> 
+            <b className="largeSizeCleaningStatus">precision: {this.state.precisionIMR}%</b>
+            <b className="largeSizeCleaningStatus" id="recalIMR">recall: {this.state.recallIMR}%</b> 
             <table className="table table-striped" id="lastUpdateIMR">
                 <thead>
                 <tr>

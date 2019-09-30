@@ -87,7 +87,8 @@ export default class Test extends Component {
       isCompare: false,
       valDeltaIMR: 0.1,
       maxNumIterations: 200,
-      isClickedApplyIMRAll: false
+      isClickedApplyIMRAll: false,
+      isIncreasedValDeltaIMR: false
     }
     this.parseObject = this.parseObject.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -553,10 +554,19 @@ export default class Test extends Component {
 
     }
     else if (kindSlider === "deltaIMR") {
-      this.setState({
-        valDeltaIMR: e.target.value
-       
-      })
+      if (e.target.value > this.state.valDeltaIMR) {
+        this.setState({
+          valDeltaIMR: e.target.value,
+          isIncreasedValDeltaIMR: true
+        })
+      }
+      else {
+        this.setState({
+          valDeltaIMR: e.target.value,
+          isIncreasedValDeltaIMR: false
+        })
+      }
+      
 
     }
     else if (kindSlider === "maxNumIterations") {
@@ -706,6 +716,7 @@ export default class Test extends Component {
   valDeltaIMR={this.state.valDeltaIMR}
   maxNumIterations={this.state.maxNumIterations}
   isClickedApplyIMRAll= {this.state.isClickedApplyIMRAll}
+  isIncreasedValDeltaIMR = {this.state.isIncreasedValDeltaIMR}
    /> :  
    <div>
    <div className="loader">
