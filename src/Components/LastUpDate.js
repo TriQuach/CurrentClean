@@ -140,6 +140,7 @@ export default class Test extends React.Component {
             isCLickedRepairValIMR: false,
             precisionIMR: 41,
             recallIMR: 23,
+            dictCheckStaleCellsCC: {}
             
             
             
@@ -1917,6 +1918,33 @@ parseObject(data) {
         }
        }
      } 
+     updateDictIMRStale = (arr) => {
+       var temp = cloneDeep(this.state.dictStaleIMR)
+       console.log("tempArrayCheckStaleCellsCC:")
+       console.log(arr)
+       for (var i=0; i<arr.length; i++) {
+        var idSensor = arr[i].split("_")[0]
+        var propSensor = arr[i].split("_")[1]
+
+        if (temp[idSensor].hasOwnProperty(propSensor)) {
+          
+          temp[idSensor][propSensor]['isStale'] = false
+        }
+        else {
+          var tempDict = {}
+          tempDict['hex'] = "#ffb3b3"
+          tempDict['isStale'] = true
+          var tempDict2 = temp[idSensor]
+          tempDict2[propSensor] = tempDict
+          console.log("propsSensor:")
+          console.log(propSensor)
+          temp[idSensor] = tempDict2
+        }
+
+
+       }
+       return temp
+     }
      cleanStaleCells = (numberStaleCells) => {
        
       
@@ -1939,8 +1967,9 @@ parseObject(data) {
        
         window.console.log("tempArray:")
         window.console.log(tempArray)
-        var x = this.state.dictStale
-        var y = [...this.state.data]
+        var x = cloneDeep(this.state.dictStale) 
+        var y = cloneDeep(this.state.data)
+        var tempArrayCheckStaleCellsCC = []
         for (var j=0; j<numCellToClean; j++) {
           var idSensor = tempArray[j][0].split("_")[0]
           var propSensor = tempArray[j][0].split("_")[1]
@@ -1953,6 +1982,8 @@ parseObject(data) {
          
          
           x[idSensor][propSensor]["isStale"] = false
+          tempArrayCheckStaleCellsCC.push(idSensor + "_" + propSensor)
+          
           
           if (this.props.kindDataset === constClass.CLINICAL) {
             var currentSensorIdNumber = parseInt(idSensor) - 1
@@ -1970,9 +2001,13 @@ parseObject(data) {
           
          
         }
+        var newIMRDictStale = this.updateDictIMRStale(tempArrayCheckStaleCellsCC)
+        console.log('newIMRDictStale:')
+        console.log(newIMRDictStale)
         this.setState({
           data:y,
-          dictStale:x
+          dictStale:x,
+          dictStaleIMR: newIMRDictStale
         })
         // tempArray.slice(0,numberStaleCells)
 
