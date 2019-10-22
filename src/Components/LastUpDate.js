@@ -1932,7 +1932,7 @@ parseObject(data) {
         }
         else {
           var tempDict = {}
-          tempDict['hex'] = "#ffb3b3"
+          tempDict['hex'] = "#becafa"
           tempDict['isStale'] = true
           var tempDict2 = temp[idSensor]
           tempDict2[propSensor] = tempDict

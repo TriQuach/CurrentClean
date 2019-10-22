@@ -675,8 +675,16 @@ export default class Test extends Component {
   
 
     return (
+      
       <div className="rowStale">
-        {this.state.isFinished === true ? <Patterns
+      
+        {this.state.isFinished === true ? 
+        
+        <div> 
+          <div class="verticalLine">
+  
+  </div>
+        <Patterns
               
                minProb={this.state.minProb}
                maxProb={this.state.maxProb} 
@@ -690,7 +698,7 @@ export default class Test extends Component {
                orginNumberStaleCells={this.state.orginNumberStaleCells}
                valDeltaIMR={this.state.valDeltaIMR}
                maxNumIterations={this.state.maxNumIterations}
-               kindDataset={kindDataset}/> :  <div className="loader">
+               kindDataset={kindDataset}/> </div>:  <div className="loader">
               
                <Loader 
           type="ThreeDots"
