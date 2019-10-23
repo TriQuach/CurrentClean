@@ -1883,21 +1883,29 @@ parseObject(data) {
             console.log('./kl')
             console.log(key + " " + prop)
             // tempDictStale[key][prop]["hex"] = "#3234a8"
-            tempDictStaleIMR[key][prop]["hex"] = "#3234a8"
+            tempDictStaleIMR[key][prop]["hex"] = "#85000f"
           }
-          // else {
-          //   tempDictStale[key][prop]["hex"] = "#0703fc"
-          // }
+          else {
+            var tempDictIMR = {"hex": "#9bc5fa", "isStale": true}
+            var tempDictIMR3 = tempDictStaleIMR[key]
+            tempDictIMR3[prop] = tempDictIMR
+            tempDictStaleIMR[key] = tempDictIMR3
+           
+          }
         }
       }
       console.log('./hj')
       console.log(tempDictStale)
       console.log(tempDictStaleIMR)
 
-
+      this.setState({
+        dictStaleIMR: tempDictStaleIMR,
+      
+      })
      
       
     }
+
     
     compareWithLastUpdate(imrRepairs) {
       var lastUpdate = this.state.data
@@ -1930,13 +1938,10 @@ parseObject(data) {
       var tempDict = {"hex": "#fc0303", "isStale": true}
       var tempDict2 = {"DBP": tempDict}
       dict["3"] = tempDict2
-      // this.compareWithDictStale(this.state.dictStale, dict)
+      this.compareWithDictStale(this.state.dictStale, dict)
    
      
-      this.setState({
-        dictStaleIMR: dict,
       
-      })
     }
     
     componentDidMount() {
