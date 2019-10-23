@@ -1706,7 +1706,7 @@ parseObject(data) {
               window.console.log()
               arrayStaleCells = result["stalecells"]
               this.createDictionary(result["stalecells"])
-    
+              this.lastUpdate()
             },
     
             (error) => {
@@ -1858,6 +1858,46 @@ parseObject(data) {
             }
           )
       }
+    isCellAppearedInDict = (dict, id, prop) => {
+      for (var key in  dict) {
+        if (key == id) {
+          var tempDict = dict[key]
+          if (tempDict.hasOwnProperty(prop)){
+            return true
+          }
+        }
+       
+        
+      }
+      return false
+    }
+    compareWithDictStale = (dictStale, dictStaleIMR)  => {
+      var tempDictStale = cloneDeep(dictStale)
+      var tempDictStaleIMR = cloneDeep(dictStaleIMR)
+      console.log(',.qw')
+      console.log(tempDictStale)
+      for (var key in tempDictStale) {
+        var tempDict = tempDictStale[key]
+        for (var prop in tempDict) {
+          if (this.isCellAppearedInDict(tempDictStaleIMR, key, prop) == true) {
+            console.log('./kl')
+            console.log(key + " " + prop)
+            // tempDictStale[key][prop]["hex"] = "#3234a8"
+            tempDictStaleIMR[key][prop]["hex"] = "#3234a8"
+          }
+          // else {
+          //   tempDictStale[key][prop]["hex"] = "#0703fc"
+          // }
+        }
+      }
+      console.log('./hj')
+      console.log(tempDictStale)
+      console.log(tempDictStaleIMR)
+
+
+     
+      
+    }
     
     compareWithLastUpdate(imrRepairs) {
       var lastUpdate = this.state.data
@@ -1886,16 +1926,24 @@ parseObject(data) {
           }
         }
       }
+      
+      var tempDict = {"hex": "#fc0303", "isStale": true}
+      var tempDict2 = {"DBP": tempDict}
+      dict["3"] = tempDict2
+      // this.compareWithDictStale(this.state.dictStale, dict)
+   
+     
       this.setState({
-        dictStaleIMR: dict
+        dictStaleIMR: dict,
+      
       })
-
     }
     
     componentDidMount() {
       //  this.init()
-         this.lastUpdate()
+         
          this.stale()
+         
          this.repairs()
          
         //  this.patterns()
@@ -2001,13 +2049,13 @@ parseObject(data) {
           
          
         }
-        var newIMRDictStale = this.updateDictIMRStale(tempArrayCheckStaleCellsCC)
-        console.log('newIMRDictStale:')
-        console.log(newIMRDictStale)
+        // var newIMRDictStale = this.updateDictIMRStale(tempArrayCheckStaleCellsCC)
+        // console.log('newIMRDictStale:')
+        // console.log(newIMRDictStale)
         this.setState({
           data:y,
           dictStale:x,
-          dictStaleIMR: newIMRDictStale
+
         })
         // tempArray.slice(0,numberStaleCells)
 
@@ -2648,7 +2696,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("TMP")?(dictIMR[item["id_patient"]]["TMP"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'TMP',item["TMP"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("TMP")?(dictIMR[item["id_patient"]]["TMP"]["isStale"] ? dictIMR[item["id_patient"]]["TMP"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("TMP")?(dictIMR[item["id_patient"]]["TMP"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("TMP")?(dictIMR[item["id_patient"]]["TMP"]["isStale"] ? dictIMR[item["id_patient"]]["TMP"]["hex"] : "#42f445") : null}}>
                                 {item["TMP"]}
                             </td>
                             <td
@@ -2656,7 +2704,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("SpO2")?(dictIMR[item["id_patient"]]["SpO2"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'SpO2',item["SpO2"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("SpO2")?(dictIMR[item["id_patient"]]["SpO2"]["isStale"] ? dictIMR[item["id_patient"]]["SpO2"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("SpO2")?(dictIMR[item["id_patient"]]["SpO2"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("SpO2")?(dictIMR[item["id_patient"]]["SpO2"]["isStale"] ? dictIMR[item["id_patient"]]["SpO2"]["hex"] : "#42f445") : null}}>
                                 {item["SpO2"]}
                             </td>
                             <td
@@ -2664,7 +2712,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("HR")?(dictIMR[item["id_patient"]]["HR"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'HR',item["HR"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("HR")?(dictIMR[item["id_patient"]]["HR"]["isStale"] ? dictIMR[item["id_patient"]]["HR"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("HR")?(dictIMR[item["id_patient"]]["HR"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("HR")?(dictIMR[item["id_patient"]]["HR"]["isStale"] ? dictIMR[item["id_patient"]]["HR"]["hex"] : "#42f445") : null}}>
                                 {item["HR"]}
                             </td>
                             <td
@@ -2672,7 +2720,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("DBP")?(dictIMR[item["id_patient"]]["DBP"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'DBP',item["DBP"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("DBP")?(dictIMR[item["id_patient"]]["DBP"]["isStale"] ? dictIMR[item["id_patient"]]["DBP"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("DBP")?(dictIMR[item["id_patient"]]["DBP"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("DBP")?(dictIMR[item["id_patient"]]["DBP"]["isStale"] ? dictIMR[item["id_patient"]]["DBP"]["hex"] : "#42f445") : null}}>
                                 {item["DBP"]}
                             </td>
                             <td
@@ -2680,7 +2728,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("SBP")?(dictIMR[item["id_patient"]]["SBP"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'SBP',item["SBP"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("SBP")?(dictIMR[item["id_patient"]]["SBP"]["isStale"] ? dictIMR[item["id_patient"]]["SBP"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("SBP")?(dictIMR[item["id_patient"]]["SBP"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("SBP")?(dictIMR[item["id_patient"]]["SBP"]["isStale"] ? dictIMR[item["id_patient"]]["SBP"]["hex"] : "#42f445") : null}}>
                                 {item["SBP"]}
                             </td>
                             <td
@@ -2688,7 +2736,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("WBC")?(dictIMR[item["id_patient"]]["WBC"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'WBC',item["WBC"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("WBC")?(dictIMR[item["id_patient"]]["WBC"]["isStale"] ? dictIMR[item["id_patient"]]["WBC"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("WBC")?(dictIMR[item["id_patient"]]["WBC"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("WBC")?(dictIMR[item["id_patient"]]["WBC"]["isStale"] ? dictIMR[item["id_patient"]]["WBC"]["hex"] : "#42f445") : null}}>
                                 {item["WBC"]}
                             </td>
 
@@ -2697,7 +2745,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("RR")?(dictIMR[item["id_patient"]]["RR"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'RR',item["RR"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("RR")?(dictIMR[item["id_patient"]]["RR"]["isStale"] ? dictIMR[item["id_patient"]]["RR"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("RR")?(dictIMR[item["id_patient"]]["RR"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("RR")?(dictIMR[item["id_patient"]]["RR"]["isStale"] ? dictIMR[item["id_patient"]]["RR"]["hex"] : "#42f445") : null}}>
                                 {item["RR"]}
                             </td>
                             
@@ -2707,7 +2755,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("RBC")?(dictIMR[item["id_patient"]]["RBC"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'RBC',item["RBC"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("RBC")?(dictIMR[item["id_patient"]]["RBC"]["isStale"] ? dictIMR[item["id_patient"]]["RBC"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("RBC")?(dictIMR[item["id_patient"]]["RBC"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("RBC")?(dictIMR[item["id_patient"]]["RBC"]["isStale"] ? dictIMR[item["id_patient"]]["RBC"]["hex"] : "#42f445") : null}}>
                                 {item["RBC"]}
                             </td>
                             <td
@@ -2715,7 +2763,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("RBCF")?(dictIMR[item["id_patient"]]["RBCF"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'RBCF',item["RBCF"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("RBCF")?(dictIMR[item["id_patient"]]["RBCF"]["isStale"] ? dictIMR[item["id_patient"]]["RBCF"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("RBCF")?(dictIMR[item["id_patient"]]["RBCF"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("RBCF")?(dictIMR[item["id_patient"]]["RBCF"]["isStale"] ? dictIMR[item["id_patient"]]["RBCF"]["hex"] : "#42f445") : null}}>
                                 {item["RBCF"]}
                             </td>
                             <td
@@ -2723,7 +2771,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("MONO")?(dictIMR[item["id_patient"]]["MONO"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'MONO',item["MONO"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("MONO")?(dictIMR[item["id_patient"]]["MONO"]["isStale"] ? dictIMR[item["id_patient"]]["MONO"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("MONO")?(dictIMR[item["id_patient"]]["MONO"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("MONO")?(dictIMR[item["id_patient"]]["MONO"]["isStale"] ? dictIMR[item["id_patient"]]["MONO"]["hex"] : "#42f445") : null}}>
                                 {item["MONO"]}
                             </td>
                             <td 
@@ -2731,7 +2779,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("WT")?(dictIMR[item["id_patient"]]["WT"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'WT',item["WT"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("WT")?(dictIMR[item["id_patient"]]["WT"]["isStale"] ? dictIMR[item["id_patient"]]["WT"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("WT")?(dictIMR[item["id_patient"]]["WT"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("WT")?(dictIMR[item["id_patient"]]["WT"]["isStale"] ? dictIMR[item["id_patient"]]["WT"]["hex"] : "#42f445") : null}}>
                                 {item["WT"]}
                             </td>
                             <td 
@@ -2739,7 +2787,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("LDL")?(dictIMR[item["id_patient"]]["LDL"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'LDL',item["LDL"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("LDL")?(dictIMR[item["id_patient"]]["LDL"]["isStale"] ? dictIMR[item["id_patient"]]["LDL"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("LDL")?(dictIMR[item["id_patient"]]["LDL"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("LDL")?(dictIMR[item["id_patient"]]["LDL"]["isStale"] ? dictIMR[item["id_patient"]]["LDL"]["hex"] : "#42f445") : null}}>
                                 {item["LDL"]}
                             </td>
                             <td
@@ -2747,7 +2795,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("HDL")?(dictIMR[item["id_patient"]]["HDL"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'HDL',item["HDL"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("HDL")?(dictIMR[item["id_patient"]]["HDL"]["isStale"] ? dictIMR[item["id_patient"]]["HDL"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("HDL")?(dictIMR[item["id_patient"]]["HDL"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("HDL")?(dictIMR[item["id_patient"]]["HDL"]["isStale"] ? dictIMR[item["id_patient"]]["HDL"]["hex"] : "#42f445") : null}}>
                                 {item["HDL"]}
                             </td>
                             <td
@@ -2755,7 +2803,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("ABE")?(dictIMR[item["id_patient"]]["ABE"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'ABE',item["ABE"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("ABE")?(dictIMR[item["id_patient"]]["ABE"]["isStale"] ? dictIMR[item["id_patient"]]["ABE"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("ABE")?(dictIMR[item["id_patient"]]["ABE"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("ABE")?(dictIMR[item["id_patient"]]["ABE"]["isStale"] ? dictIMR[item["id_patient"]]["ABE"]["hex"] : "#42f445") : null}}>
                                 {item["ABE"]}
                             </td>
                             <td
@@ -2763,7 +2811,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("ACO2")?(dictIMR[item["id_patient"]]["ACO2"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'ACO2',item["ACO2"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("ACO2")?(dictIMR[item["id_patient"]]["ACO2"]["isStale"] ? dictIMR[item["id_patient"]]["ACO2"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("ACO2")?(dictIMR[item["id_patient"]]["ACO2"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("ACO2")?(dictIMR[item["id_patient"]]["ACO2"]["isStale"] ? dictIMR[item["id_patient"]]["ACO2"]["hex"] : "#42f445") : null}}>
                                 {item["ACO2"]}
                             </td>
                             <td
@@ -2771,7 +2819,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("APH")?(dictIMR[item["id_patient"]]["APH"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'APH',item["APH"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("APH")?(dictIMR[item["id_patient"]]["APH"]["isStale"] ? dictIMR[item["id_patient"]]["APH"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("APH")?(dictIMR[item["id_patient"]]["APH"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("APH")?(dictIMR[item["id_patient"]]["APH"]["isStale"] ? dictIMR[item["id_patient"]]["APH"]["hex"] : "#42f445") : null}}>
                                 {item["APH"]}
                             </td>
                             <td
@@ -2779,7 +2827,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("Hb")?(dictIMR[item["id_patient"]]["Hb"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'Hb',item["Hb"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("Hb")?(dictIMR[item["id_patient"]]["Hb"]["isStale"] ? dictIMR[item["id_patient"]]["Hb"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("Hb")?(dictIMR[item["id_patient"]]["Hb"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("Hb")?(dictIMR[item["id_patient"]]["Hb"]["isStale"] ? dictIMR[item["id_patient"]]["Hb"]["hex"] : "#42f445") : null}}>
                                 {item["Hb"]}
                             </td>
                           
@@ -2789,7 +2837,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("CVP")?(dictIMR[item["id_patient"]]["CVP"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'CVP',item["CVP"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("CVP")?(dictIMR[item["id_patient"]]["CVP"]["isStale"] ? dictIMR[item["id_patient"]]["CVP"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("CVP")?(dictIMR[item["id_patient"]]["CVP"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("CVP")?(dictIMR[item["id_patient"]]["CVP"]["isStale"] ? dictIMR[item["id_patient"]]["CVP"]["hex"] : "#42f445") : null}}>
                                 {item["CVP"]}
                             </td>
                            
@@ -2799,7 +2847,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("EOS")?(dictIMR[item["id_patient"]]["EOS"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'EOS',item["EOS"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("EOS")?(dictIMR[item["id_patient"]]["EOS"]["isStale"] ? dictIMR[item["id_patient"]]["EOS"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("EOS")?(dictIMR[item["id_patient"]]["EOS"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("EOS")?(dictIMR[item["id_patient"]]["EOS"]["isStale"] ? dictIMR[item["id_patient"]]["EOS"]["hex"] : "#42f445") : null}}>
                                 {item["EOS"]}
                             </td>
                             <td
@@ -2807,7 +2855,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("LY")?(dictIMR[item["id_patient"]]["LY"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'LY',item["LY"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("LY")?(dictIMR[item["id_patient"]]["LY"]["isStale"] ? dictIMR[item["id_patient"]]["LY"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("LY")?(dictIMR[item["id_patient"]]["LY"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("LY")?(dictIMR[item["id_patient"]]["LY"]["isStale"] ? dictIMR[item["id_patient"]]["LY"]["hex"] : "#42f445") : null}}>
                                 {item["LY"]}
                             </td>
                             <td
@@ -2815,7 +2863,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("RDW")?(dictIMR[item["id_patient"]]["RDW"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'RDW',item["RDW"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("RDW")?(dictIMR[item["id_patient"]]["RDW"]["isStale"] ? dictIMR[item["id_patient"]]["RDW"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("RDW")?(dictIMR[item["id_patient"]]["RDW"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("RDW")?(dictIMR[item["id_patient"]]["RDW"]["isStale"] ? dictIMR[item["id_patient"]]["RDW"]["hex"] : "#42f445") : null}}>
                                 {item["RDW"]}
                             </td>
                             <td
@@ -2823,7 +2871,7 @@ parseObject(data) {
                                 
                                 onContextMenu={(e) => dictIMR[item["id_patient"]].hasOwnProperty("TC")?(dictIMR[item["id_patient"]]["TC"]["isStale"] === true? (this.props.isRepaired === true ? this.handleClickCellIMR(e,item["id_patient"],'TC',item["TC"]) : null):null):null} 
                                 
-                                style={{ background: dictIMR[item["id_patient"]].hasOwnProperty("TC")?(dictIMR[item["id_patient"]]["TC"]["isStale"] ? dictIMR[item["id_patient"]]["TC"]["hex"] : "#42f445") : null}}>
+                                style={{color: dictIMR[item["id_patient"]].hasOwnProperty("TC")?(dictIMR[item["id_patient"]]["TC"]["isStale"] ? "#ffffff" : "#000000") : null, background: dictIMR[item["id_patient"]].hasOwnProperty("TC")?(dictIMR[item["id_patient"]]["TC"]["isStale"] ? dictIMR[item["id_patient"]]["TC"]["hex"] : "#42f445") : null}}>
                                 {item["TC"]}
                             </td>
 
